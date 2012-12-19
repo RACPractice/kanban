@@ -1,4 +1,4 @@
 kanban
 ======
 
-kanban app
+Lean Production application
