@@ -13,3 +13,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Rubymine workspace
+/.idea/workspace.xml
+database.yml
