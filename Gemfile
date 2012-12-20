@@ -20,6 +20,8 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'mysql2', '~> 0.3.11'
+gem 'devise'
 gem 'thin'
 gem 'jquery-rails'
 
