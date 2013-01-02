@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130102202907) do
+ActiveRecord::Schema.define(:version => 20130102204348) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -50,6 +50,19 @@ ActiveRecord::Schema.define(:version => 20130102202907) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "tasks", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.text     "description"
+    t.integer  "work_item_id"
+    t.boolean  "is_completed"
+    t.date     "completed_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "tasks", ["work_item_id"], :name => "index_tasks_on_work_item_id"
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -67,6 +80,31 @@ ActiveRecord::Schema.define(:version => 20130102202907) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "work_items", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.text     "description"
+    t.integer  "project_id"
+    t.integer  "work_item_id"
+    t.integer  "work_type_id"
+    t.integer  "priority_id"
+    t.integer  "work_value"
+    t.integer  "position"
+    t.boolean  "is_ready"
+    t.boolean  "is_blocked"
+    t.integer  "requested_by"
+    t.integer  "assigned_to"
+    t.date     "target_date"
+    t.date     "completion_date"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "work_items", ["priority_id"], :name => "index_work_items_on_priority_id"
+  add_index "work_items", ["project_id"], :name => "index_work_items_on_project_id"
+  add_index "work_items", ["work_item_id"], :name => "index_work_items_on_work_item_id"
+  add_index "work_items", ["work_type_id"], :name => "index_work_items_on_work_type_id"
 
   create_table "work_types", :force => true do |t|
     t.string   "name"
