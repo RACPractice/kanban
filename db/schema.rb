@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130102194437) do
+ActiveRecord::Schema.define(:version => 20130102202907) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(:version => 20130102194437) do
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "priorities", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "projects", :force => true do |t|
@@ -32,6 +39,16 @@ ActiveRecord::Schema.define(:version => 20130102194437) do
   end
 
   add_index "projects", ["account_id"], :name => "index_projects_on_account_id"
+
+  create_table "steps", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.boolean  "anchor"
+    t.integer  "capacity"
+    t.integer  "position"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -50,5 +67,12 @@ ActiveRecord::Schema.define(:version => 20130102194437) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "work_types", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end
