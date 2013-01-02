@@ -21,6 +21,18 @@ ActiveRecord::Schema.define(:version => 20130102194437) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "projects", :force => true do |t|
+    t.string   "name"
+    t.string   "slug"
+    t.string   "description"
+    t.integer  "account_id"
+    t.string   "visible"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "projects", ["account_id"], :name => "index_projects_on_account_id"
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
