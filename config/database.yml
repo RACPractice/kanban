@@ -31,7 +31,7 @@ test: &test
   <<: *base
   username: root
   password:
-  database: ezlaw_test
+  database:
 
 cucumber:
   <<: *test
