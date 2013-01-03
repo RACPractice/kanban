@@ -1,8 +1,8 @@
 class Account < ActiveRecord::Base
-  # attr_accessible :title, :body
+	attr_accessible :name
 
 	# association
-	has_many :users_accounts
-	has_many :users, :through => :users_accounts
+	has_many :memberships
+	has_many :users, :through => :memberships
 	has_many :projects
 end
