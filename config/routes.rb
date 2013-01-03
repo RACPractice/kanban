@@ -1,9 +1,7 @@
 Kanban::Application.routes.draw do
   resources :work_types
-
-
+	resources :steps
   resources :priorities
-
 
   get "home/index"
 

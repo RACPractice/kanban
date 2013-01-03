@@ -17,5 +17,6 @@ Gemfile.lock
 /tmp
 
 # Rubymine workspace
+/.idea
 /.idea/workspace.xml
 database.yml
