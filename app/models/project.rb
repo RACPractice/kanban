@@ -1,6 +1,8 @@
 class Project < ActiveRecord::Base
   # attr_accessible :title, :body
 
-	#relationship
-	has_many :steps
+	# association
+	has_and_belongs_to_many :steps
+	belongs_to :account
+
 end

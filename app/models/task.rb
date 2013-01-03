@@ -1,6 +1,6 @@
 class Task < ActiveRecord::Base
   # attr_accessible :title, :body
 
-	# relationship
+	# association
 	belongs_to :work_item
 end
