@@ -1,4 +1,10 @@
 Kanban::Application.routes.draw do
+  resources :work_types
+
+
+  resources :priorities
+
+
   get "home/index"
 
   devise_for :users

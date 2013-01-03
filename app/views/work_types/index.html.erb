@@ -1,0 +1,22 @@
+<h1>Listing work_types</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @work_types.each do |work_type| %>
+  <tr>
+    <td> <%= work_type.name %></td>
+    <td><%= link_to 'Show', work_type %></td>
+    <td><%= link_to 'Edit', edit_work_type_path(work_type) %></td>
+    <td><%= link_to 'Destroy', work_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Work type', new_work_type_path %>
