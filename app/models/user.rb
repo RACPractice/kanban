@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
 
 	# relationship
-	has_many :memberships
-	has_many :accounts, :through => :memberships
+	has_many :members
+	has_many :accounts, :through => :members
 
 end
