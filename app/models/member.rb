@@ -1,5 +1,5 @@
 class Member < ActiveRecord::Base
-  # attr_accessible :title, :body
+  attr_accessible :user_id, :account_id, :invite_sent, :member, :owner
 
 	# associations
 	belongs_to :user

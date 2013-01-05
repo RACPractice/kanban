@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130103163828) do
+ActiveRecord::Schema.define(:version => 20130105114230) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20130103163828) do
   add_index "tasks", ["work_item_id"], :name => "index_tasks_on_work_item_id"
 
   create_table "users", :force => true do |t|
+    t.string   "username"
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"

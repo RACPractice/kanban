@@ -6,11 +6,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :accounts_attributes
   # attr_accessible :title, :body
 
 	# relationship
 	has_many :members
 	has_many :accounts, :through => :members
+
+	#accepts_nested_attributes_for :accounts
+
+	accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
 
 end
