@@ -46,16 +46,26 @@ body {
     text-align: right;
 }
 
+#header #nav {
+    clear: both;
+    width:100%;
+}
+
 #header h1 {
     color: #353535;
     font-size: 35px;
 }
 
 #content {
+    clear: both;
     padding: 20px;
+
 }
 
-#content legend {font-size:25px; padding: 0 10px;}
+#content legend {
+    font-size:25px;
+    padding: 20px 10px 10px 10px;
+}
 
 
 #content fieldset

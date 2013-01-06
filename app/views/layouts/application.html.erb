@@ -16,6 +16,12 @@
     <div class="header-right">
       <%= render "devise/shared/links" %>
     </div>
+    <% if user_signed_in? %>
+        <div id="nav">
+          <%= link_to 'Accounts', "" %> | <%= link_to 'Projects', "" %> | <%= link_to 'Project Steps', new_step_path %>
+          | <%= link_to 'Work types', new_work_type_path %>
+        </div>
+    <% end %>
   </div>
 
   <div id="content">

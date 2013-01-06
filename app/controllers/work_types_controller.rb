@@ -1,4 +1,7 @@
 class WorkTypesController < ApplicationController
+
+	before_filter :authenticate_user!
+
   # GET /work_types
   # GET /work_types.json
   def index
