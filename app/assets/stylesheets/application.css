@@ -23,8 +23,28 @@ body {
  }
 
 #header {
-    height: 33px;
+    height: 60px;
+    font-size: 15px;
     border-bottom: 1px solid #000000;
+}
+
+#header .header-left {
+    float: left;
+    padding: 0;
+    width:600px;
+    text-align: left;
+}
+
+#header .header-right {
+    float: right;
+    padding: 0;
+    width:320px;
+    text-align: right;
+}
+
+#header h1 {
+    color: #353535;
+    font-size: 35px;
 }
 
 #content {

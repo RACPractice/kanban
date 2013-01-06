@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Kanbanness</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 <div id="main">
+
   <div id="header">
+    <div class="header-left">
       <h1>Kanbanness</h1>
+    </div>
+    <div class="header-right">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
+
   <div id="content">
     <%= yield %>
   </div>
+
   <div id="footer">
     <p class="footer-left">
-      &copy; 2011 Kanbanness  &nbsp; &nbsp; &nbsp;
+      &copy; 2012 Kanbanness &nbsp; &nbsp; &nbsp;
     </p>
 
     <p class="footer-right">
-      <a href="index.html">home</a> |
-      <a href="index.html">sitemap</a>
     </p>
+
   </div>
 </div>
 </body>

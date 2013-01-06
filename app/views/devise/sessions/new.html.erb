@@ -1,6 +1,4 @@
-<%= render "devise/shared/links" %>
-
-<h2>User Login</h2>
+<h2>Login</h2>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div><%= f.label :username %><br />
@@ -14,6 +12,11 @@
   <% end -%>
 
   <div><%= f.submit "Sign in" %></div>
+
+  <%- if devise_mapping.recoverable? && controller_name != 'passwords' %>
+    <%= link_to "Forgot your password?", new_password_path(resource_name) %>
+  <% end -%>
+
 <% end %>
 
 
