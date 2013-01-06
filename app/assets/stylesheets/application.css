@@ -28,6 +28,10 @@ body {
     border-bottom: 1px solid #000000;
 }
 
+#header span.ness {
+    color: #40A0D2;
+}
+
 #header .header-left {
     float: left;
     padding: 0;
@@ -51,6 +55,22 @@ body {
     padding: 20px;
 }
 
+#content legend {font-size:25px; padding: 0 10px;}
+
+
+#content fieldset
+{
+    border: dotted 1px #40A0D2;
+    width: 400px;
+    padding: 20px;
+}
+
+#content label
+{
+    float: left;
+    margin-right: 20px;
+}
+
 /* Headers */
 h1, h2, h3, h4 {
     font: 15px/24px Georgia, Serif;
@@ -70,6 +90,8 @@ h4 { font-size: 18px; }
 a:link, a:visited {
     color: #000000;
 }
+
+
 
 /* ----------------------------------------------------------------------------
     F O O T E R
