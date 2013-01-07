@@ -46,6 +46,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
+				@account.members.create(:user_id => current_user.id)
         format.html { redirect_to @account, notice: 'Account was successfully created.' }
         format.json { render json: @account, status: :created, location: @account }
       else
