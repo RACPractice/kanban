@@ -1,0 +1,11 @@
+-unless flash[:notice].blank?
+  .alert.alert-info
+    = flash[:notice]
+
+-unless flash[:error].blank?
+  .alert.alert-error
+    = flash[:error]
+
+-unless flash[:alert].blank?
+  .alert.alert-warning
+    = flash[:alert]

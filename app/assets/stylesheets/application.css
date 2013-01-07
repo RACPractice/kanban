@@ -101,7 +101,9 @@ a:link, a:visited {
     color: #000000;
 }
 
-
+.logo:link, .logo:visited, .logo:hover, .logo:active {
+    text-decoration:none;
+}
 
 /* ----------------------------------------------------------------------------
     F O O T E R

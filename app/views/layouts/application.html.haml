@@ -1,0 +1,37 @@
+!!! 5
+%html{lang: 'en'}
+  %head
+    %meta{charset: "utf-8"}
+    %title= content_for?(:title) ? yield(:title) : "Kanbanness"
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "application"
+
+  %body
+    #main
+      #header
+        .header-left
+          %h1
+            =link_to root_url, class: 'logo' do
+              Kanban
+              %span.ness ness
+
+        .header-right
+          = render "devise/shared/links"
+        -if user_signed_in?
+          #nav
+            = link_to 'Accounts', ""
+            |
+            = link_to 'Projects', ""
+            |
+            =link_to 'Project Steps', new_step_path
+            |
+            = link_to 'Work types', new_work_type_path
+
+      #content
+        = yield
+
+      #footer
+        %p.footer-left
+          &copy; 2012 Kanbanness &nbsp; &nbsp; &nbsp;
+        %p.footer-right

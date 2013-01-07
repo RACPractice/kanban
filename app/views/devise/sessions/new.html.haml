@@ -1,0 +1,23 @@
+%fieldset
+  %legend Login
+
+  = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+    .unit= render :partial => 'common/flashes'
+    .unit
+      = f.label :login, "Username or email"
+      %br
+      = f.text_field :login
+    .unit
+      = f.label :password
+      %br
+      = f.password_field :password
+
+    -if devise_mapping.rememberable?
+      .unit
+        = f.check_box :remember_me
+        = f.label :remember_me
+
+    .unit= f.submit "Sign in"
+
+    - if devise_mapping.recoverable? && controller_name != 'passwords'
+      = link_to "Forgot your password?", new_password_path(resource_name)
