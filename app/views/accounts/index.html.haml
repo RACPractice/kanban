@@ -1,17 +1,17 @@
-%h1 Listing accounts
+%fieldset
+  %legend Listing Work Types
 
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @accounts.each do |account|
+  %table
     %tr
-      %td= link_to 'Show', account
-      %td= link_to 'Edit', edit_account_path(account)
-      %td= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' }
+      %th
+      %th
+      %th
 
-%br
+    - @accounts.each do |account|
+      %tr
+        %td= link_to 'Show', account
+        %td= link_to 'Edit', edit_account_path(account)
+        %td= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' }
 
-= link_to 'New Account', new_account_path
+  %br
+

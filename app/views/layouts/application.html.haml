@@ -20,9 +20,9 @@
           = render "devise/shared/links"
         -if user_signed_in?
           #nav
-            = link_to 'Accounts', ""
+            = link_to 'Accounts', new_account_path
             |
-            = link_to 'Projects', ""
+            = link_to 'Projects', new_project_path
             |
             =link_to 'Project Steps', new_step_path
             |
