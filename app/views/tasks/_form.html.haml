@@ -5,6 +5,14 @@
       %ul
         - @task.errors.full_messages.each do |msg|
           %li= msg
-
+  .field
+    = f.label :name
+    =f.text_field :name
+  .field
+    = f.label :description
+    =f.text_area :description
+  .field
+    = f.label "Select the Work Item"
+    =f.select :work_item_id, options_from_collection_for_select(WorkItem.all, :id, :name)
   .actions
     = f.submit 'Save'

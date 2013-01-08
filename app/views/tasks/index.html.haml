@@ -1,17 +1,17 @@
-%h1 Listing tasks
+%fieldset
+  %legend Listing Tasks
 
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @tasks.each do |task|
+  %table
     %tr
-      %td= link_to 'Show', task
-      %td= link_to 'Edit', edit_task_path(task)
-      %td= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }
+      %th
+      %th
+      %th
 
-%br
+    - @tasks.each do |task|
+      %tr
+        %td= link_to 'Show', task
+        %td= link_to 'Edit', edit_task_path(task)
+        %td= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' }
 
-= link_to 'New Task', new_task_path
+
+
