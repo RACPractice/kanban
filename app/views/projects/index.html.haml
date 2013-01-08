@@ -1,17 +1,16 @@
-%h1 Listing projects
+%fieldset
+  %legend Project Listing
 
-%table
-  %tr
-    %th
-    %th
-    %th
-
-  - @projects.each do |project|
+  %table
     %tr
-      %td= link_to 'Show', project
-      %td= link_to 'Edit', edit_project_path(project)
-      %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
+      %th
+      %th
+      %th
 
-%br
+    - @projects.each do |project|
+      %tr
+        %td= project.name
+        %td= link_to 'Show', project
+        %td= link_to 'Edit', edit_project_path(project)
+        %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
 
-= link_to 'New Project', new_project_path

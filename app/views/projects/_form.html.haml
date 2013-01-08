@@ -5,6 +5,21 @@
       %ul
         - @project.errors.full_messages.each do |msg|
           %li= msg
-
+  .field
+    = f.label :name
+    =f.text_field :name
+  .field
+    = f.label :description
+    =f.text_area :description
+  .field
+    = f.label "Select the Account"
+    =f.select :account_id, options_from_collection_for_select(current_user.accounts, :id, :name)
+  .field
+    %br/
+    =f.label "Public"
+    =f.radio_button :visible, false, {:checked => true}
+    %br/
+    =f.label "Private"
+    =f.radio_button :visible, true
   .actions
     = f.submit 'Save'
