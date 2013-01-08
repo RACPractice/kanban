@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130108002928) do
+ActiveRecord::Schema.define(:version => 20130108174933) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -109,7 +109,6 @@ ActiveRecord::Schema.define(:version => 20130108002928) do
     t.string   "slug"
     t.text     "description"
     t.integer  "project_id"
-    t.integer  "work_item_id"
     t.integer  "work_type_id"
     t.integer  "priority_id"
     t.integer  "step_id"
@@ -128,7 +127,6 @@ ActiveRecord::Schema.define(:version => 20130108002928) do
   add_index "work_items", ["priority_id"], :name => "index_work_items_on_priority_id"
   add_index "work_items", ["project_id"], :name => "index_work_items_on_project_id"
   add_index "work_items", ["step_id"], :name => "index_work_items_on_step_id"
-  add_index "work_items", ["work_item_id"], :name => "index_work_items_on_work_item_id"
   add_index "work_items", ["work_type_id"], :name => "index_work_items_on_work_type_id"
 
   create_table "work_types", :force => true do |t|
