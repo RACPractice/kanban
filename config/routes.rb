@@ -1,4 +1,7 @@
 Kanban::Application.routes.draw do
+  resources :tasks
+
+
   resources :work_items
 
 
