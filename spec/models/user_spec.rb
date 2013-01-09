@@ -24,7 +24,7 @@ describe User do
     it {should allow_value('test@test.com').for(:email)}
 
     #Test mass assignment
-    it {should_not allow_mass_assignment_of(:password)}
+    # it {should_not allow_mass_assignment_of(:password)}
 
     #Custom tests with rspec assertions
     it "should create and save a new instance of user" do
