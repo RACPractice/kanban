@@ -145,7 +145,6 @@ ActiveRecord::Schema.define(:version => 20130109142501) do
     t.string   "name",                               :null => false
     t.string   "slug",                               :null => false
     t.text     "description"
-    t.integer  "work_item_id"
     t.integer  "work_type_id"
     t.integer  "priority_id"
     t.integer  "step_id",                            :null => false
@@ -165,7 +164,6 @@ ActiveRecord::Schema.define(:version => 20130109142501) do
   add_index "work_items", ["priority_id"], :name => "index_work_items_on_priority_id"
   add_index "work_items", ["slug"], :name => "index_work_items_on_slug", :unique => true
   add_index "work_items", ["step_id"], :name => "index_work_items_on_step_id"
-  add_index "work_items", ["work_item_id"], :name => "index_work_items_on_work_item_id"
   add_index "work_items", ["work_type_id"], :name => "index_work_items_on_work_type_id"
 
   create_table "work_types", :force => true do |t|

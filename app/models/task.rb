@@ -1,7 +1,8 @@
 class Task < ActiveRecord::Base
   include Slug
   #ACCESSORS
-  # attr_accessible :title, :body
+  attr_accessible :name, :description, :work_item_id
+	before_create :create_slug
 
   #PERMALINK GENERATION
   slug_for_field :name

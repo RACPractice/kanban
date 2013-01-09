@@ -13,6 +13,7 @@ class Step < ActiveRecord::Base
 
   #ASSOCIATIONS
   has_and_belongs_to_many :projects
+  has_many :work_items
 
   #METHODS
 
