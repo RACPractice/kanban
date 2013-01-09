@@ -19,3 +19,12 @@ end
 group :development do
 	gem 'debugger'
 end
+
+group :test, :development do
+  gem "rspec-rails", "~> 2.0"
+end
+
+group :test do
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers'
+end
