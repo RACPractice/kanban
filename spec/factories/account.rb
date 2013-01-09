@@ -1,4 +1,4 @@
-# This will guess the User class
+# This will guess the Account class
 FactoryGirl.define do
 
   factory :account do
