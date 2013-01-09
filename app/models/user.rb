@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
 
   #ACCESSORS
-  # attr_accessible :username, :email, :password_confirmation, :remember_me, :accounts_attributes, :login
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :accounts_attributes, :login
   attr_accessor :login
 
 	#ASSOCIATIONS

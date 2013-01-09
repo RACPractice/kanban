@@ -15,7 +15,7 @@ class AccountsController < ApplicationController
   # GET /accounts/1
   # GET /accounts/1.json
   def show
-    @account = Account.find(params[:id])
+    @account = Account.find_by_slug(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -36,7 +36,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts/1/edit
   def edit
-    @account = Account.find(params[:id])
+    @account = Account.find_by_slug(params[:id])
   end
 
   # POST /accounts
@@ -59,7 +59,7 @@ class AccountsController < ApplicationController
   # PUT /accounts/1
   # PUT /accounts/1.json
   def update
-    @account = Account.find(params[:id])
+    @account = Account.find_by_slug(params[:id])
 
     respond_to do |format|
       if @account.update_attributes(params[:account])
@@ -75,7 +75,7 @@ class AccountsController < ApplicationController
   # DELETE /accounts/1
   # DELETE /accounts/1.json
   def destroy
-    @account = Account.find(params[:id])
+    @account = Account.find_by_slug(params[:id])
     @account.destroy
 
     respond_to do |format|

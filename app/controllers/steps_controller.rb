@@ -16,7 +16,7 @@ class StepsController < ApplicationController
   # GET /steps/1
   # GET /steps/1.json
   def show
-    @step = Step.find(params[:id])
+    @step = Step.find_by_slug(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +37,7 @@ class StepsController < ApplicationController
 
   # GET /steps/1/edit
   def edit
-    @step = Step.find(params[:id])
+    @step = Step.find_by_slug(params[:id])
   end
 
   # POST /steps
@@ -59,7 +59,7 @@ class StepsController < ApplicationController
   # PUT /steps/1
   # PUT /steps/1.json
   def update
-    @step = Step.find(params[:id])
+    @step = Step.find_by_slug(params[:id])
 
     respond_to do |format|
       if @step.update_attributes(params[:step])
@@ -75,7 +75,7 @@ class StepsController < ApplicationController
   # DELETE /steps/1
   # DELETE /steps/1.json
   def destroy
-    @step = Step.find(params[:id])
+    @step = Step.find_by_slug(params[:id])
     @step.destroy
 
     respond_to do |format|

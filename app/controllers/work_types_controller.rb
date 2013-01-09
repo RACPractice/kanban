@@ -16,7 +16,7 @@ class WorkTypesController < ApplicationController
   # GET /work_types/1
   # GET /work_types/1.json
   def show
-    @work_type = WorkType.find(params[:id])
+    @work_type = WorkType.find_by_slug(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +37,7 @@ class WorkTypesController < ApplicationController
 
   # GET /work_types/1/edit
   def edit
-    @work_type = WorkType.find(params[:id])
+    @work_type = WorkType.find_by_slug(params[:id])
   end
 
   # POST /work_types
@@ -59,7 +59,7 @@ class WorkTypesController < ApplicationController
   # PUT /work_types/1
   # PUT /work_types/1.json
   def update
-    @work_type = WorkType.find(params[:id])
+    @work_type = WorkType.find_by_slug(params[:id])
 
     respond_to do |format|
       if @work_type.update_attributes(params[:work_type])
@@ -75,7 +75,7 @@ class WorkTypesController < ApplicationController
   # DELETE /work_types/1
   # DELETE /work_types/1.json
   def destroy
-    @work_type = WorkType.find(params[:id])
+    @work_type = WorkType.find_by_slug(params[:id])
     @work_type.destroy
 
     respond_to do |format|
