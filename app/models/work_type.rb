@@ -1,13 +1,13 @@
 class WorkType < ActiveRecord::Base
+  include Slug
+  #ACCESSORS
   attr_accessible :name
-	before_create :create_slug
 
-  # Validations
-	validates :name, :presence => true, :uniqueness => true
+  #PERMALINK GENERATION
+  slug_for_field :name
 
-  # Generates the Slug field
-	def create_slug
-		self.slug = self.name.parameterize
-	end
+  #VALIDATORS
+  validates :name, :presence => true
+  validates :slug, :presence => true, :uniqueness => true, :format => {:with => /^[A-Za-z0-9\-_ ]+$/, :message => "is invalid"}
 
 end

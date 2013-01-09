@@ -1,15 +1,22 @@
 class Project < ActiveRecord::Base
+  include Slug
+
+  #ACCESSORS
   attr_accessible :name, :description, :account_id, :visible
-	before_create :create_slug
 
-	# association
-	has_and_belongs_to_many :steps
-	belongs_to :account
+  #PERMALINK GENERATION
+  slug_for_field :name
 
-	# Generates the Slug field
-	def create_slug
-		self.slug = self.name.parameterize
-	end
+  #VALIDATORS
+  validates :name, :slug, :account_id, :presence => true
+  validates :slug, :uniqueness => true, :format => {:with => /^[A-Za-z0-9\-_ ]+$/, :message => "is invalid"}
 
+  #ASSOCIATIONS
+  has_and_belongs_to_many :steps
+  belongs_to :account
+
+  #CALLBACKS
+
+  #METHODS
 
 end

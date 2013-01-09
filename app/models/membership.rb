@@ -1,7 +1,11 @@
 class Membership < ActiveRecord::Base
+  #ACCESSORS
   # attr_accessible :title, :body
 
-	# associations
+	# ASSOCIATIONS
 	belongs_to :user
 	belongs_to :account
+
+  #METHODS
+
 end

@@ -1,13 +1,19 @@
 class Step < ActiveRecord::Base
+  include Slug
+
+  #ACCESSORS
 	attr_accessible :name, :anchor, :capacity, :position
-	before_create :create_slug
 
-	# association
-	has_and_belongs_to_many :projects
+  #PERMALINK GENERATION
+  slug_for_field :name
 
-	# Generates the Slug field
-	def create_slug
-		self.slug = self.name.parameterize
-	end
+  #VALIDATORS
+  validates :name, :presence => true
+  validates :slug, :presence => true, :uniqueness => true, :format => {:with => /^[A-Za-z0-9\-_ ]+$/, :message => "is invalid"}
+
+  #ASSOCIATIONS
+  has_and_belongs_to_many :projects
+
+  #METHODS
 
 end

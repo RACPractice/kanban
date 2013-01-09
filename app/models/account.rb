@@ -1,18 +1,21 @@
 class Account < ActiveRecord::Base
+	include Slug
+
+	#ACCESSORS
 	attr_accessible :name, :slug
-	before_create :create_slug
 
-	# validations
-	validates :name, :presence => true, :uniqueness => true
+	#PERMALINK GENERATION
+  slug_for_field :name
 
-	# association
+  #VALIDATORS
+  validates :name, :presence => true, :uniqueness => true
+  validates :slug, :presence => true, :uniqueness => true, :format => {:with => /^[A-Za-z0-9\-_ ]+$/, :message => "is invalid"}
+
+  #ASSOCIATIONS
 	has_many :members
 	has_many :users, :through => :members
-	has_many :projects
+	has_many :projects, :dependent => :destroy
 
-	# Generates the Slug field
-	def create_slug
-		self.slug = self.name.parameterize
-	end
+	#METHODS
 
 end
