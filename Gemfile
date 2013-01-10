@@ -28,4 +28,6 @@ group :test do
   gem 'factory_girl_rails'
   gem 'shoulda-matchers'
   gem 'capybara'
+  #THIS has to be added for using webkit - a faster engine than selenium
+  #gem "capybara-webkit"
 end
