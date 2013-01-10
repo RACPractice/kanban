@@ -2,7 +2,7 @@ class Account < ActiveRecord::Base
 	include Slug
 
 	#ACCESSORS
-	attr_accessible :name, :slug
+	attr_accessible :name, :slug, :description
 
 	#PERMALINK GENERATION
   slug_for_field :name
