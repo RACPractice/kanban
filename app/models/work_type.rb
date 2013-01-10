@@ -7,7 +7,7 @@ class WorkType < ActiveRecord::Base
   slug_for_field :name
 
   #VALIDATORS
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => true
   validates :slug, :presence => true, :uniqueness => true, :format => {:with => /^[A-Za-z0-9\-_ ]+$/, :message => "is invalid"}
 
 end

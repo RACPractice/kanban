@@ -24,8 +24,4 @@
       = f.label :password_confirmation
       %br/
       = f.password_field :password_confirmation
-    - for role in Role.find(:all)
-      %div
-        = check_box_tag "user[role_ids][]", role.id, resource.roles.include?(role)
-        = role.name
     %div= f.submit "Register"

@@ -20,3 +20,5 @@ WorkType.create(name: 'Epic')
 WorkType.create(name: 'Story')
 WorkType.create(name: 'Feature')
 WorkType.create(name: 'Enhancement')
+
+
