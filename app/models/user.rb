@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 	#ASSOCIATIONS
 	has_many :members
 	has_many :accounts, :through => :members
+	has_and_belongs_to_many :roles
 
 	accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
 
@@ -27,5 +28,10 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
-  end
+	end
+
+	def role?(role)
+		return !!self.roles.find_by_name(role.to_s.camelize)
+	end
+
 end
