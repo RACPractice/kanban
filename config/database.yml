@@ -1,0 +1,25 @@
+development: &default
+  adapter: mysql2
+  encoding: utf8
+  host: localhost
+  database: kanban
+  username: root
+  password:
+  pool: 10
+  timeout: 86400
+  reconnect: true
+
+test: &test
+  <<: *default
+  database: kanban_test
+  username: root
+  password:
+
+cucumber:
+  <<: *test
+
+production:
+  <<: *default
+  database: kanban_production
+  username: root
+  password:
