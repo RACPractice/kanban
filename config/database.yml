@@ -1,19 +1,17 @@
 development: &default
-  adapter: mysql2
-  encoding: utf8
+  adapter: postgresql
+  encoding: unicode
   host: localhost
   database: kanban
-  username: root
-  password:
+  username: postgres
+  password: postgres
   pool: 10
-  timeout: 86400
-  reconnect: true
+  # timeout: 86400
+  # reconnect: true
 
 test: &test
   <<: *default
   database: kanban_test
-  username: root
-  password:
 
 cucumber:
   <<: *test
@@ -21,5 +19,3 @@ cucumber:
 production:
   <<: *default
   database: kanban_production
-  username: root
-  password:
