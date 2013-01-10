@@ -18,7 +18,8 @@ Kanban::Application.configure do
   config.assets.digest = true
   # Compress JavaScripts and CSS
   config.assets.compress = true
-  config.assets.js_compressor = Uglifier.new(:copyright => false)
+  config.assets.js_compressor = :uglifier
+  # config.assets.js_compressor = Uglifier.new(:copyright => false)
   config.assets.initialize_on_precompile = false
 
 
