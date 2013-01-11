@@ -8,9 +8,18 @@
         .nav-collapse.container-fluid
           %ul.nav
             %li
-              =link_to 'Accounts', accounts_path
+              = link_to 'Accounts', new_account_path
             %li
-              =link_to 'masa', root_url
+              = link_to 'Projects', new_project_path
+            %li
+              =link_to 'Project Steps', new_step_path
+            %li
+              = link_to 'Work types', new_work_type_path
+            %li
+              = link_to 'Work items', new_work_item_path
+            %li
+              = link_to 'Tasks', new_task_path
+
           %ul.nav.pull-right
             .btn-group
               = link_to '#', :class => 'btn btn-primary' do

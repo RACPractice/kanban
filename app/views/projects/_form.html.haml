@@ -5,21 +5,25 @@
       %ul
         - @project.errors.full_messages.each do |msg|
           %li= msg
-  .field
-    = f.label :name
-    =f.text_field :name
-  .field
-    = f.label :description
-    =f.text_area :description
-  .field
+  .control-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      =f.text_field :name
+  .control-group
+    = f.label :description, :class => 'control-label'
+    .controls
+      =f.text_area :description, :cols => 10, :rows => 5
+  .control-group
     = f.label "Select the Account"
-    =f.select :account_id, options_from_collection_for_select(current_user.accounts, :id, :name)
-  .field
+    .controls
+      =f.select :account_id, options_from_collection_for_select(current_user.accounts, :id, :name)
+  .control-group
     %br/
-    =f.label "Public"
+    =f.label "Project Visibility"
     =f.radio_button :visible, false, {:checked => true}
-    %br/
-    =f.label "Private"
+    =f.label "Public"
     =f.radio_button :visible, true
-  .actions
-    = f.submit 'Save'
+    =f.label "Private"
+  .form-actions
+    = content_tag :button,  :type => :submit, :class => 'btn btn-primary' do
+      Create Project

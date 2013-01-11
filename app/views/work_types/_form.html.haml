@@ -9,7 +9,7 @@
           %li= msg
   .field
     = f.label :name
-    \:
     =f.text_field :name
-  .actions
-    = f.submit
+  .form-actions
+    = content_tag :button,  :type => :submit, :class => 'btn btn-primary' do
+      Create Worktype

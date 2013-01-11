@@ -1,24 +1,26 @@
-- content_for :head do
-  = javascript_include_tag "projects"
-  :javascript
-    ko.applyBindings(myViewModel);
+.row-fluid
+  .span6.offset3
+    - content_for :head do
+      = javascript_include_tag "projects"
+      :javascript
+        ko.applyBindings(myViewModel);
 
-%fieldset
-  %legend Projects Management
+    %fieldset
+      %legend Projects Management
 
-  %p
-    =link_to 'New Project', new_project_path
-    =link_to 'List Projects', projects_path
+      %p
+        =link_to 'New Project', new_project_path
+        =link_to 'List Projects', projects_path
 
-  %table
-    %tr
-      %th
-      %th
-      %th
+      %table
+        %tr
+          %th
+          %th
+          %th
 
-    - @projects.each do |project|
-      %tr
-        %td= project.name
-        %td= link_to 'Show', project
-        %td= link_to 'Edit', edit_project_path(project)
-        %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
+        - @projects.each do |project|
+          %tr
+            %td= project.name
+            %td= link_to 'Show', project
+            %td= link_to 'Edit', edit_project_path(project)
+            %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
