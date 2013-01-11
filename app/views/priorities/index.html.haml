@@ -1,17 +1,20 @@
-%h1 Listing priorities
+.row-fluid
+  .span6.offset3
+    %fieldset
+      %legend Priority Listing
 
-%table
-  %tr
-    %th
-    %th
-    %th
+      %table
+        %tr
+          %th
+          %th
+          %th
 
-  - @priorities.each do |priority|
-    %tr
-      %td= priority.name
-      %td= link_to 'Show', priority
-      %td= link_to 'Edit', edit_priority_path(priority)
-      %td= link_to 'Destroy', priority, method: :delete, data: { confirm: 'Are you sure?' }
+        - @priorities.each do |priority|
+          %tr
+            %td= priority.name
+            %td= link_to 'Show', priority
+            %td= link_to 'Edit', edit_priority_path(priority)
+            %td= link_to 'Destroy', priority, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
-= link_to 'New Priority', new_priority_path
+      %br
+      = link_to 'New Priority', new_priority_path

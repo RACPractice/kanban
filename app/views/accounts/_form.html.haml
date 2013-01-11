@@ -5,12 +5,15 @@
       %ul
         - @account.errors.full_messages.each do |msg|
           %li= msg
-  .field
-    = f.label :name
-    =f.text_field :name
-  .field
-    = f.label :description
-    =f.text_area :description
+  .control-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      =f.text_field :name
+  .control-group
+    = f.label :description, :class => 'control-label'
+    .controls
+      =f.text_area :description, :cols => 10, :rows => 5
+  .form-actions
+    = content_tag :button,  :type => :submit, :class => 'btn btn-primary' do
+      Create Account
 
-  .actions
-    = f.submit 'Save'

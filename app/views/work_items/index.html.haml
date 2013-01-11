@@ -1,19 +1,21 @@
-%fieldset
-  %legend Work Items
+.row-fluid
+  .span6.offset3
+    %fieldset
+      %legend Work Items
 
-  %table
-    %tr
-      %th
-      %th
-      %th
+      %table
+        %tr
+          %th
+          %th
+          %th
 
-    - @work_items.each do |work_item|
-      %tr
-        %td= work_item.name
-        %td= link_to 'Show', work_item
-        %td= link_to 'Edit', edit_work_item_path(work_item)
-        %td= link_to 'Destroy', work_item, method: :delete, data: { confirm: 'Are you sure?' }
+        - @work_items.each do |work_item|
+          %tr
+            %td= work_item.name
+            %td= link_to 'Show', work_item
+            %td= link_to 'Edit', edit_work_item_path(work_item)
+            %td= link_to 'Destroy', work_item, method: :delete, data: { confirm: 'Are you sure?' }
 
-  %br
+      %br
 
-  = link_to 'New Work item', new_work_item_path
+      = link_to 'New Work item', new_work_item_path
