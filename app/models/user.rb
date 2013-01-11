@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 	#ASSOCIATIONS
 	has_many :members
 	has_many :accounts, :through => :members
+	has_many :roles, :through => :members
 
 	#accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
 
