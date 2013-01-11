@@ -7,8 +7,8 @@ gem 'pg'
 gem 'devise'
 gem 'thin'
 gem 'jquery-rails'
-gem 'knockout-rails'
 gem 'haml-rails'
+gem 'ejs'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -25,6 +25,7 @@ end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.0"
+  gem 'railroady'
 end
 
 group :test do

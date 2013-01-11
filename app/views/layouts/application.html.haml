@@ -2,39 +2,27 @@
 %html{lang: 'en'}
   %head
     %meta{charset: "utf-8"}
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : "Kanbanness"
     = csrf_meta_tags
     = stylesheet_link_tag "application", :media => "all"
+    /[if IE]
+      = stylesheet_link_tag "ie"
     = javascript_include_tag "application"
+    = yield :head
 
   %body
-    #main
-      #header
-        .header-left
-          %h1
-            =link_to root_url, class: 'logo' do
-              Kanban
-              %span.ness ness
+    = render "common/top_navbar"
+    #content
+      = yield
 
-        .header-right
-          = render "devise/shared/links"
-        -if user_signed_in?
-          #nav
-            = link_to 'Accounts', new_account_path
-            |
-            = link_to 'Projects', new_project_path
-            |
-            =link_to 'Project Steps', new_step_path
-            |
-            = link_to 'Work types', new_work_type_path
-            |
-            = link_to 'Work items', new_work_item_path
-            |
-            = link_to 'Tasks', new_task_path
-      #content
-        = yield
-
-      #footer
-        %p.footer-left
+    %footer.footer
+      .container
+        %p
+          Designed and built by Ness Rails team.
+        %p
           &copy; 2012 Kanbanness &nbsp; &nbsp; &nbsp;
-        %p.footer-right
+        %ul.footer-links
+          %li
+            =link_to 'Home', root_url
+          %li.muted .
