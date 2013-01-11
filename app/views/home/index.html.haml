@@ -1,6 +1,14 @@
 .row-fluid.show-grid
   .span6.offset1
-    Gigel are mere
+    %ul
+      - @owner_accounts.each do |a|
+        %li=a.name
+    %ul
+      - @member_accounts.each do |a|
+        %li=a.name
+    %ul
+      - @visitor_accounts.each do |a|
+        %li=a.name
   .span4
     Si multe pere
   .offset1

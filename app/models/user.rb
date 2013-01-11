@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
 	#ASSOCIATIONS
-	# has_many :members
+  has_many :members
 	has_many :accounts, :through => :members
 	has_many :roles, :through => :members
 

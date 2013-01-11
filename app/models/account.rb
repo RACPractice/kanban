@@ -19,5 +19,40 @@ class Account < ActiveRecord::Base
 	has_many :projects, :dependent => :destroy
 
 	#METHODS
+  # Return all accounts owned by specified user
+  # * *Params* :
+  #   -+user+ - owner of the accounts
+  # * *Returns* :
+  #   - the Arel query for the accounts
+  def self.all_where_owner user
+    all_where_role(user, 'owner')
+  end
 
+  # Return all accounts where specified user is a member
+  # * *Params* :
+  #   -+user+ - member of the accounts
+  # * *Returns* :
+  #   - the Arel query for the accounts
+  def self.all_where_member user
+    all_where_role(user, 'member')
+  end
+
+  # Return members accounts by this user
+  # * *Params* :
+  #   -+user+ - visitor of the accounts
+  # * *Returns* :
+  #   - the Arel query for visitor accounts
+  def self.all_where_visitor user
+    all_where_role(user, 'visitor')
+  end
+
+  # Return all accounts by this user with specified role
+  # * *Params* :
+  #   -+user+ - member of the accounts
+  #   -+role+ - role for the user
+  # * *Returns* :
+  #   - the Arel query for accounts
+  def self.all_where_role(user, role)
+    joins(:users, :roles).where("users.id = ?", user.id).where("roles.name = ?", role)
+  end
 end
