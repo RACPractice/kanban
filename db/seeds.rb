@@ -20,3 +20,7 @@ WorkType.create(name: 'Epic')
 WorkType.create(name: 'Story')
 WorkType.create(name: 'Feature')
 WorkType.create(name: 'Enhancement')
+
+# UserRoles
+Role.create(name: 'owner')
+Role.create(name: 'member')

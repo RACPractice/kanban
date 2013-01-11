@@ -6,14 +6,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
 
   #ACCESSORS
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :accounts_attributes, :login
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :login
   attr_accessor :login
 
 	#ASSOCIATIONS
 	# has_many :members
 	has_many :accounts, :through => :members
+	has_many :roles, :through => :members
 
-	accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
+	#accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
 
   # Overrides devise method to be able to login with username or email
   # * *Args*    :
@@ -27,5 +28,6 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
-  end
+	end
+
 end

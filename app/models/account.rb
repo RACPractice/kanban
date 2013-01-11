@@ -1,8 +1,9 @@
 class Account < ActiveRecord::Base
 	include Slug
+	#after_create :create_role_with_default_role
 
 	#ACCESSORS
-	attr_accessible :name, :slug
+	attr_accessible :name, :slug, :description
 
 	#PERMALINK GENERATION
   slug_for_field :name
@@ -14,6 +15,7 @@ class Account < ActiveRecord::Base
   #ASSOCIATIONS
 	has_many :members
 	has_many :users, :through => :members
+	has_many :roles, :through => :members
 	has_many :projects, :dependent => :destroy
 
 	#METHODS
