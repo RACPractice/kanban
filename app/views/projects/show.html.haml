@@ -1,6 +1,26 @@
-%p#notice= notice
-
-
-= link_to 'Edit', edit_project_path(@project)
-\|
-= link_to 'Back', projects_path
+= javascript_include_tag "projects"
+.row-fluid.elements
+  .span6.offset1
+    %h3
+      Project List
+    %p
+      =link_to 'New Project', new_project_path
+      =link_to 'List Projects', projects_path
+    %table.table.table-striped.table-bordered
+      %tr
+        %th Name
+        %th Actions
+      - @projects.each do |project|
+        %tr
+          %td
+            %span.badge
+              = project.visible ? "PUBLIC" : "PRIVATE"
+            = project.name
+          %td
+            = link_to edit_project_path(project) do
+              = content_tag :button, :class => 'btn btn-info' do
+                Edit
+            = link_to project, method: :delete, data: { confirm: 'Are you sure?' } do
+              = content_tag :button, :class => 'btn btn-danger' do
+                Delete
+  .offset1

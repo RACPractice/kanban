@@ -17,6 +17,9 @@ class Project < ActiveRecord::Base
 
   #CALLBACKS
 
-  #METHODS
+  #SCOPES
+  # Return all projects owned by account
+  scope :all_where_account, lambda{ |account| { :conditions => { :account_id => account.to_i } } }
+
 
 end

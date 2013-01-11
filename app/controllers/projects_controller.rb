@@ -16,7 +16,7 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @project = Project.find_by_slug(params[:id])
+    @projects = Project.all_where_account Account.find_by_slug(params[:id]).id
 
     respond_to do |format|
       format.html # show.html.erb

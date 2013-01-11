@@ -21,9 +21,9 @@
     %br/
     =f.label "Project Visibility"
     =f.radio_button :visible, false, {:checked => true}
-    =f.label "Public"
-    =f.radio_button :visible, true
     =f.label "Private"
+    =f.radio_button :visible, true
+    =f.label "Public"
   .form-actions
     = content_tag :button,  :type => :submit, :class => 'btn btn-primary' do
       Create Project
