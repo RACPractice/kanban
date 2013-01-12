@@ -1,15 +1,21 @@
-= javascript_include_tag "projects"
 .row-fluid.elements
   .span6.offset1
     %h3
       Project List
-    %p
-      =link_to 'New Project', new_project_path
-      =link_to 'List Projects', projects_path
     %table.table.table-striped.table-bordered
       %tr
-        %th Name
-        %th Actions
+        %th
+          ACCOUNT  :
+          = @projects.first.account.name.upcase
+        %th
+          .btn-group
+            %button.btn.btn-small Projects
+            =link_to "#", :class => "button btn btn-small dropdown-toggle", 'data-toggle' => 'dropdown' do
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                =link_to 'Create Project', new_project_path
+
       - @projects.each do |project|
         %tr
           %td
