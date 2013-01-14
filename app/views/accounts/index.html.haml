@@ -1,26 +1,21 @@
-= javascript_include_tag "accounts"
+- content_for :head do
+  = javascript_include_tag 'accounts'
+
 .row-fluid.elements
   .span6.offset1
-    %h3
-      Accounts List
-    %ol.accounts{'data-bind' => "visible: accounts().length > 0, foreach:accounts"}
+    %h3 Accounts List
+    %ol{data: {bind: 'foreach:accounts, visible: accounts().length > 0'}}
       %li
-        %span{'data-class' => "account-item", 'data-bind' => "text: name"}
-        =link_to 'Delete', "#", 'data-class' => "todo-delete", 'data-bind' => "click: $root.removeAccount"
-    %table.table.table-striped.table-bordered
-      %tr
-        %th Name
-      - @accounts.each do |account|
-        %tr
-          %td= account.name
-          %td
-            = link_to project_path(account) do
-              = content_tag :button, :class => 'btn btn-primary' do
-                See projects
-            = link_to edit_account_path(account) do
-              = content_tag :button, :class => 'btn btn-info' do
-                Edit
-            = link_to account, method: :delete, data: { confirm: 'Are you sure?' } do
-              = content_tag :button, :class => 'btn btn-danger' do
-                Delete
-  .offset1
+        %span{data: {class: "accounts-item", bind: "text: name"}}
+        %a{href: "#", data: {class: "accounts-delete", bind: "click: $root.removeAccount"}} Delete
+  .span4
+    %form{data: {bind: "submit: addNewAccount"}}
+      %fieldset
+        %legend Or Create a new Account
+        %label Account name:
+        %input#accountId{type: 'hidden', name: "id", value: '-1'}
+        %input#accountSlug{type: 'hidden', name: 'slug', value: '-1'}
+        %input#accountName{type: 'text', name: "name", placeholder: "Enter account name..."}
+        %span.help-block A new account will be imediately saved on the server.
+        %button.btn{type: "submit"} Add account
+  .offset1'
