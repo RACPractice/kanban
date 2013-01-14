@@ -12,7 +12,7 @@ module Slug
     # * *Args*    :
     #   - +name+ -> the name of the field to generate slug from
     def slug_for_name name = :name
-      include Slug::InstanceMethods
+      # include Slug::InstanceMethods
 
       define_method "#{name.to_s}=" do |value|
         self.send("#{name.to_s}_will_change!")
@@ -29,10 +29,10 @@ module Slug
     alias :slug_for_field :slug_for_name
   end
 
-  module InstanceMethods
-    def to_param
-      slug
-    end
-  end
+  # module InstanceMethods
+  #   def to_param
+  #     slug
+  #   end
+  # end
 
 end

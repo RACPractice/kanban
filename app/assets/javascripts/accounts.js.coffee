@@ -1,6 +1,6 @@
 class Account
   constructor: (@id, @slug, @name) ->
-    @projects_url = "accounts/#{@slug}/projects"
+    @projects_url = "accounts/#{@id}/projects"
 
 class AccountsViewModel
   constructor: ->
