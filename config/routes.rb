@@ -1,6 +1,6 @@
 Kanban::Application.routes.draw do
 
-  get "home/index"
+  match "home/index" => 'home#index', :via => :get, :as => :home
 
   root :to => 'home#index'
 

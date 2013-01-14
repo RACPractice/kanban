@@ -26,7 +26,7 @@ describe Step do
   end
 
   it 'should count correctly steps in database' do
-    FactoryGirl.create(:step)
+    FactoryGirl.create(:step, :name => 'In Progress')
     expect(Step.count).to eq(2)
   end
 end
