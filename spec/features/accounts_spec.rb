@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe "Accounts management" do
 
-  before do
+  before(:each) do
+    FactoryGirl.create(:role)
     # Log in
     @user = FactoryGirl.create(:user)
     visit '/users/sign_in'
