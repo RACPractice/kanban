@@ -2,8 +2,6 @@ class ProjectsController < ApplicationController
 
 	before_filter :authenticate_user!
 
-  # GET /projects
-  # GET /projects.json
   def index
     if params[:account_id]
       @projects = Project.where('account_id = ?', params[:account_id])
@@ -25,8 +23,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # GET /projects/new
-  # GET /projects/new.json
   def new
     @project = Project.new
 
@@ -36,13 +32,10 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # GET /projects/1/edit
   def edit
     @project = Project.find_by_slug(params[:id])
   end
 
-  # POST /projects
-  # POST /projects.json
   def create
     @project = Project.new(params[:project])
 
@@ -57,8 +50,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PUT /projects/1
-  # PUT /projects/1.json
   def update
     @project = Project.find_by_slug(params[:id])
 
@@ -73,8 +64,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # DELETE /projects/1
-  # DELETE /projects/1.json
   def destroy
     @project = Project.find_by_slug(params[:id])
     @project.destroy
