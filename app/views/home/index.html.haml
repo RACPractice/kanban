@@ -5,7 +5,7 @@
         Owned accounts
       %ul.nav.nav-list
         - @owner_accounts.each do |a|
-          %li= link_to a.name, root_url
+          %li= link_to a.name, account_projects_path(a)
     -if @member_accounts.any?
       %h3
         Member accounts

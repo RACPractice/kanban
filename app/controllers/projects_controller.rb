@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     if params[:account_id]
-      @projects = Project.where('account_id = ?', params[:account_id])
+      @projects = Project.joins(:account).where('accounts.slug = ?', params[:account_id])
     else
       @projects = Project.all
     end
@@ -17,11 +17,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # GET /projects/1
-  # GET /projects/1.json
   def show
-    @projects = Project.all_where_account Account.find_by_slug(params[:id]).id
-
+    @project = Project.find_by_slug(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @project }

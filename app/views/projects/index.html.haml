@@ -1,24 +1,50 @@
 - content_for :head do
-  = javascript_include_tag "projects"
+  = javascript_include_tag 'projects'
   :javascript
-    ko.applyBindings(myViewModel);
+    ACCOUNT_ID = "#{params[:account_id]}";
 
-%fieldset
-  %legend Projects Management
+.row-fluid.elements
+  .span6.offset1
+    %h3 Projects List
+    %ol{data: {bind: 'foreach:projects, visible: projects().length > 0'}}
+      %li
+        %span{data: {bind: "text: name"}}
+        %a{title: 'View project', data: {bind: "attr:{href: project_url}"}} View Project
+        %a{title: 'Archive project', href: "#", data: {bind: "click: $root.removeProject"}} Archive
+  .span4
+    %form{data: {bind: "submit: addNewProject"}}
+      %fieldset
+        %legend Or Create a new Project
+        %label Project name:
+        %input#projectId{type: 'hidden', name: "account_id", value: "#{params[:account_id]}"}
+        %input#projectId{type: 'hidden', name: "id", value: '-1'}
+        %input#projectSlug{type: 'hidden', name: 'slug', value: '-1'}
+        %input#projectName{type: 'text', name: "name", placeholder: "Enter project name..."}
+        %span.help-block A new project will be imediately saved on the server.
+        %button.btn{type: "submit"} Add project
+  .offset1'
 
-  %p
-    =link_to 'New Project', new_project_path
-    =link_to 'List Projects', projects_path
+/ - content_for :head do
+/   = javascript_include_tag "projects"
+/   :javascript
+/     ko.applyBindings(myViewModel);
 
-  %table
-    %tr
-      %th
-      %th
-      %th
+/ %fieldset
+/   %legend Projects Management
 
-    - @projects.each do |project|
-      %tr
-        %td= project.name
-        %td= link_to 'Show', project
-        %td= link_to 'Edit', edit_project_path(project)
-        %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
+/   %p
+/     =link_to 'New Project', new_project_path
+/     =link_to 'List Projects', projects_path
+
+/   %table
+/     %tr
+/       %th
+/       %th
+/       %th
+
+/     - @projects.each do |project|
+/       %tr
+/         %td= project.name
+/         %td= link_to 'Show', project
+/         %td= link_to 'Edit', edit_project_path(project)
+/         %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
