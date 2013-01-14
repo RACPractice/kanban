@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @project = Project.find_by_slug(params[:id])
+    @project = Project.find(params[:id])
   end
 
   def create
@@ -42,7 +42,9 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.save
         format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json { render json: @project, status: :created, location: @project }
+        format.json do
+          render json: @project, status: :created
+       end
       else
         format.html { render action: "new" }
         format.json { render json: @project.errors, status: :unprocessable_entity }
@@ -51,7 +53,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = Project.find_by_slug(params[:id])
+    @project = Project.find(params[:id])
 
     respond_to do |format|
       if @project.update_attributes(params[:project])
@@ -65,7 +67,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = Project.find_by_slug(params[:id])
+    @project = Project.find(params[:id])
     @project.destroy
 
     respond_to do |format|
