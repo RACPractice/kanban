@@ -19,8 +19,20 @@
               = link_to 'Work items', new_work_item_path
             %li
               = link_to 'Tasks', new_task_path
+            %li
+              = link_to 'Help'
 
           %ul.nav.pull-right
+            .btn-group
+              =link_to "#", :class => "btn dropdown-toggle", 'data-toggle' => 'dropdown' do
+                Accounts
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to 'New Accounts', new_account_path
+                %li
+                  = link_to destroy_user_session_path, :method => :delete do
+                    Another Action
             .btn-group
               = link_to '#', :class => 'btn btn-primary' do
                 %i.icon-user.icon-white

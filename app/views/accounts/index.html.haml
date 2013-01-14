@@ -1,0 +1,26 @@
+= javascript_include_tag "accounts"
+.row-fluid.elements
+  .span6.offset1
+    %h3
+      Accounts List
+    %ol.accounts{'data-bind' => "visible: accounts().length > 0, foreach:accounts"}
+      %li
+        %span{'data-class' => "account-item", 'data-bind' => "text: name"}
+        =link_to 'Delete', "#", 'data-class' => "todo-delete", 'data-bind' => "click: $root.removeAccount"
+    %table.table.table-striped.table-bordered
+      %tr
+        %th Name
+      - @accounts.each do |account|
+        %tr
+          %td= account.name
+          %td
+            = link_to project_path(account) do
+              = content_tag :button, :class => 'btn btn-primary' do
+                See projects
+            = link_to edit_account_path(account) do
+              = content_tag :button, :class => 'btn btn-info' do
+                Edit
+            = link_to account, method: :delete, data: { confirm: 'Are you sure?' } do
+              = content_tag :button, :class => 'btn btn-danger' do
+                Delete
+  .offset1
