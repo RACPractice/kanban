@@ -5,7 +5,6 @@ class AccountsController < ApplicationController
   # GET /accounts.json
   def index
     @accounts = Account.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @accounts }
@@ -43,7 +42,6 @@ class AccountsController < ApplicationController
   # POST /accounts.json
   def create
     @account = Account.new(params[:account])
-
     respond_to do |format|
       if @account.save
         @account.members.create(:user_id => current_user.id, :role_id => Role.find_by_name('owner').id)

@@ -1,5 +1,6 @@
 class Account
   constructor: (@id, @slug, @name) ->
+    @projects_url = "accounts/#{@id}/projects"
 
 class AccountsViewModel
   constructor: ->
@@ -9,9 +10,11 @@ class AccountsViewModel
     @accounts = ko.observableArray []
     @listAccounts()
 
-  addNewAccount:  =>
+  addNewAccount: =>
     accountName = @accountNameField.val()
-    @accounts.push(new Account(@accountIdField.val(), @accountSlugField.val(), accountName))
+    #save the new account
+    $.post '/accounts.json', account: {name: accountName}, (resp) =>
+      @accounts.push new Account(resp.id, resp.slug, resp.name)
     @accountNameField.val('')
 
   removeAccount: (account) =>

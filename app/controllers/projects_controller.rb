@@ -5,7 +5,11 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    if params[:account_id]
+      @projects = Project.where('account_id = ?', params[:account_id])
+    else
+      @projects = Project.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
