@@ -1,6 +1,19 @@
 .row-fluid.elements
-  .span6.offset1
-    %h3="Project #{@project.name} page"
-    .badge
-      = @project.visible ? "PUBLIC" : "PRIVATE"
-  .offset1
+  .span8.offset1
+    .row
+      .span12
+        %fieldset
+          %legend #{@project.name}
+          .row
+            .span3 BACKLOG
+            .span3 IN PROGRESS
+            .span3 ICEBOX
+            .span3 ARCHIVE
+  .span3
+    %fieldset
+      %legend Members
+      %label Display List of members here
+      %legend Create Steps
+      %label Step Form will be displayed here
+      %legend Activity
+      %label Users activity list
