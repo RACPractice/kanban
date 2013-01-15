@@ -1,6 +1,7 @@
 - content_for :head do
   = javascript_include_tag 'projects'
   :javascript
+    PROJECT_ID = "#{params['id']}";
     ACCOUNT_ID = "#{params[:account_id]}";
 
 .row-fluid.elements

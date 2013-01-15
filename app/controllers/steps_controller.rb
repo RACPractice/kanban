@@ -47,12 +47,15 @@ class StepsController < ApplicationController
   # POST /steps
   # POST /steps.json
   def create
-    @step = Step.new(params[:step])
+    @project = Project.find(params[:project_id])
+    @step = @project.steps.new(params[:step])
 
     respond_to do |format|
       if @step.save
         format.html { redirect_to @step, notice: 'Step was successfully created.' }
-        format.json { render json: @step, status: :created, location: @step }
+        format.json do
+          render json: @step, status: :created
+        end
       else
         format.html { render action: "new" }
         format.json { render json: @step.errors, status: :unprocessable_entity }

@@ -10,10 +10,12 @@ class ProjectsViewModel
     @projectNameField = $('#projectName')
     @projectSlugField =$('#projectSlug')
     @projectIdField =$('#projectId')
+    @stepNameField = $('#stepName')
     @projects = ko.observableArray []
     @steps = ko.observableArray []
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
+    @listProjects()
     @showProject()
 
   addNewProject: =>
@@ -26,11 +28,26 @@ class ProjectsViewModel
       alert error.responseText
     @projectNameField.val('')
 
-  removeProject: (project) =>
+  addNewProjectStep: =>
+    stepName = @stepNameField.val()
+    #save the new project step
+    $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName}})
+      .done (resp) =>
+        @steps.push new Step(resp.id, resp.name)
+      .fail (error) =>
+        alert error.responseText
+    @stepNameField.val('')
+
+   removeProject: (project) =>
     @projects.remove(project)
 
   editProject: (project) =>
     project.name = @projectNameField.val()
+
+  listProjects: =>
+    $.getJSON "/accounts/#{@account_id}/projects", (acc) =>
+      $.map acc, (item) =>
+        @projects.push new Project(item.id, item.slug, item.name)
 
   showProject: =>
     $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", (acc) =>
