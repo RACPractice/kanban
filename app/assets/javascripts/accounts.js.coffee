@@ -17,8 +17,9 @@ class AccountsViewModel
       @accounts.push new Account(resp.id, resp.slug, resp.name)
     @accountNameField.val('')
 
-  removeAccount: (account) =>
-    @accounts.remove(account)
+  archiveAccount: =>
+    console.log "Archive account"
+    # @accounts.remove(account)
 
   editAccount: (account) =>
     account.name = @accountNameField.val()
@@ -27,6 +28,7 @@ class AccountsViewModel
     $.getJSON "/accounts", (acc) =>
       $.map acc, (item) =>
         @accounts.push new Account(item.id, item.slug, item.name)
+      $('.over').tooltip()
 
 $ ->
   ko.applyBindings new AccountsViewModel()

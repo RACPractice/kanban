@@ -5,7 +5,11 @@ class StepsController < ApplicationController
   # GET /steps
   # GET /steps.json
   def index
-    @steps = Step.all
+    if params[:project_id]
+      @steps = Project.find(params[:project_id]).steps
+    else
+      @steps = Step.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,19 +1,32 @@
+- content_for :head do
+  = javascript_include_tag 'projects'
+  :javascript
+    PROJECT_ID = "#{params['id']}";
+    ACCOUNT_ID = "#{params['account_id']}";
 .row-fluid.elements
   .span8.offset1
     .row
       .span12
         %fieldset
           %legend #{@project.name}
-          .row
-            .span3 BACKLOG
-            .span3 IN PROGRESS
-            .span3 ICEBOX
-            .span3 ARCHIVE
+          .row{data: {bind: 'foreach:steps'}}
+            .span3{data: {bind: "text: name"}}
+
   .span3
     %fieldset
       %legend Members
-      %label Display List of members here
+      %div
+        %img{:alt => "Mohan Kumar Radhakrishnan", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/123d49a2e0e54437bebdfc1bda7fa215/30.png", :title => "Mohan Kumar Radhakrishnan (radhakmk)", :width => "30"}
+        %img{:alt => "Ernie Varitimos", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/0c2f56ec656ad2812e7c9ff2e9f68fb7/30.png", :title => "Ernie Varitimos (ernievaritimos)", :width => "30"}
+        %img{:alt => "Janaris Lambright-Trefny ", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/cea1fb9c76dfd91b478bcb545953197d/30.png", :title => "Janaris Lambright-Trefny (janarislambrighttrefny)", :width => "30"}
+        %img{:alt => "Silviu Rosu", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/7d760ee731cb178de6355262c6457b87/30.png", :title => "Silviu Rosu (silviurosu)", :width => "30"}/
+      %br/
       %legend Create Steps
-      %label Step Form will be displayed here
+      %div
+        %input#projectId{type: 'hidden', name: "id", value: "#{params['id']}"}
+        %input#stepName{type: 'text', name: "name", placeholder: "Enter step name..."}
+        %span.help-block A new step will be immediately saved on the server.
+        %button.btn{type: "submit"} Add Step
+      %br/
       %legend Activity
       %label Users activity list

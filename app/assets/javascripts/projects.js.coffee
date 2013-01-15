@@ -2,14 +2,19 @@ class Project
   constructor: (@id, @slug, @name, @account_id) ->
     @project_url = "projects/#{@id}"
 
+class Step
+  constructor: (@id, @name) ->
+
 class ProjectsViewModel
   constructor: ->
     @projectNameField = $('#projectName')
     @projectSlugField =$('#projectSlug')
     @projectIdField =$('#projectId')
     @projects = ko.observableArray []
+    @steps = ko.observableArray []
     @account_id = ACCOUNT_ID
-    @listProjects()
+    @project_id = PROJECT_ID
+    @showProject()
 
   addNewProject: =>
     projectName = @projectNameField.val()
@@ -27,10 +32,10 @@ class ProjectsViewModel
   editProject: (project) =>
     project.name = @projectNameField.val()
 
-  listProjects: =>
-    $.getJSON "/accounts/#{@account_id}/projects", (acc) =>
+  showProject: =>
+    $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", (acc) =>
       $.map acc, (item) =>
-        @projects.push new Project(item.id, item.slug, item.name)
+        @steps.push new Step(item.id, item.name)
 
 $ ->
   ko.applyBindings new ProjectsViewModel()
