@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef6ac97c-70f4-42ab-9a63-4a8e3bfc2d52" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/projects.js.coffee" afterPath="$PROJECT_DIR$/app/assets/javascripts/projects.js.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/application.css" afterPath="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/steps_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/steps_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/projects/show.html.haml" afterPath="$PROJECT_DIR$/app/views/projects/show.html.haml" />
     </list>
     <ignored path="kanban.iws" />
@@ -64,10 +61,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application.css" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="application.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="10" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0">
+            <state line="25" column="30" selection-start="762" selection-end="762" vertical-scroll-proportion="0.72727275">
               <folding />
             </state>
           </provider>
@@ -76,16 +73,16 @@
       <file leaf-file-name="show.html.haml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/projects/show.html.haml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="45" selection-start="516" selection-end="516" vertical-scroll-proportion="-10.24">
+            <state line="15" column="0" selection-start="366" selection-end="366" vertical-scroll-proportion="-9.6">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html.haml" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html.haml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/accounts/index.html.haml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="62" selection-start="517" selection-end="517" vertical-scroll-proportion="0.36571428">
+            <state line="12" column="62" selection-start="517" selection-end="517" vertical-scroll-proportion="-7.68">
               <folding />
             </state>
           </provider>
@@ -125,10 +122,10 @@
         <option value="$PROJECT_DIR$/app/controllers/projects_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/projects/index.html.haml" />
         <option value="$PROJECT_DIR$/app/models/step.rb" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
-        <option value="$PROJECT_DIR$/app/views/projects/show.html.haml" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/projects.js.coffee" />
         <option value="$PROJECT_DIR$/app/controllers/steps_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/projects/show.html.haml" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/application.css" />
       </list>
     </option>
   </component>
@@ -744,20 +741,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="10" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/projects/show.html.haml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="45" selection-start="516" selection-end="516" vertical-scroll-proportion="-10.24">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/step.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="2" selection-start="180" selection-end="180" vertical-scroll-proportion="0.0">
@@ -786,7 +769,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/accounts/index.html.haml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="62" selection-start="517" selection-end="517" vertical-scroll-proportion="0.36571428">
+        <state line="12" column="62" selection-start="517" selection-end="517" vertical-scroll-proportion="-7.68">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/projects/show.html.haml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="366" selection-end="366" vertical-scroll-proportion="-9.6">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="30" selection-start="762" selection-end="762" vertical-scroll-proportion="0.72727275">
           <folding />
         </state>
       </provider>

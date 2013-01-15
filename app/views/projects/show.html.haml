@@ -7,15 +7,19 @@
   .span8.offset1
     .row
       .span12
-        %fieldset
-          %legend #{@project.name}
+        %table
+          %th
+            .badge
+              = @project.visible ? "PUBLIC" : "PRIVATE"
+          %th
+            %h3 #{@project.name}
+        %div{:class => "project"}
           %table{ :class => "project_table"}
             %tr{data: {bind: 'foreach:steps'}}
               %th{data: {bind: "text: name"}}
             %tr{data: {bind: 'foreach:steps'}}
               %td
                 %a{title: 'Add Work Item'} + Add Work Item
-
   .span3
     %fieldset
       %legend Members

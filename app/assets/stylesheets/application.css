@@ -18,6 +18,13 @@
     color: #0088cc;
 }
 
+div.project {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    width:850px;
+    min-height:400px;
+    border:1px dotted  #e5e5e5;
+}
 .project_table th, td {
     min-width: 170px;
     border:thin dotted;
