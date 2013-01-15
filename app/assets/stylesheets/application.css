@@ -17,3 +17,16 @@
 .blue {
     color: #0088cc;
 }
+
+.project_table th, td {
+    min-width: 170px;
+    border:thin dotted;
+    border-color:#0088cc;
+    text-align: center;
+}
+
+.project_table td {
+    height:100px;
+}
+
+

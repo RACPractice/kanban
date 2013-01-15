@@ -48,7 +48,7 @@ class StepsController < ApplicationController
   # POST /steps.json
   def create
     @project = Project.find(params[:project_id])
-    @step = @project.steps.new(params[:step])
+    @step = @project.steps.create(params[:step])
 
     respond_to do |format|
       if @step.save
