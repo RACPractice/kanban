@@ -7,8 +7,8 @@
     %ol{data: {bind: 'foreach:accounts, visible: accounts().length > 0'}}
       %li
         %span{data: {bind: "text: name"}}
-        %a{title: 'View account projects', data: {bind: "attr:{href: projects_url}"}} View Projects
-        %a{title: 'Archive account', href: "#", data: {bind: "click: $root.removeAccount"}} Archive
+        %a.over{title: 'View account projects', data: {bind: "attr:{href: projects_url}"}} View Projects
+        %a.over{title: 'Archive account', href: "#", data: {bind: 'click: $parent.archiveAccount'}} Archive
   .span4
     %form{data: {bind: "submit: addNewAccount"}}
       %fieldset
