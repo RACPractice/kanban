@@ -14,12 +14,14 @@
           %th
             %h3 #{@project.name}
         %div{class: "list-area-wrapper"}
-          %table{class: "list-area"}
-            %tr{data: {bind: 'foreach:steps'}}
-              %th{data: {bind: "text: name"}}
-            %tr{data: {bind: 'foreach:steps'}}
-              %td
-                %a{title: 'Add Work Item'} + Add Work Item
+          %ul.default.steps{data: {bind: 'foreach:steps'}}
+            %li.step
+              %h4.step_name{data: {bind: "text: name"}}
+              .ui-widget-content
+                %ul.default.work_items.sortable
+                  %li Design
+                  %li Specifications
+
   .span3
     %fieldset
       %legend Members

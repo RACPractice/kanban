@@ -55,4 +55,13 @@ class Account < ActiveRecord::Base
   def self.all_where_role(user, role)
     joins(:users, :roles).where("users.id = ?", user.id).where("roles.name = ?", role)
   end
+
+  # Load all available accounts for specified user
+  # * *Args*    :
+  #   - +user+ -> user to search accounts for
+  # * *Returns* :
+  #   - all available accounts for this user
+  def self.all_available(user)
+    joins(:users).where("users.id = ?", user.id)
+  end
 end

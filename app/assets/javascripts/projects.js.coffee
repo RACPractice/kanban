@@ -54,7 +54,12 @@ class ProjectsViewModel
     $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", (acc) =>
       $.map acc, (item) =>
         @steps.push new Step(item.id, item.name)
+      @initializeUI()
 
+  initializeUI: =>
+    $( ".sortable").sortable
+      connectWith: '.sortable'
+    .disableSelection()
 
 $ ->
   ko.applyBindings new ProjectsViewModel()

@@ -4,12 +4,7 @@
       %fieldset
         %legend Registration
         = render :partial => 'common/flashes'
-        .control-group
-          = f.fields_for :accounts do |builder|
-            = builder.label "Account Name", :class => 'control-label'
-            .controls
-              = builder.text_field :name
-              \.kanbanness.com
+        = devise_error_messages!
         .control-group
           = f.label :username, :class => 'control-label'
           .controls
