@@ -13,8 +13,8 @@
               = @project.visible ? "PUBLIC" : "PRIVATE"
           %th
             %h3 #{@project.name}
-        %div{:class => "project"}
-          %table{ :class => "project_table"}
+        %div{class: "list-area-wrapper"}
+          %table{class: "list-area"}
             %tr{data: {bind: 'foreach:steps'}}
               %th{data: {bind: "text: name"}}
             %tr{data: {bind: 'foreach:steps'}}
@@ -35,6 +35,7 @@
           %label Step name:
           %input#projectId{type: 'hidden', name: "id", value: "#{params['id']}"}
           %input#stepName{type: 'text', name: "name", placeholder: "Enter step name..."}
+          %select#stepPosition{type: 'select', name: "position", placeholder: "Enter step position..."}
           %span.help-block A new step will be immediately saved on the server.
           %button.btn{type: "submit"} Add Step
       %br/
