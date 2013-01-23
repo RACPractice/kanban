@@ -6,17 +6,15 @@ Kanban::Application.routes.draw do
 
   resources :tasks
 
-  resources :work_items
-
   resources :accounts do
     resources :projects do
-      resources :steps
+      resources :steps do
+        resources :work_items
+      end
     end
   end
 
   resources :work_types
-
-
 
   resources :priorities
 

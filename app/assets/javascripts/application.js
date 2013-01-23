@@ -15,6 +15,7 @@
 //= require underscore-min
 //= require knockout
 //= require knockout.mapping
+//= require utils/knockout.utils
 //= require bootstrap
 //= require jquery-ui-1.9.2.custom
 //= require initialisation

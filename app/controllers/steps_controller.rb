@@ -6,14 +6,19 @@ class StepsController < ApplicationController
   # GET /steps.json
   def index
     if params[:project_id]
-      @steps = Project.find(params[:project_id]).steps
+      @steps = Step.joins(:projects).includes(:work_items).where('projects.id = ?', params[:project_id])
+      steps = @steps.collect do |s|
+        s.work_items.sort!{|a, b| a.position <=> b.position}
+        s
+      end
+      @steps = steps
     else
       @steps = Step.all
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @steps }
+      format.json {render json: @steps.to_json(:include => :work_items) }
     end
   end
 

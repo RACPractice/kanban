@@ -1,5 +1,5 @@
 - content_for :head do
-  = javascript_include_tag 'projects'
+  = javascript_include_tag 'project'
   :javascript
     PROJECT_ID = "#{params['id']}";
     ACCOUNT_ID = "#{params['account_id']}";
@@ -14,13 +14,12 @@
           %th
             %h3 #{@project.name}
         %div{class: "list-area-wrapper"}
-          %ul.default.steps{data: {bind: 'foreach:steps'}}
+          %ul.default.steps.sortable_steps{data: {bind: "foreach:steps"}}
             %li.step
               %h4.step_name{data: {bind: "text: name"}}
               .ui-widget-content
-                %ul.default.work_items.sortable
-                  %li Design
-                  %li Specifications
+                %ul.default.work_items.sortable{data: {bind: "foreach:work_items, sortableList: work_items"}}
+                  %li{data: {bind: "text:name, sortableItem: {item: $data, parentList: $parent.work_items}"}}
 
   .span3
     %fieldset
@@ -31,7 +30,7 @@
         %img{:alt => "Janaris Lambright-Trefny ", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/cea1fb9c76dfd91b478bcb545953197d/30.png", :title => "Janaris Lambright-Trefny (janarislambrighttrefny)", :width => "30"}
         %img{:alt => "Silviu Rosu", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/7d760ee731cb178de6355262c6457b87/30.png", :title => "Silviu Rosu (silviurosu)", :width => "30"}/
       %br/
-      %form{data: {bind: "submit: addNewProjectStep"}}
+      %form{data: {bind: "submit: addNewStep"}}
         %fieldset
           %legend Or Create a new Step
           %label Step name:

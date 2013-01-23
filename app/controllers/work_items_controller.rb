@@ -2,7 +2,11 @@ class WorkItemsController < ApplicationController
   # GET /work_items
   # GET /work_items.json
   def index
-    @work_items = WorkItem.all
+    if params[:step_id].present?
+      @work_items = WorkItem.find_by_step_id(params[:step_id])
+    else
+      @work_items = WorkItem.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
