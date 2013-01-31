@@ -53,8 +53,9 @@ class StepsController < ApplicationController
   # POST /steps.json
   def create
     @project = Project.find(params[:project_id])
+    position = Step.joins(:projects).where('projects.id = ?', @project.id).maximum('steps.position')
     @step = @project.steps.create(params[:step])
-
+    @step.position = position + 1
     respond_to do |format|
       if @step.save
         format.html { redirect_to @step, notice: 'Step was successfully created.' }

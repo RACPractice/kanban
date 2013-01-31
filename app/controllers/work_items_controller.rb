@@ -45,8 +45,8 @@ class WorkItemsController < ApplicationController
   # POST /work_items.json
   def create
     @work_item = WorkItem.new(params[:work_item])
-    position = WorkItem.select('max position').where('step_id = ?', @work_item.step_id)
-    debugger
+    position = WorkItem.where('step_id = ?', @work_item.step_id).maximum('position')
+    @work_item.position = position + 1
     respond_to do |format|
       if @work_item.save
         format.html { redirect_to @work_item, notice: 'Work item was successfully created.' }
