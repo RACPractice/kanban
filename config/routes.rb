@@ -14,6 +14,8 @@ Kanban::Application.routes.draw do
     end
   end
 
+  resources :work_items
+
   resources :work_types
 
   resources :priorities

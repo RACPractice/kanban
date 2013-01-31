@@ -6,10 +6,26 @@ class Step
     @removable = params['removable']
     @capacity = params['capacity']
     @work_items = ko.observableArray params['work_items']
+
     @work_items.subscribe (param1) =>
       console.log "Work Items have been reordered. Send to server"
     ,@
     ,'itemAdded'
+
+  addWorkItem: =>
+    workItemName = $('.work-item-name-for-step-' + @id).val()
+    $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id}})
+      .done (resp) =>
+        @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to})
+      .fail (error) =>
+        alert error.responseText
+    @closeForm()
+
+  showWorkItemForm: =>
+    $('.work-item-for-step-' + @id).show()
+  closeForm: =>
+    $('.work-item-name-for-step-' + @id).val('')
+    $('.work-item-for-step-' + @id).hide()
 
 
 class WorkItem
@@ -57,3 +73,4 @@ class ProjectViewModel
 
 $ ->
   ko.applyBindings new ProjectViewModel()
+

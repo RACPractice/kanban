@@ -28,6 +28,7 @@ class WorkItemsController < ApplicationController
   # GET /work_items/new
   # GET /work_items/new.json
   def new
+    debugger
     @work_item = WorkItem.new
 
     respond_to do |format|
@@ -44,6 +45,7 @@ class WorkItemsController < ApplicationController
   # POST /work_items
   # POST /work_items.json
   def create
+    debugger
     @work_item = WorkItem.new(params[:work_item])
 
     respond_to do |format|
