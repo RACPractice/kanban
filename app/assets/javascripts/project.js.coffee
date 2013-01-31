@@ -8,9 +8,11 @@ class Step
     @work_items = ko.observableArray params['work_items']
 
     @work_items.subscribe (param1) =>
-      console.log "Work Items have been reordered. Send to server"
+      new_positions = ({id: n.id, name: n.name, step_id: @id, position: index} for n, index in @work_items())
+      $.ajax(type: 'POST', url: "/work_items/update_positions.json", data: {work_items: new_positions})
     ,@
-    ,'itemAdded'
+    ,'positionsChanged'
+
 
   addWorkItem: =>
     workItemName = $('.work-item-name-for-step-' + @id).val()

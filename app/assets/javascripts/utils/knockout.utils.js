@@ -13,13 +13,12 @@ ko.bindingHandlers.sortableList = {
                     //figure out its new position
                     var position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
                     if (position >= 0) {
-                        if (newParent === originalParent) {
-                            ko.utils.moveAtPosition(originalParent, item, position);
-                            originalParent.notifySubscribers(item, 'itemAdded');
-                        } else {
-                            originalParent.remove(item);
+                        originalParent.remove(item);
                             newParent.splice(position, 0, item);
                             ui.item.remove();
+                            originalParent.notifySubscribers(item, 'positionsChanged');
+                        if (newParent !== originalParent) {
+                            newParent.notifySubscribers(item, 'positionsChanged')
                         }
                     }
                 }
@@ -48,26 +47,4 @@ ko.bindingHandlers.visibleAndSelect = {
             }, 0); //new tasks are not in DOM yet
         }
     }
-}
-
-ko.utils.moveAtPosition = function(observableArray, element, newPosition) {
-    var arr = observableArray();
-    var oldIndex = element.position;
-    var newIndex = newPosition;
-    var start = 0;
-    var end = 0;
-    if (oldIndex < newIndex) {
-        start = oldIndex;
-        end = newIndex;
-    } else {
-        end = oldIndex;
-        start = newIndex;
-    }
-    for (var i=0; i< arr.length; i++) {
-        var indexElem = arr[i];
-        if (indexElem.position >= start && indexElem.position <= end) {
-            indexElem.position += 1;
-        }
-    }
-    element.position = newPosition;
 }

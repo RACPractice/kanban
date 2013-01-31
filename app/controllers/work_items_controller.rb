@@ -28,7 +28,6 @@ class WorkItemsController < ApplicationController
   # GET /work_items/new
   # GET /work_items/new.json
   def new
-    debugger
     @work_item = WorkItem.new
 
     respond_to do |format|
@@ -45,9 +44,9 @@ class WorkItemsController < ApplicationController
   # POST /work_items
   # POST /work_items.json
   def create
-    debugger
     @work_item = WorkItem.new(params[:work_item])
-
+    position = WorkItem.select('max position').where('step_id = ?', @work_item.step_id)
+    debugger
     respond_to do |format|
       if @work_item.save
         format.html { redirect_to @work_item, notice: 'Work item was successfully created.' }
@@ -86,4 +85,12 @@ class WorkItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def update_positions
+    params['work_items'].each do |k, item|
+      WorkItem.update_all({:position => item['position'], :step_id => item['step_id']}, ['id = ?', item['id']])
+    end
+    render :text => "Success"
+  end
+
 end
