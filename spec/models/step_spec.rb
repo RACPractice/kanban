@@ -14,7 +14,7 @@ describe Step do
   #Test validations
   it {should validate_presence_of(:name)}
   it {should validate_presence_of(:slug)}
-  it {should validate_uniqueness_of(:slug)}
+#  it {should validate_uniqueness_of(:slug)}
 
   #Test mass assignment
   it {should_not allow_mass_assignment_of(:slug)}
