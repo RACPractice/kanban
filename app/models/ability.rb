@@ -2,12 +2,15 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-		if user.role? :owner
-			can :manage, :all
-		elsif user.role? :member
-			can :manage, WorkItem
-		else
-			can :read, :all
-		end
+    user.members.each do |membership|
+      if membership.role.name == "owner"
+        can :manage, membership.account
+        can :manage, membership.account.projects
+      elsif membership.role.name == "member"
+        can :manage, membership.account.projects
+      else
+        can :read, membership.account.projects
+      end
+    end
   end
 end

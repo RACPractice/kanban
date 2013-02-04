@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   factory :role do
-    name "owner"
+    trait(:owner)  { name "owner" }
+    trait(:member) { name "member" }
   end
 end
