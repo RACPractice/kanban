@@ -6,14 +6,19 @@ class StepsController < ApplicationController
   # GET /steps.json
   def index
     if params[:project_id]
-      @steps = Project.find(params[:project_id]).steps
+      @steps = Step.joins(:projects).includes(:work_items).where('projects.id = ?', params[:project_id]).order('position ASC')
+      steps = @steps.collect do |s|
+        s.work_items.sort!{|a, b| a.position <=> b.position}
+        s
+      end
+      @steps = steps
     else
       @steps = Step.all
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @steps }
+      format.json {render json: @steps.to_json(:include => :work_items) }
     end
   end
 
@@ -48,8 +53,9 @@ class StepsController < ApplicationController
   # POST /steps.json
   def create
     @project = Project.find(params[:project_id])
+    position = Step.joins(:projects).where('projects.id = ?', @project.id).maximum('steps.position')
     @step = @project.steps.create(params[:step])
-
+    @step.position = position + 1
     respond_to do |format|
       if @step.save
         format.html { redirect_to @step, notice: 'Step was successfully created.' }
@@ -82,12 +88,27 @@ class StepsController < ApplicationController
   # DELETE /steps/1
   # DELETE /steps/1.json
   def destroy
-    @step = Step.find_by_slug(params[:id])
-    @step.destroy
-
-    respond_to do |format|
-      format.html { redirect_to steps_url }
-      format.json { head :no_content }
+    @step = Step.find(params[:id])
+    if @step.removable
+      @step.destroy
+      respond_to do |format|
+        format.html { redirect_to steps_url }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to steps_url }
+        format.json { render :json => "Step #{@step.name} is not removable", :status => :unprocessable_entity}
+      end
     end
+  end
+
+  def update_positions
+    if params['steps']
+      params['steps'].each do |k, item|
+        Step.update_all({:position => item['position']}, ['id = ?', item['id']])
+      end
+    end
+    render :text => "Success"
   end
 end

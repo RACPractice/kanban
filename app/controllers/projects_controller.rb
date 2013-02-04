@@ -37,10 +37,10 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.new(params[:project])
-    backlog = Step.new({name: 'Backlog', removable: false, position: 1})
-    selected = Step.new({name: 'Selected', removable: false, position: 2})
-    archive = Step.new({name: 'Archive', removable: false, position: 3})
+  @project = Project.new(params[:project])
+    backlog = Step.new({name: 'Backlog', removable: false, position: 0})
+    selected = Step.new({name: 'Selected', removable: false, position: 1})
+    archive = Step.new({name: 'Archive', removable: false, position: 2})
     @project.steps = [backlog, selected, archive]
 
     respond_to do |format|

@@ -1,8 +1,9 @@
 - content_for :head do
-  = javascript_include_tag 'projects'
+  = javascript_include_tag 'project'
   :javascript
     PROJECT_ID = "#{params['id']}";
     ACCOUNT_ID = "#{params['account_id']}";
+
 .row-fluid.elements
   .span8.offset1
     .row
@@ -14,23 +15,42 @@
           %th
             %h3 #{@project.name}
         %div{class: "list-area-wrapper"}
-          %ul.default.steps{data: {bind: 'foreach:steps'}}
-            %li.step
-              %h4.step_name{data: {bind: "text: name"}}
+          %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, connectWith: '.sortable_steps'}" }}
+            %li.step{data: {bind: "sortableItem: {item: $data, parentList: $parent.steps}"}}
+              .list-header
+                .list-title
+                  %h4.step_name{data: {bind: "text: name"}}
+                  %a.icon-sm.icon-menu.dark-hover.js-open-list-menu{href: '#', data:{toggle: 'dropdown'}}
+                    %i.icon-th-list
+                    %ul.dropdown-menu{:role => 'menu', 'aria-labelledby' => 'dropdownMenu' }
+                      %li
+                        %a{tabindex: '-1', href: '#', data: {bind: 'click: showWorkItemForm'}} Add Work Item
+                      %li.divider
+                      %li
+                        %a.deleteStep{:tabindex => '-1', :href => "#", data: {bind: 'click: $parent.deleteStep'}} Delete step
+              %div{style: 'display:none;', data: {bind: 'attr: {class: "card-composer work-item-for-step-" + id}'}}
+                .list-card.js-composer
+                  .card-labels.clearfix
+                  %textarea{data: {bind: 'attr: {class: "js-card-title work-item-name-for-step-" + id}'}}
+                  .list-card-members
+                .cc-controls.clearfix
+                  %button.btn.btn-mini.btn-primary{data: {bind: 'click: addWorkItem'}} Add
+                  %a.icon-lg.dark-hover.js-cancel{href: '#', data: {bind: 'click: closeForm'}}
+                    %i.icon-remove
+
               .ui-widget-content
-                %ul.default.work_items.sortable
-                  %li Design
-                  %li Specifications
+                %ul.default.work_items.sortable{data: {bind: "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable'}"}}
+                  %li{data: {bind: "text:name, sortableItem: {item: $data, parentList: $parent.work_items}"}}
   .span3
     %fieldset
-      %legend Members
+      %legend Member
       %div
         %img{:alt => "Mohan Kumar Radhakrishnan", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/123d49a2e0e54437bebdfc1bda7fa215/30.png", :title => "Mohan Kumar Radhakrishnan (radhakmk)", :width => "30"}
         %img{:alt => "Ernie Varitimos", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/0c2f56ec656ad2812e7c9ff2e9f68fb7/30.png", :title => "Ernie Varitimos (ernievaritimos)", :width => "30"}
         %img{:alt => "Janaris Lambright-Trefny ", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/cea1fb9c76dfd91b478bcb545953197d/30.png", :title => "Janaris Lambright-Trefny (janarislambrighttrefny)", :width => "30"}
         %img{:alt => "Silviu Rosu", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/7d760ee731cb178de6355262c6457b87/30.png", :title => "Silviu Rosu (silviurosu)", :width => "30"}/
       %br/
-      %form{data: {bind: "submit: addNewProjectStep"}}
+      %form{data: {bind: "submit: addNewStep"}}
         %fieldset
           %legend Or Create a new Step
           %label Step name:

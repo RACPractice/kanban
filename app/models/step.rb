@@ -2,7 +2,7 @@ class Step < ActiveRecord::Base
   include Slug
 
   #ACCESSORS
-	attr_accessible :name, :anchor, :capacity, :position
+	attr_accessible :name, :anchor, :capacity, :position, :removable
 
   #PERMALINK GENERATION
   slug_for_field :name

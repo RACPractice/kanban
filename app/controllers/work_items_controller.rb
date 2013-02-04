@@ -2,7 +2,11 @@ class WorkItemsController < ApplicationController
   # GET /work_items
   # GET /work_items.json
   def index
-    @work_items = WorkItem.all
+    if params[:step_id].present?
+      @work_items = WorkItem.find_by_step_id(params[:step_id])
+    else
+      @work_items = WorkItem.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,7 +45,8 @@ class WorkItemsController < ApplicationController
   # POST /work_items.json
   def create
     @work_item = WorkItem.new(params[:work_item])
-
+    position = WorkItem.where('step_id = ?', @work_item.step_id).maximum('position')
+    @work_item.position = position + 1
     respond_to do |format|
       if @work_item.save
         format.html { redirect_to @work_item, notice: 'Work item was successfully created.' }
@@ -80,4 +85,14 @@ class WorkItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def update_positions
+    if params['work_items']
+      params['work_items'].each do |k, item|
+        WorkItem.update_all({:position => item['position'], :step_id => item['step_id']}, ['id = ?', item['id']])
+      end
+    end
+    render :text => "Success"
+  end
+
 end

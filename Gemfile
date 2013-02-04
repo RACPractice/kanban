@@ -10,6 +10,7 @@ gem 'thin'
 gem 'jquery-rails'
 gem 'haml-rails'
 gem 'ejs'
+gem 'therubyracer'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -31,6 +32,7 @@ end
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'forgery'
   gem 'shoulda-matchers'
   gem 'capybara'
   #THIS has to be added for using webkit - a faster engine than selenium

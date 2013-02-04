@@ -2,7 +2,7 @@
 FactoryGirl.define do
 
   factory :account do
-    name "john"
-    description "Account description"
+    name { Forgery::Name.full_name }
+    description { Forgery::LoremIpsum.sentence }
   end
 end
