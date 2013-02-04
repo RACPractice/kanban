@@ -44,9 +44,8 @@ class ProjectViewModel
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
 
-    @steps.subscribe (param1) =>
-      new_positions = ({id: n.id, position: index} for n, index in @steps())
-      $.ajax(type: 'POST', url: "/steps/update_positions.json", data: {steps: new_positions})
+    @steps.subscribe () =>
+      @updateStepsPositionsOnServer()
     ,@
     ,'positionsChanged'
 
@@ -55,7 +54,7 @@ class ProjectViewModel
   addNewStep: =>
     stepName = @stepNameField.val()
     #save the new project step
-    $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName, project_id: @project_id}})
+    $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName}})
       .done (resp) =>
         @steps.push new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, capacity: resp.capacity})
       .fail (error) =>
@@ -77,15 +76,18 @@ class ProjectViewModel
             workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id
           @steps.push new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, work_items: workItems
 
-  deleteStep: (currentStep, e)=>
+  deleteStep: (currentStep)=>
     $.ajax(type: 'DELETE', url: "/steps/#{currentStep.id}.json")
       .done (resp) =>
         @steps.remove(currentStep)
-        new_positions = ({id: n.id, position: index} for n, index in @steps())
-        $.ajax(type: 'POST', url: "/steps/update_positions.json", data: {steps: new_positions})
+        @updateStepsPositionsOnServer()
         bootbox.alert("Step #{currentStep.name} successfully deleted.")
       .fail (error) =>
         bootbox.alert(error.responseText)
+
+  updateStepsPositionsOnServer: =>
+    new_positions = ({id: n.id, position: index} for n, index in @steps())
+    $.ajax(type: 'POST', url: "/steps/update_positions.json", data: {steps: new_positions})
 
 $ ->
   ko.applyBindings new ProjectViewModel()
