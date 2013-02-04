@@ -48,8 +48,6 @@ describe Ability do
     end
 
     it "should not allow management of other's projects" do
-      puts "Project 1 account: #{@project1.account.id}"
-      puts "Project 2 account: #{@project2.account.id}"
       ability1 = Ability.new(@user1)
       ability1.should_not be_able_to(:manage, @project2)
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130115152534) do
+ActiveRecord::Schema.define(:version => 20130204094307) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name",        :null => false
@@ -28,8 +28,6 @@ ActiveRecord::Schema.define(:version => 20130115152534) do
     t.integer  "user_id"
     t.integer  "account_id"
     t.boolean  "invite_sent", :default => false, :null => false
-    t.boolean  "member",      :default => false, :null => false
-    t.boolean  "owner",       :default => false, :null => false
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
     t.integer  "role_id"
@@ -37,18 +35,6 @@ ActiveRecord::Schema.define(:version => 20130115152534) do
 
   add_index "members", ["role_id"], :name => "index_members_on_role_id"
   add_index "members", ["user_id", "account_id"], :name => "index_members_on_user_id_and_account_id"
-
-  create_table "memberships", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "account_id"
-    t.boolean  "invite_sent", :default => false, :null => false
-    t.boolean  "member",      :default => false, :null => false
-    t.boolean  "owner",       :default => false, :null => false
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-  end
-
-  add_index "memberships", ["user_id", "account_id"], :name => "index_memberships_on_user_id_and_account_id"
 
   create_table "priorities", :force => true do |t|
     t.string   "name",       :null => false
