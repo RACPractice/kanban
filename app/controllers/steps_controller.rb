@@ -6,7 +6,7 @@ class StepsController < ApplicationController
   # GET /steps.json
   def index
     if params[:project_id]
-      @steps = Step.joins(:projects).includes(:work_items).where('projects.id = ?', params[:project_id])
+      @steps = Step.joins(:projects).includes(:work_items).where('projects.id = ?', params[:project_id]).order('position ASC')
       steps = @steps.collect do |s|
         s.work_items.sort!{|a, b| a.position <=> b.position}
         s
@@ -88,12 +88,18 @@ class StepsController < ApplicationController
   # DELETE /steps/1
   # DELETE /steps/1.json
   def destroy
-    @step = Step.find_by_slug(params[:id])
-    @step.destroy
-
-    respond_to do |format|
-      format.html { redirect_to steps_url }
-      format.json { head :no_content }
+    @step = Step.find(params[:id])
+    if @step.removable
+      @step.destroy
+      respond_to do |format|
+        format.html { redirect_to steps_url }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to steps_url }
+        format.json { render :json => "Step #{@step.name} is not removable", :status => :unprocessable_entity}
+      end
     end
   end
 

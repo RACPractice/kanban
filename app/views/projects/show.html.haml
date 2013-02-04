@@ -3,6 +3,7 @@
   :javascript
     PROJECT_ID = "#{params['id']}";
     ACCOUNT_ID = "#{params['account_id']}";
+
 .row-fluid.elements
   .span8.offset1
     .row
@@ -26,7 +27,7 @@
                         %a{tabindex: '-1', href: '#', data: {bind: 'click: showWorkItemForm'}} Add Work Item
                       %li.divider
                       %li
-                        %a.deleteStep{:tabindex => '-1', :href => "#"} Delete step
+                        %a.deleteStep{:tabindex => '-1', :href => "#", data: {bind: 'click: $parent.deleteStep'}} Delete step
               %div{style: 'display:none;', data: {bind: 'attr: {class: "card-composer work-item-for-step-" + id}'}}
                 .list-card.js-composer
                   .card-labels.clearfix

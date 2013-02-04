@@ -19,7 +19,7 @@ class Step
       .done (resp) =>
         @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to})
       .fail (error) =>
-        alert error.responseText
+        bootbox.alert(error.responseText)
     @closeForm()
 
   showWorkItemForm: =>
@@ -57,10 +57,9 @@ class ProjectViewModel
     #save the new project step
     $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName, project_id: @project_id}})
       .done (resp) =>
-        console.log resp
         @steps.push new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, capacity: resp.capacity})
       .fail (error) =>
-        alert error.responseText
+        bootbox.alert(error.responseText)
     @stepNameField.val('')
 
   editStep: (step) =>
@@ -77,6 +76,16 @@ class ProjectViewModel
           $.map step.work_items, (w_i) =>
             workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id
           @steps.push new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, work_items: workItems
+
+  deleteStep: (currentStep, e)=>
+    $.ajax(type: 'DELETE', url: "/steps/#{currentStep.id}.json")
+      .done (resp) =>
+        @steps.remove(currentStep)
+        new_positions = ({id: n.id, position: index} for n, index in @steps())
+        $.ajax(type: 'POST', url: "/steps/update_positions.json", data: {steps: new_positions})
+        bootbox.alert("Step #{currentStep.name} successfully deleted.")
+      .fail (error) =>
+        bootbox.alert(error.responseText)
 
 $ ->
   ko.applyBindings new ProjectViewModel()
