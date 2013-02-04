@@ -16,6 +16,7 @@ Kanban::Application.routes.draw do
 
   resources :work_items
   match "work_items/update_positions" => 'work_items#update_positions', :via => :post, :as => :update_positions
+  match "steps/update_positions" => 'steps#update_positions', :via => :post, :as => :update_steps_positions
 
   resources :work_types
 

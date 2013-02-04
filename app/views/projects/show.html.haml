@@ -14,8 +14,8 @@
           %th
             %h3 #{@project.name}
         %div{class: "list-area-wrapper"}
-          %ul.default.steps.sortable_steps{data: {bind: "foreach:steps"}}
-            %li.step
+          %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, connectWith: '.sortable_steps'}" }}
+            %li.step{data: {bind: "sortableItem: {item: $data, parentList: $parent.steps}"}}
               .list-header
                 .list-title
                   %h4.step_name{data: {bind: "text: name"}}
@@ -38,7 +38,7 @@
                     %i.icon-remove
 
               .ui-widget-content
-                %ul.default.work_items.sortable{data: {bind: "foreach:work_items, sortableList: work_items"}}
+                %ul.default.work_items.sortable{data: {bind: "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable'}"}}
                   %li{data: {bind: "text:name, sortableItem: {item: $data, parentList: $parent.work_items}"}}
 
   .span3

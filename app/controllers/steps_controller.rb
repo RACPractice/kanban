@@ -96,4 +96,13 @@ class StepsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def update_positions
+    if params['steps']
+      params['steps'].each do |k, item|
+        Step.update_all({:position => item['position']}, ['id = ?', item['id']])
+      end
+    end
+    render :text => "Success"
+  end
 end

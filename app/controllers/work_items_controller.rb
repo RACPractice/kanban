@@ -87,8 +87,10 @@ class WorkItemsController < ApplicationController
   end
 
   def update_positions
-    params['work_items'].each do |k, item|
-      WorkItem.update_all({:position => item['position'], :step_id => item['step_id']}, ['id = ?', item['id']])
+    if params['work_items']
+      params['work_items'].each do |k, item|
+        WorkItem.update_all({:position => item['position'], :step_id => item['step_id']}, ['id = ?', item['id']])
+      end
     end
     render :text => "Success"
   end
