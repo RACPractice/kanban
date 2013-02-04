@@ -8,11 +8,10 @@ class Step
     @work_items = ko.observableArray params['work_items']
 
     @work_items.subscribe (param1) =>
-      new_positions = ({id: n.id, name: n.name, step_id: @id, position: index} for n, index in @work_items())
+      new_positions = ({id: n.id, step_id: @id, position: index} for n, index in @work_items())
       $.ajax(type: 'POST', url: "/work_items/update_positions.json", data: {work_items: new_positions})
     ,@
     ,'positionsChanged'
-
 
   addWorkItem: =>
     workItemName = $('.work-item-name-for-step-' + @id).val()
@@ -29,7 +28,6 @@ class Step
     $('.work-item-name-for-step-' + @id).val('')
     $('.work-item-for-step-' + @id).hide()
 
-
 class WorkItem
   constructor: (params) ->
     @id = params['id']
@@ -45,6 +43,13 @@ class ProjectViewModel
     @steps = ko.observableArray []
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
+
+    @steps.subscribe (param1) =>
+      new_positions = ({id: n.id, position: index} for n, index in @steps())
+      $.ajax(type: 'POST', url: "/steps/update_positions.json", data: {steps: new_positions})
+    ,@
+    ,'positionsChanged'
+
     @showSteps()
 
   addNewStep: =>
@@ -71,10 +76,7 @@ class ProjectViewModel
           workItems = []
           $.map step.work_items, (w_i) =>
             workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id
-          console.log 'gigi'
           @steps.push new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, work_items: workItems
-
 
 $ ->
   ko.applyBindings new ProjectViewModel()
-

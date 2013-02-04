@@ -2,8 +2,9 @@
 ko.bindingHandlers.sortableList = {
     init: function(element, valueAccessor, allBindingsAccessor, context) {
         var options = valueAccessor();
-        $(element).data("sortList", options); //attach meta-data
-        $(element).sortable({
+        var $element = $(element);
+        $element.data("sortList", options.list); //attach meta-data
+        $element.sortable({
             update: function(event, ui) {
                 var item = ui.item.data("sortItem");
                 if (item) {
@@ -23,7 +24,7 @@ ko.bindingHandlers.sortableList = {
                     }
                 }
             },
-            connectWith: '.sortable'
+            connectWith: options.connectWith || '.sortable'
         });
     }
 };
@@ -32,8 +33,9 @@ ko.bindingHandlers.sortableList = {
 ko.bindingHandlers.sortableItem = {
     init: function(element, valueAccessor) {
         var options = valueAccessor();
-        $(element).data("sortItem", options.item);
-        $(element).data("parentList", options.parentList);
+        var $element = $(element);
+        $element.data("sortItem", options.item);
+        $element.data("parentList", options.parentList);
     }
 };
 
