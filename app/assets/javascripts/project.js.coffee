@@ -64,7 +64,6 @@ class ProjectViewModel
   editStep: (step) =>
     step.name = @stepNameField.val()
 
-
   selectWorkItem: (item) =>
     console.log item
 

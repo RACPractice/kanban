@@ -45,7 +45,7 @@ class WorkItemsController < ApplicationController
   # POST /work_items.json
   def create
     @work_item = WorkItem.new(params[:work_item])
-    position = WorkItem.where('step_id = ?', @work_item.step_id).maximum('position')
+    position = WorkItem.where('step_id = ?', @work_item.step_id).maximum('position') || -1
     @work_item.position = position + 1
     respond_to do |format|
       if @work_item.save
