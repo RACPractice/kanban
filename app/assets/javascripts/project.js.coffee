@@ -43,6 +43,14 @@ class ProjectViewModel
     @steps = ko.observableArray []
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
+    @stepWidth = ko.computed () =>
+      (100 / @steps().length) - 0.5
+    ,@
+
+    @containerWidth = ko.computed () =>
+      st_length = @steps().length
+      st_length * 200 + st_length * 4
+    ,@
 
     @steps.subscribe () =>
       @updateStepsPositionsOnServer()
