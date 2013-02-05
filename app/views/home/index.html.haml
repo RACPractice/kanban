@@ -1,24 +1,12 @@
 .row-fluid.elements
   .span6.offset1
     Welcome to Kanban Dashboard
-    -if @owner_accounts.any?
+    -if @projects.any?
       %h3
-        Owned accounts
+        Projects
       %ul.nav.nav-list
-        - @owner_accounts.each do |a|
-          %li= link_to a.name, account_projects_path(a)
-    -if @member_accounts.any?
-      %h3
-        Member accounts
-      %ul.nav.nav-list
-        - @member_accounts.each do |a|
-          %li=a.name
-    -if @visitor_accounts.any?
-      %h3
-        Visitor accounts
-      %ul.nav.nav-list
-        - @visitor_accounts.each do |a|
-          %li=a.name
+        - @projects.each do |p|
+          %li= link_to p.name, account_project_path(p.account, p)
   .span4
     %p
       =image_tag "http://www.javachief.com/wp-content/uploads/2012/06/ernie100912.gif"

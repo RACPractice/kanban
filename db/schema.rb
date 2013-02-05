@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204094307) do
+ActiveRecord::Schema.define(:version => 20130204135307) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name",        :null => false
@@ -19,22 +19,20 @@ ActiveRecord::Schema.define(:version => 20130204094307) do
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "owner_id"
   end
 
   add_index "accounts", ["name"], :name => "index_accounts_on_name"
   add_index "accounts", ["slug"], :name => "index_accounts_on_slug", :unique => true
 
-  create_table "members", :force => true do |t|
+  create_table "memberships", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "account_id"
+    t.integer  "project_id"
+    t.integer  "role_id"
     t.boolean  "invite_sent", :default => false, :null => false
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
-    t.integer  "role_id"
   end
-
-  add_index "members", ["role_id"], :name => "index_members_on_role_id"
-  add_index "members", ["user_id", "account_id"], :name => "index_members_on_user_id_and_account_id"
 
   create_table "priorities", :force => true do |t|
     t.string   "name",       :null => false

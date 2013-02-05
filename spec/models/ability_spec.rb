@@ -12,7 +12,7 @@ describe Ability do
       @user1 = FactoryGirl.create(:user)
       @user2 = FactoryGirl.create(:user)
       @project1 = FactoryGirl.create(:project)
-      @user1.members.build account: @project1.account, role: @role_owner
+      @user1.memberships.build project: @project1, role: @role_owner
     end
 
     it "should allow management of own account" do
@@ -33,8 +33,8 @@ describe Ability do
       @user2 = FactoryGirl.create(:user)
       @project1 = FactoryGirl.create(:project)
       @project2 = FactoryGirl.create(:project)
-      @user1.members.build account: @project1.account, role: @role_owner
-      @user2.members.build account: @project1.account, role: @role_member
+      @user1.memberships.build project: @project1, role: @role_owner
+      @user2.memberships.build project: @project1, role: @role_member
     end
 
     it "should allow management of own projects" do

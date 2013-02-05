@@ -12,7 +12,7 @@ describe User do
     it {should have_db_index(:reset_password_token)}
 
     #Test associations
-    it {should have_many(:members)}
+    it {should have_many(:memberships)}
     it {should have_many(:accounts)}
 
     #Test validations
