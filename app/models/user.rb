@@ -10,9 +10,9 @@ class User < ActiveRecord::Base
   attr_accessor :login
 
 	#ASSOCIATIONS
-  has_many :members
-	has_many :accounts, :through => :members
-	has_many :roles, :through => :members
+  has_many :memberships
+	has_many :accounts, :foreign_key => 'owner_id'
+  has_many :projects, :through => :memberships
 
 	#accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
 
