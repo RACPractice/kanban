@@ -54,3 +54,15 @@ input[type="text"].small {
 .elements, .span1, .span2, .span3, .span4, .span5, .span6, .span7, .span8, .span9, .span10, .span11, .span12 {height: 100%;}
 
 footer.footer {position: absolute, bottom: 0; padding: 0; margin-top: 0px;}
+
+input[type="text"].edit {
+   display: none;
+}
+
+.editing input[type="text"].edit {
+   display: block;
+}
+
+.editing .view {
+   display: none;
+}

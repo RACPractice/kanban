@@ -3,6 +3,7 @@
   :javascript
     PROJECT_ID = "#{params['id']}";
     ACCOUNT_ID = "#{params['account_id']}";
+
 .row-fluid.elements
   .span10
     %table
@@ -15,12 +16,26 @@
       .steps-container{data:{bind: "attr: {style: 'height:100%;min-width:' + containerWidth() + 'px;'}"}}
         %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, connectWith: '.sortable_steps'}" }}
           %li.step{data: {bind: "attr: {style: 'min-width:200px; width:' + $parent.stepWidth() + '%;'},sortableItem: {item: $data, parentList: $parent.steps}"}}
+            / .modal.hide.fade{data: {bind: "attr: {id: 'modal' + id}"}}
+            /   .modal-header
+            /     %button.close{type: "button", 'aria-hidden' => "true", 'data-dismiss' => "modal"} &times;
+            /     %h3{data: {bind: "html: '<em>' + name + '</em> step settings.'"}}
+            /   .modal-body
+            /     %p One fine body…
+            /   .modal-footer
+            /     %a.btn{href: "#"} Close
+            /     %a.btn.btn-primary{href: "#"} Save changes
             .list-header
               .list-title
-                %h4.step_name{data: {bind: "text: name"}}
+                .editor{data: {bind: 'css: {editing: editing}'}}
+                  %h4.view.step_name{data: {bind: "event: {dblclick: editStep}, text: name"}}
+                  %form{data: {bind: 'submit: stopEditing'}}
+                    %input.edit{type: 'text', data: {bind: 'value: name, event: {blur: stopEditing}'}}
                 %a.icon-sm.icon-menu.dark-hover.js-open-list-menu{href: '#', data:{toggle: 'dropdown'}}
                   %i.icon-th-list
                   %ul.dropdown-menu{:role => 'menu', 'aria-labelledby' => 'dropdownMenu' }
+                    / %li
+                    /   %a{tabindex: '-1', data: {toggle: 'modal', bind: 'click: editStep, attr: {href: "#modal" + id}'}} Edit Step
                     %li
                       %a{tabindex: '-1', href: '#', data: {bind: 'click: showWorkItemForm'}} Add Work Item
                     %li.divider

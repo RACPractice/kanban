@@ -1,11 +1,12 @@
 class Step
   constructor: (params) ->
     @id = params['id']
-    @name = params['name']
+    @name = ko.observable params['name']
     @position = params['position']
     @removable = params['removable']
     @capacity = params['capacity']
     @work_items = ko.observableArray params['work_items']
+    @editing = ko.observable false
 
     @work_items.subscribe (param1) =>
       new_positions = ({id: n.id, step_id: @id, position: index} for n, index in @work_items())
@@ -27,6 +28,17 @@ class Step
   closeForm: =>
     $('.work-item-name-for-step-' + @id).val('')
     $('.work-item-for-step-' + @id).hide()
+  editStep: (step, event) =>
+    @editing true
+    setTimeout ()=>
+      $(event.target).parent().find('input').focus()
+    ,100
+
+  stopEditing: =>
+    $.ajax(type: 'PUT', url: "/steps/#{@id}.json", data: {step: {name: @name}})
+      .fail (error) =>
+        bootbox.alert(error.responseText)
+    @editing false
 
 class WorkItem
   constructor: (params) ->
@@ -69,9 +81,6 @@ class ProjectViewModel
         bootbox.alert(error.responseText)
     @stepNameField.val('')
 
-  editStep: (step) =>
-    step.name = @stepNameField.val()
-
   selectWorkItem: (item) =>
     console.log item
 
@@ -95,6 +104,9 @@ class ProjectViewModel
   updateStepsPositionsOnServer: =>
     new_positions = ({id: n.id, position: index} for n, index in @steps())
     $.ajax(type: 'POST', url: "/steps/update_positions.json", data: {steps: new_positions})
+
+  editStep: =>
+    console.log 'Edit'
 
 $ ->
   ko.applyBindings new ProjectViewModel()

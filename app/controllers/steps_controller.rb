@@ -72,7 +72,7 @@ class StepsController < ApplicationController
   # PUT /steps/1
   # PUT /steps/1.json
   def update
-    @step = Step.find_by_slug(params[:id])
+    @step = Step.find(params[:id])
 
     respond_to do |format|
       if @step.update_attributes(params[:step])
