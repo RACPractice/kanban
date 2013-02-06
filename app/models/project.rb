@@ -13,6 +13,8 @@ class Project < ActiveRecord::Base
 
   #ASSOCIATIONS
   has_and_belongs_to_many :steps
+  has_many :memberships
+  has_many :users, :through => :memberships
   belongs_to :account
 
   #CALLBACKS
