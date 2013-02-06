@@ -1,4 +1,3 @@
 %legend Members
-%div
-  - @project.memberships.each do |membership|
-    = image_tag 'default_user_icon_128.png', alt: membership.user.username, height: "30", title: membership.user.username, width: "30"
+%div{data: {bind: "foreach: memberships"}}
+  %img{src: "/assets/default_user_icon_128.png", height:"30", width: "30", data: {bind: "attr: {title: username, alt: username}"}}

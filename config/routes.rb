@@ -11,6 +11,7 @@ Kanban::Application.routes.draw do
       resources :steps do
         resources :work_items
       end
+      resources :memberships
     end
   end
 

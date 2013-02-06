@@ -1,7 +1,7 @@
 class Membership < ActiveRecord::Base
 
   #ACCESSORS
-  attr_accessible :user_id, :project_id, :role_id, :invite_sent, :project, :role
+  attr_accessible :user_id, :project_id, :role_id, :invite_sent, :project, :role, :user
 
 	#ASSOCIATIONS
 	belongs_to :user

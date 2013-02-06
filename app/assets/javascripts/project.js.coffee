@@ -54,10 +54,18 @@ class WorkItem
     @assigned_to = params['assigned_to']
     @step_id = params['step_id']
 
+class Membership
+  constructor: (params) ->
+    @id        = params['id']
+    @username  = params['username']
+    @role_name = params['role_name']
+
 class ProjectViewModel
   constructor: ->
     @stepNameField = $('#stepName')
+    @userNameField = $('#userName')
     @steps = ko.observableArray []
+    @memberships = ko.observableArray []
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
     @backlog_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, capacity: 0})
@@ -82,6 +90,7 @@ class ProjectViewModel
     ,'positionsChanged'
 
     @showSteps()
+    @loadMemberships()
 
   addNewStep: =>
     stepName = @stepNameField.val()
@@ -93,6 +102,16 @@ class ProjectViewModel
       .fail (error) =>
         bootbox.alert(error.responseText)
     @stepNameField.val('')
+
+  addNewMember: =>
+    username = @userNameField.val()
+    $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", data: {membership: {username: username}})
+      .done (resp) =>
+        membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name
+        @memberships.push membership
+      .fail (error) =>
+        bootbox.alert(error.responseText)
+    @userNameField.val('')
 
   selectWorkItem: (item) =>
     console.log item
@@ -108,6 +127,12 @@ class ProjectViewModel
             @backlog_step(step) if step.name() == 'Backlog'
             @archive_step(step) if step.name() == 'Archive'
           @steps.push step
+
+  loadMemberships: ()=>
+    $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", (memberships) =>
+      $.map memberships, (membership) =>
+        membership = new Membership id: membership.id, username: membership.username, role_name: membership.role_name
+        @memberships.push membership
 
   deleteStep: (currentStep)=>
     $.ajax(type: 'DELETE', url: "/steps/#{currentStep.id}.json")
