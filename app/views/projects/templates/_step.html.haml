@@ -1,0 +1,28 @@
+%li{data: {bind: "attr: {class: 'step ' + step_class(), style: 'min-width:200px; width:' + $parent.stepWidth() + '%;'}, sortableItem: {enabled: removable, item: $data, parentList: $parent.steps}"}}
+  .list-header
+    .list-title
+      .editor{data: {bind: 'css: {editing: editing}'}}
+        %h4.view.step_name{data: {bind: "event: {dblclick: editStep}, text: name"}}
+        %form{data: {bind: 'submit: stopEditing'}}
+          %input.edit{type: 'text', data: {bind: 'value: name, event: {blur: stopEditing}'}}
+      %a.icon-sm.icon-menu.dark-hover.js-open-list-menu{href: '#', data:{toggle: 'dropdown'}}
+        %i.icon-th-list
+        %ul.dropdown-menu{:role => 'menu', 'aria-labelledby' => 'dropdownMenu' }
+          %li
+            %a{tabindex: '-1', href: '#', data: {bind: 'click: showWorkItemForm'}} Add Work Item
+          %li.divider
+          %li
+            %a.deleteStep{:tabindex => '-1', :href => "#", data: {bind: 'click: $parent.deleteStep'}} Delete step
+  %div{style: 'display:none;', data: {bind: 'attr: {class: "card-composer work-item-for-step-" + id}'}}
+    .list-card.js-composer
+      .card-labels.clearfix
+      %textarea{data: {bind: 'attr: {class: "js-card-title work-item-name-for-step-" + id}'}}
+      .list-card-members
+    .cc-controls.clearfix
+      %button.btn.btn-mini.btn-primary{data: {bind: 'click: addWorkItem'}} Add
+      %a.icon-lg.dark-hover.js-cancel{href: '#', data: {bind: 'click: closeForm'}}
+        %i.icon-remove
+
+  .ui-widget-content
+    %ul.default.work_items.sortable{data: {bind: "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable'}"}}
+      %li{data: {bind: "text:name, sortableItem: {item: $data, parentList: $parent.work_items}"}}

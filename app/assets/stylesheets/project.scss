@@ -41,6 +41,9 @@ li.step {
   border-bottom: 1px solid #404040;
   height: 100%;
 }
+li.step.not_sortable{
+  background: #a3a3a3;
+}
 
 .ui-widget-content {
   min-height: 150px;

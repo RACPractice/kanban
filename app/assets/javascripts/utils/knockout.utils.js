@@ -5,6 +5,7 @@ ko.bindingHandlers.sortableList = {
         var $element = $(element);
         $element.data("sortList", options.list); //attach meta-data
         $element.sortable({
+            items: "li:not(.not_sortable)",
             update: function(event, ui) {
                 var item = ui.item.data("sortItem");
                 if (item) {
@@ -15,9 +16,9 @@ ko.bindingHandlers.sortableList = {
                     var position = ko.utils.arrayIndexOf(ui.item.parent().children(), ui.item[0]);
                     if (position >= 0) {
                         originalParent.remove(item);
-                            newParent.splice(position, 0, item);
-                            ui.item.remove();
-                            originalParent.notifySubscribers(item, 'positionsChanged');
+                        newParent.splice(position, 0, item);
+                        ui.item.remove();
+                        originalParent.notifySubscribers(item, 'positionsChanged');
                         if (newParent !== originalParent) {
                             newParent.notifySubscribers(item, 'positionsChanged')
                         }

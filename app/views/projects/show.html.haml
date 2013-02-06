@@ -1,3 +1,5 @@
+//include knockout templates
+=render :partial => 'projects/templates/step_template'
 - content_for :head do
   = javascript_include_tag 'project'
   :javascript
@@ -14,59 +16,14 @@
         %h3 #{@project.name}
     %div{class: "list-area-wrapper"}
       .steps-container{data:{bind: "attr: {style: 'height:100%;min-width:' + containerWidth() + 'px;'}"}}
+        / %span{data: {bind: "template: {name: 'step-template', data: backlog_step}"}}
         %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, connectWith: '.sortable_steps'}" }}
-          %li.step{data: {bind: "attr: {style: 'min-width:200px; width:' + $parent.stepWidth() + '%;'},sortableItem: {item: $data, parentList: $parent.steps}"}}
-            / .modal.hide.fade{data: {bind: "attr: {id: 'modal' + id}"}}
-            /   .modal-header
-            /     %button.close{type: "button", 'aria-hidden' => "true", 'data-dismiss' => "modal"} &times;
-            /     %h3{data: {bind: "html: '<em>' + name + '</em> step settings.'"}}
-            /   .modal-body
-            /     %p One fine body…
-            /   .modal-footer
-            /     %a.btn{href: "#"} Close
-            /     %a.btn.btn-primary{href: "#"} Save changes
-            .list-header
-              .list-title
-                .editor{data: {bind: 'css: {editing: editing}'}}
-                  %h4.view.step_name{data: {bind: "event: {dblclick: editStep}, text: name"}}
-                  %form{data: {bind: 'submit: stopEditing'}}
-                    %input.edit{type: 'text', data: {bind: 'value: name, event: {blur: stopEditing}'}}
-                %a.icon-sm.icon-menu.dark-hover.js-open-list-menu{href: '#', data:{toggle: 'dropdown'}}
-                  %i.icon-th-list
-                  %ul.dropdown-menu{:role => 'menu', 'aria-labelledby' => 'dropdownMenu' }
-                    / %li
-                    /   %a{tabindex: '-1', data: {toggle: 'modal', bind: 'click: editStep, attr: {href: "#modal" + id}'}} Edit Step
-                    %li
-                      %a{tabindex: '-1', href: '#', data: {bind: 'click: showWorkItemForm'}} Add Work Item
-                    %li.divider
-                    %li
-                      %a.deleteStep{:tabindex => '-1', :href => "#", data: {bind: 'click: $parent.deleteStep'}} Delete step
-            %div{style: 'display:none;', data: {bind: 'attr: {class: "card-composer work-item-for-step-" + id}'}}
-              .list-card.js-composer
-                .card-labels.clearfix
-                %textarea{data: {bind: 'attr: {class: "js-card-title work-item-name-for-step-" + id}'}}
-                .list-card-members
-              .cc-controls.clearfix
-                %button.btn.btn-mini.btn-primary{data: {bind: 'click: addWorkItem'}} Add
-                %a.icon-lg.dark-hover.js-cancel{href: '#', data: {bind: 'click: closeForm'}}
-                  %i.icon-remove
-
-            .ui-widget-content
-              %ul.default.work_items.sortable{data: {bind: "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable'}"}}
-                %li{data: {bind: "text:name, sortableItem: {item: $data, parentList: $parent.work_items}"}}
+          / %span{data: {bind: "template: {name: 'step-template', data: $parent.backlog_step}"}}
+          =render :partial => 'projects/templates/step'
+          / %span{data: {bind: "template: {name: 'step-template', data: #$parent.archive_step}"}}
+        / %ul.default.steps
   .span2
     %fieldset
-      %legend Members
-      %div
-        %img{:alt => "Mohan Kumar Radhakrishnan", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/123d49a2e0e54437bebdfc1bda7fa215/30.png", :title => "Mohan Kumar Radhakrishnan (radhakmk)", :width => "30"}
-        %img{:alt => "Ernie Varitimos", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/0c2f56ec656ad2812e7c9ff2e9f68fb7/30.png", :title => "Ernie Varitimos (ernievaritimos)", :width => "30"}
-        %img{:alt => "Janaris Lambright-Trefny ", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/cea1fb9c76dfd91b478bcb545953197d/30.png", :title => "Janaris Lambright-Trefny (janarislambrighttrefny)", :width => "30"}
-        %img{:alt => "Silviu Rosu", :height => "30", :src => "https://trello-avatars.s3.amazonaws.com/7d760ee731cb178de6355262c6457b87/30.png", :title => "Silviu Rosu (silviurosu)", :width => "30"}/
-      %br/
-      %form{data: {bind: "submit: addNewStep"}}
-        %label Step name:
-        %input#projectId{type: 'hidden', name: "id", value: "#{params['id']}"}
-        %input.small#stepName{type: 'text', name: "name", placeholder: "Enter step name..."}
-        / %button.btn{type: "submit"} Add Step
-      %legend Activity
-      %label Users activity list
+      =render partial: "projects/templates/members"
+      =render partial: "projects/templates/new_step_form"
+      =render partial: "projects/templates/activity_log"

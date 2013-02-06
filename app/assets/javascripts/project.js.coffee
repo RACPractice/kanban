@@ -39,6 +39,11 @@ class Step
       .fail (error) =>
         bootbox.alert(error.responseText)
     @editing false
+  step_class: =>
+    if @removable
+      ''
+    else
+      'not_sortable'
 
 class WorkItem
   constructor: (params) ->
@@ -55,6 +60,13 @@ class ProjectViewModel
     @steps = ko.observableArray []
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
+    @backlog_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, capacity: 0})
+    @archive_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, capacity: 0})
+
+    @custom_steps = ko.computed ()=>
+      ko.utils.arrayFilter @steps(), (item) =>
+        item.removable == true
+
     @stepWidth = ko.computed () =>
       (100 / @steps().length) - 0.5
     ,@
@@ -76,7 +88,8 @@ class ProjectViewModel
     #save the new project step
     $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName}})
       .done (resp) =>
-        @steps.push new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, capacity: resp.capacity})
+        step = new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, capacity: resp.capacity})
+        @steps.splice(@steps().length - 1, 0, step);
       .fail (error) =>
         bootbox.alert(error.responseText)
     @stepNameField.val('')
@@ -90,14 +103,18 @@ class ProjectViewModel
           workItems = []
           $.map step.work_items, (w_i) =>
             workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id
-          @steps.push new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, work_items: workItems
+          step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, work_items: workItems
+          if !step.removable
+            @backlog_step(step) if step.name() == 'Backlog'
+            @archive_step(step) if step.name() == 'Archive'
+          @steps.push step
 
   deleteStep: (currentStep)=>
     $.ajax(type: 'DELETE', url: "/steps/#{currentStep.id}.json")
       .done (resp) =>
         @steps.remove(currentStep)
         @updateStepsPositionsOnServer()
-        bootbox.alert("Step #{currentStep.name} successfully deleted.")
+        bootbox.alert("Step #{currentStep.name()} successfully deleted.")
       .fail (error) =>
         bootbox.alert(error.responseText)
 
