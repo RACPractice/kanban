@@ -6,9 +6,9 @@
 
 .row-fluid.elements
   .span10
-    %table
+    %table{style: 'height:50px;'}
       %th
-        .badge
+        %span.badge
           = @project.visible ? "PUBLIC" : "PRIVATE"
       %th
         %h3 #{@project.name}

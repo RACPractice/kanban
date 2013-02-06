@@ -7,9 +7,8 @@ div.list-area-wrapper {
     border-radius: 3px;
     background-color: #0082cc;
     padding: 3px 0;
-    height: 100%;
-    height: auto !important;
-    min-height:100%;
+    height: 93%;
+    min-height:70%;
     position: relative;
     margin: 0 auto;
 }
@@ -45,17 +44,18 @@ li.step {
 
 .ui-widget-content {
   min-height: 150px;
+  height: 96%;
 }
 
 ul.work_items {
   min-height: 50px;
   li {
     background-color: #fff;
-    border: 1px solid #b9b9b9;
-    border-bottom-color: #939393;
+    border-top: 1px solid #b9b9b9;
+    border-bottom: 2px solid #939393;
     border-radius: 3px;
     cursor: pointer;
-    margin-bottom: 4px;
+
     min-height: 18px;
     padding: 6px 8px 1px;
     position: relative;
