@@ -5,6 +5,7 @@ class Step
     @position = params['position']
     @removable = params['removable']
     @capacity = params['capacity']
+    @current_capacity = ko.observable 0
     @work_items = ko.observableArray params['work_items']
     @editing = ko.observable false
 
@@ -29,6 +30,7 @@ class Step
     $('.work-item-name-for-step-' + @id).val('')
     $('.work-item-for-step-' + @id).hide()
   editStep: (step, event) =>
+    return if !@removable
     @editing true
     setTimeout ()=>
       $(event.target).parent().find('input').focus()
