@@ -37,21 +37,24 @@ class ProjectsController < ApplicationController
   end
 
   def create
-  @project = Project.new(params[:project])
-    backlog = Step.new({name: 'Backlog', removable: false, position: 0})
-    selected = Step.new({name: 'To Do', removable: true, position: 1})
-    archive = Step.new({name: 'Archive', removable: false, position: 2})
-    @project.steps = [backlog, selected, archive]
+    Project.transaction do
+      @project = Project.new(params[:project])
+      backlog = Step.new({name: 'Backlog', removable: false, position: 0})
+      selected = Step.new({name: 'To Do', removable: true, position: 1})
+      archive = Step.new({name: 'Archive', removable: false, position: 2})
+      @project.steps = [backlog, selected, archive]
 
-    respond_to do |format|
-      if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json do
-          render json: @project, status: :created
-       end
-      else
-        format.html { render action: "new" }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @project.save
+          current_user.memberships.create role: Role.find_by_name("owner"), project: @project
+          format.html { redirect_to @project, notice: 'Project was successfully created.' }
+          format.json do
+            render json: @project, status: :created
+         end
+        else
+          format.html { render action: "new" }
+          format.json { render json: @project.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

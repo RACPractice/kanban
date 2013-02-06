@@ -41,15 +41,17 @@ class AccountsController < ApplicationController
   # POST /accounts
   # POST /accounts.json
   def create
-    @account = Account.new(params[:account])
-    respond_to do |format|
-      if @account.save
-        @account.members.create(:user_id => current_user.id, :role_id => Role.find_by_name('owner').id)
-        format.html { redirect_to home_path, notice: 'Account was successfully created.' }
-        format.json { render json: @account, status: :created, location: @account }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @account.errors, status: :unprocessable_entity }
+    Account.transaction do
+      @account = Account.new(params[:account])
+      respond_to do |format|
+        if @account.save
+          @account.update_attribute :owner, current_user
+          format.html { redirect_to home_path, notice: 'Account was successfully created.' }
+          format.json { render json: @account, status: :created, location: @account }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @account.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
