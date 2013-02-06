@@ -3,8 +3,12 @@
     .list-title
       .editor{data: {bind: 'css: {editing: editing}'}}
         %h4.view.step_name{data: {bind: "event: {dblclick: editStep}, text: name"}}
+        %span.right{data: {bind: "visible: capacity > 0"}}
+          %span.label.label-info{rel: 'tooltip', title: "Current step capacity", data: {bind: "text: current_capacity"}}
+          \/
+          %span.label.label-info{rel: 'tooltip', title: "Maximum step capacity", data: {bind: "text: capacity"}}
         %form{data: {bind: 'submit: stopEditing'}}
-          %input.edit{type: 'text', data: {bind: 'value: name, event: {blur: stopEditing}'}}
+          %input.edit{type: 'text', data: {bind: 'value: name, event: {blur: stopEditing}, visible: removable'}}
       %a.icon-sm.icon-menu.dark-hover.js-open-list-menu{href: '#', data:{toggle: 'dropdown', bind: 'visible: name() !== "Archive"'}}
         %i.icon-th-list
         %ul.dropdown-menu{:role => 'menu', 'aria-labelledby' => 'dropdownMenu' }
