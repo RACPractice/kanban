@@ -16,7 +16,7 @@
       .steps-container{data:{bind: "attr: {style: 'height:100%;min-width:' + containerWidth() + 'px;'}"}}
         %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, connectWith: '.sortable_steps'}" }}
           =render :partial => 'projects/templates/step'
-  .span2
+  .span2.condensed
     %fieldset
       =render partial: "projects/templates/members"
       =render partial: "projects/templates/new_step_form"
