@@ -5,8 +5,8 @@ class Step
     @position = params['position']
     @removable = params['removable']
     @capacity = params['capacity']
-    @current_capacity = ko.observable 0
-    @work_items = ko.observableArray params['work_items']
+    @category = params['category']
+    @work_items = ko.observableArray params['work_items'] || []
     @editing = ko.observable false
 
     @work_items.subscribe (param1) =>
@@ -15,11 +15,22 @@ class Step
     ,@
     ,'positionsChanged'
 
+    @isWorkValueVisible = ko.computed ()=>
+      @category != 'archive'
+    @isMaxWorkValueVisible = ko.computed ()=>
+      @category != 'backlog'
+    @currentWorkValue = ko.computed ()=>
+      load = 0
+      if @work_items().length > 0
+        $.map @work_items(), (item) =>
+          load += item.work_value
+      load
+
   addWorkItem: =>
     workItemName = $('.work-item-name-for-step-' + @id).val()
-    $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id}})
+    $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id, work_value: 1}})
       .done (resp) =>
-        @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to})
+        @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to, work_value: resp.work_value})
       .fail (error) =>
         bootbox.alert(error.responseText)
     @closeForm()
@@ -55,6 +66,7 @@ class WorkItem
     @position = params['position']
     @assigned_to = params['assigned_to']
     @step_id = params['step_id']
+    @work_value = params['work_value']
 
 class Membership
   constructor: (params) ->
@@ -70,8 +82,8 @@ class ProjectViewModel
     @memberships = ko.observableArray []
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
-    @backlog_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, capacity: 0})
-    @archive_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, capacity: 0})
+    @backlog_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, category: 'backlog', capacity: 0})
+    @archive_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, category: 'archive', capacity: 0})
 
     @custom_steps = ko.computed ()=>
       ko.utils.arrayFilter @steps(), (item) =>
@@ -99,7 +111,7 @@ class ProjectViewModel
     #save the new project step
     $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName}})
       .done (resp) =>
-        step = new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, capacity: resp.capacity})
+        step = new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, category: resp.capacity, capacity: resp.capacity})
         @steps.splice(@steps().length - 1, 0, step);
       .fail (error) =>
         bootbox.alert(error.responseText)
@@ -123,11 +135,11 @@ class ProjectViewModel
       $.map steps, (step) =>
           workItems = []
           $.map step.work_items, (w_i) =>
-            workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id
-          step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, work_items: workItems
+            workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id, work_value: w_i.work_value
+          step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, category: step.category, work_items: workItems
           if !step.removable
-            @backlog_step(step) if step.name() == 'Backlog'
-            @archive_step(step) if step.name() == 'Archive'
+            @backlog_step(step) if step.category == 'backlog'
+            @archive_step(step) if step.category == 'archive'
           @steps.push step
 
   loadMemberships: ()=>

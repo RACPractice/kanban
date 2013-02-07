@@ -15,10 +15,9 @@ class WorkItem < ActiveRecord::Base
 	has_many :tasks, :dependent => :destroy
 
   #VALIDATORS
-  validates :name, :presence => true
-  validates :step, :presence => true
+  validates :name, :step, :work_value, :presence => true
+  validates :work_value, :inclusion => 0..3
   validates :slug, :presence => true, :uniqueness => true, :format => {:with => /^[A-Za-z0-9\-_ ]+$/, :message => "is invalid"}
-
   #METHODS
 
 end

@@ -39,9 +39,9 @@ class ProjectsController < ApplicationController
   def create
     Project.transaction do
       @project = Project.new(params[:project])
-      backlog = Step.new({name: 'Backlog', removable: false, position: 0})
-      selected = Step.new({name: 'To Do', removable: true, position: 1})
-      archive = Step.new({name: 'Archive', removable: false, position: 2, capacity: 0})
+      backlog = Step.new({name: 'Backlog', removable: false, category: 'backlog', position: 0, capacity: 0})
+      selected = Step.new({name: 'To Do', removable: true, category: 'custom', position: 1})
+      archive = Step.new({name: 'Archive', removable: false, category: 'archive', position: 2, capacity: 0})
       @project.steps = [backlog, selected, archive]
 
       respond_to do |format|

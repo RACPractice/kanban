@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130206140656) do
+ActiveRecord::Schema.define(:version => 20130207094403) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name",        :null => false
@@ -73,14 +73,15 @@ ActiveRecord::Schema.define(:version => 20130206140656) do
   add_index "roles", ["name"], :name => "index_roles_on_name"
 
   create_table "steps", :force => true do |t|
-    t.string   "name",                         :null => false
-    t.string   "slug",                         :null => false
+    t.string   "name",                                           :null => false
+    t.string   "slug",                                           :null => false
     t.boolean  "anchor"
-    t.integer  "capacity",   :default => 50,   :null => false
+    t.integer  "capacity",                 :default => 50,       :null => false
     t.integer  "position"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
-    t.boolean  "removable",  :default => true, :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.boolean  "removable",                :default => true,     :null => false
+    t.string   "category",   :limit => 25, :default => "custom", :null => false
   end
 
   add_index "steps", ["name"], :name => "index_steps_on_name"
@@ -140,7 +141,7 @@ ActiveRecord::Schema.define(:version => 20130206140656) do
     t.text     "description"
     t.integer  "work_type_id"
     t.integer  "priority_id"
-    t.integer  "work_value"
+    t.integer  "work_value",      :default => 0,     :null => false
     t.integer  "position"
     t.boolean  "is_ready"
     t.boolean  "is_blocked",      :default => false, :null => false
