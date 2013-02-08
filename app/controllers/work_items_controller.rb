@@ -61,8 +61,7 @@ class WorkItemsController < ApplicationController
   # PUT /work_items/1
   # PUT /work_items/1.json
   def update
-    @work_item = WorkItem.find_by_slug(params[:id])
-
+    @work_item = WorkItem.find(params[:id])
     respond_to do |format|
       if @work_item.update_attributes(params[:work_item])
         format.html { redirect_to @work_item, notice: 'Work item was successfully updated.' }
@@ -77,7 +76,7 @@ class WorkItemsController < ApplicationController
   # DELETE /work_items/1
   # DELETE /work_items/1.json
   def destroy
-    @work_item = WorkItem.find_by_slug(params[:id])
+    @work_item = WorkItem.find(params[:id])
     @work_item.destroy
 
     respond_to do |format|

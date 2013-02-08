@@ -23,12 +23,12 @@ class Step
       load = 0
       if @work_items().length > 0
         $.map @work_items(), (item) =>
-          load += item.work_value
+          load += parseInt(item.work_value())
       load
 
   addWorkItem: =>
     workItemName = $('.work-item-name-for-step-' + @id).val()
-    $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id, work_value: 1}})
+    $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id, work_value: 0}})
       .done (resp) =>
         @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to, work_value: resp.work_value})
       .fail (error) =>
@@ -61,18 +61,44 @@ class Step
 class WorkItem
   constructor: (params) ->
     @id = params['id']
-    @name = params['name']
-    @description = params['description']
+    @name = ko.observable params['name']
+    @description = ko.observable params['description']
     @position = params['position']
     @assigned_to = params['assigned_to']
     @step_id = params['step_id']
-    @work_value = params['work_value']
+    @work_value = ko.observable params['work_value']
+    @editMode = ko.observable false
+    @editPoupClass = ko.computed =>
+      if @editMode
+        'in'
+      else
+        ''
+    @description_icon = ko.computed =>
+      res = ''
+      if @description
+        res += 'description'
+      "/img/work_item_#{res}.png"
+
+    @description_icon_title = ko.computed () =>
+      title = ''
+      if @description
+        title += "Description present"
+      title
+
+  toggleWorkItemPopup: =>
+    @editMode true
 
 class Membership
   constructor: (params) ->
     @id        = params['id']
     @username  = params['username']
     @role_name = params['role_name']
+
+class EditWorkItemDialog
+  constructor: (@viewModel) ->
+    @name = ko.observable ''
+    @description = ko.observable ''
+    @open = ko.observable false
 
 class ProjectViewModel
   constructor: ->
@@ -82,8 +108,9 @@ class ProjectViewModel
     @memberships = ko.observableArray []
     @account_id = ACCOUNT_ID
     @project_id = PROJECT_ID
-    @backlog_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, category: 'backlog', capacity: 0})
-    @archive_step = ko.observable new Step({id: -1, name: '', position: 0, removable: false, category: 'archive', capacity: 0})
+    @backlog_step = ko.observable new Step {id: -1, name: '', position: 0, removable: false, category: 'backlog', capacity: 0}
+    @archive_step = ko.observable new Step {id: -1, name: '', position: 0, removable: false, category: 'archive', capacity: 0}
+    @editingWorkItem = ko.observable new WorkItem {id: -1, name: '', position: 0, assigned_to: '', step_id: 0, work_value: 0}
 
     @custom_steps = ko.computed ()=>
       ko.utils.arrayFilter @steps(), (item) =>
@@ -163,6 +190,17 @@ class ProjectViewModel
 
   editStep: =>
     console.log 'Edit'
+
+  openEditWorkItemPopup: (workItem) =>
+    @editingWorkItem(workItem)
+    $('#editWorkItemPopup').modal()
+
+  updateWorkItem: =>
+    $('#editWorkItemPopup').modal 'hide'
+    wi = @editingWorkItem()
+    $.ajax(type: 'PUT', url: "/work_items/#{wi.id}.json", data: {work_item : {name: wi.name, description: wi.description, work_value: wi.work_value}})
+      .fail (error) =>
+        bootbox.alert(error.responseText)
 
 $ ->
   ko.applyBindings new ProjectViewModel()

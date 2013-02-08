@@ -1,0 +1,21 @@
+#editWorkItemPopup.modal.hide.fade{:'data-bind' => 'with: $root.editingWorkItem'}
+  .modal-header
+    %button.close{type: 'button', 'aria-hidden' => 'true', data: {dismiss: 'modal'}} &times;
+    %h3{:'data-bind' => "text: name"}
+    %form.form-horizontal{:'data-bind' => "submit: $root.updateWorkItem"}
+      .modal-body
+        .control-group
+          %label.control-label{for: "name"} Name:
+          %input.input-xlarge{type: 'text', placeholder: 'name', :'data-bind' => 'value: name'}
+        .control-group
+          %label.control-label{for: "description"} Description:
+          %textarea.input-xlarge{rows: 10, placeholder: 'description', :'data-bind' => 'value: description'}
+        .control-group
+          %label.control-label{for: "work_value"} Work value:
+          %input{type: 'radio', name: 'work_value', value: 0, :'data-bind' => 'checked: work_value'} 0
+          %input{type: 'radio', name: 'work_value', value: 1, :'data-bind' => 'checked: work_value'} 1
+          %input{type: 'radio', name: 'work_value', value: 2, :'data-bind' => 'checked: work_value'} 2
+          %input{type: 'radio', name: 'work_value', value: 3, :'data-bind' => 'checked: work_value'} 3
+      .modal-footer
+        / %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => true,  href: '#'} Close
+        %button.btn.btn-primary Save changes
