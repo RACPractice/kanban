@@ -104,6 +104,7 @@ class ProjectViewModel
   constructor: ->
     @stepNameField = $('#stepName')
     @userNameField = $('#userName')
+    @non_members = []
     @steps = ko.observableArray []
     @memberships = ko.observableArray []
     @account_id = ACCOUNT_ID
@@ -133,6 +134,8 @@ class ProjectViewModel
     @showSteps()
     @loadMemberships()
 
+    @userNameField.autocomplete(source: @non_members)
+
   addNewStep: =>
     stepName = @stepNameField.val()
     #save the new project step
@@ -150,6 +153,8 @@ class ProjectViewModel
       .done (resp) =>
         membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name
         @memberships.push membership
+        indexOfUser = @non_members.indexOf(resp.username)
+        @non_members.splice(indexOfUser, 1)
       .fail (error) =>
         bootbox.alert(error.responseText)
     @userNameField.val('')
@@ -170,10 +175,11 @@ class ProjectViewModel
           @steps.push step
 
   loadMemberships: ()=>
-    $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", (memberships) =>
-      $.map memberships, (membership) =>
+    $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", (resp) =>
+      $.map resp.memberships, (membership) =>
         membership = new Membership id: membership.id, username: membership.username, role_name: membership.role_name
         @memberships.push membership
+      ko.utils.arrayPushAll(@non_members, resp.non_members)
 
   deleteStep: (currentStep)=>
     $.ajax(type: 'DELETE', url: "/steps/#{currentStep.id}.json")

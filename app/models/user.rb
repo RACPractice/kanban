@@ -28,6 +28,12 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
-	end
+  end
+
+  # Returns a scope of all the users that are NOT members
+  # of the given project
+  def self.not_members_of(project)
+    where("id NOT IN (?)", project.memberships.map(&:user_id).uniq)
+  end
 
 end
