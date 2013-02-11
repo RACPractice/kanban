@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20130211171841) do
+=======
+ActiveRecord::Schema.define(:version => 20130211142933) do
+>>>>>>> 82b902caf95757b3f71adb6db2bf61d83c1b50e0
 
   create_table "accounts", :force => true do |t|
     t.string   "name",        :null => false
@@ -76,7 +80,7 @@ ActiveRecord::Schema.define(:version => 20130211171841) do
     t.string   "name",                                           :null => false
     t.string   "slug",                                           :null => false
     t.boolean  "anchor"
-    t.integer  "capacity",                 :default => 50,       :null => false
+    t.integer  "capacity",                 :default => 10,       :null => false
     t.integer  "position"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
@@ -117,6 +121,11 @@ ActiveRecord::Schema.define(:version => 20130211171841) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "username"
+    t.text     "full_name"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

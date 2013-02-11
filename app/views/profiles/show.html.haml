@@ -1,0 +1,31 @@
+.row-fluid.elements
+  .span6.offset1
+    %h3 Update profile details
+    = form_for @user, url: profile_path, multipart:true  do |f|
+      - if @user.errors.any?
+        #error_explanation
+          %h2= "#{pluralize(@user.errors.count, "error")} prohibited this profile from being saved:"
+          %ul
+            - @user.errors.full_messages.each do |msg|
+              %li= msg
+      .control-group
+        = f.label :email, :class => 'control-label'
+        .controls
+          =f.text_field :email
+      .control-group
+        = f.label :full_name, :class => 'control-label'
+        .controls
+          =f.text_field :full_name
+      - if @user.avatar.present?
+        .control-group
+          = f.label :avatar, "Your current avatar"
+          .controls
+            =image_tag @user.avatar.url(:medium)
+      .control-group
+        = f.label :avatar, "Upload a new avatar picture (optional)"
+        .controls
+          =f.file_field :avatar
+      .form-actions
+        = content_tag :button,  :type => :submit, :class => 'btn btn-primary' do
+          Update profile
+

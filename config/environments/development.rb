@@ -40,4 +40,13 @@ Kanban::Application.configure do
 
   config.serve_static_assets = true
 
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: {
+      bucket:            'iulian_s4s_development',
+      access_key_id:     'AKIAJV37HG7SSXR3PAPQ',
+      secret_access_key: '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'
+    }
+  }
+
 end

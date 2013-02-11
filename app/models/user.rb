@@ -6,8 +6,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
 
   #ACCESSORS
-  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :login
+  attr_accessible :username, :email, :password, :password_confirmation, :remember_me, :login, :full_name
   attr_accessor :login
+  attr_accessible :avatar
+  has_attached_file :avatar, :styles => { :medium => "140x140>", :thumb => "30x30>" }
 
 	#ASSOCIATIONS
   has_many :memberships

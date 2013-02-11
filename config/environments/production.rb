@@ -33,4 +33,14 @@ Kanban::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: {
+      bucket:            'iulian_s4s_production',
+      access_key_id:     'AKIAJV37HG7SSXR3PAPQ',
+      secret_access_key: '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'
+    }
+  }
+
 end

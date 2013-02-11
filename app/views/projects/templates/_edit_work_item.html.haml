@@ -12,10 +12,16 @@
           %textarea.input-xlarge{rows: 10, placeholder: 'description', :'data-bind' => 'value: description'}
         .control-group
           %label.control-label{for: "work_value"} Work value:
-          %input{type: 'radio', name: 'work_value', value: 0, :'data-bind' => 'checked: work_value'} 0
-          %input{type: 'radio', name: 'work_value', value: 1, :'data-bind' => 'checked: work_value'} 1
-          %input{type: 'radio', name: 'work_value', value: 2, :'data-bind' => 'checked: work_value'} 2
-          %input{type: 'radio', name: 'work_value', value: 3, :'data-bind' => 'checked: work_value'} 3
+          .rating
+            %input#work_value0{type: 'radio', name: 'work_value', class: 'wow', value: 0, :'data-bind' => 'checked: work_value'}
+              %label{for: 'work_value0'} Unestimated
+            %input#work_value1{type: 'radio', name: 'work_value', class: 'wow', value: 1, :'data-bind' => 'checked: work_value'}
+              %label{for: 'work_value1'} 1 Point
+            %input#work_value2{type: 'radio', name: 'work_value', class: 'wow', value: 2, :'data-bind' => 'checked: work_value'}
+              %label{for: 'work_value2'} 2 Points
+            %input#work_value3{type: 'radio', name: 'work_value', class: 'wow', value: 3, :'data-bind' => 'checked: work_value'}
+              %label{for: 'work_value3'} 3 Points
       .modal-footer
         / %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => true,  href: '#'} Close
         %button.btn.btn-primary Save changes
+
