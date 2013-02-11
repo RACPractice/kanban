@@ -12,13 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require underscore-min
 //= require knockout
 //= require knockout.mapping
 //= require utils/knockout.utils
 //= require bootstrap
 //= require bootbox
 //= require jquery-ui.min
+//= require underscore
 //= require initialisation
 
 ACCOUNT_ID = null

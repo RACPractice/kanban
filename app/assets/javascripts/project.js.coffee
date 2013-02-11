@@ -26,6 +26,12 @@ class Step
           load += parseInt(item.work_value())
       load
 
+    @step_class = ko.computed () =>
+      return 'not_sortable' if !@removable
+      current_capacity = _.reduce @work_items(), ((sum, wi) => sum + wi.work_value()), 0
+      return 'exceeded' if current_capacity > @capacity
+      ''
+
   addWorkItem: =>
     workItemName = $('.work-item-name-for-step-' + @id).val()
     $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id, work_value: 0}})
@@ -52,11 +58,6 @@ class Step
       .fail (error) =>
         bootbox.alert(error.responseText)
     @editing false
-  step_class: =>
-    if @removable
-      ''
-    else
-      'not_sortable'
 
 class WorkItem
   constructor: (params) ->
