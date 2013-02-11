@@ -12,10 +12,18 @@
           %textarea.input-xlarge{rows: 10, placeholder: 'description', :'data-bind' => 'value: description'}
         .control-group
           %label.control-label{for: "work_value"} Work value:
-          %input{type: 'radio', name: 'work_value', value: 0, :'data-bind' => 'checked: work_value'} 0
-          %input{type: 'radio', name: 'work_value', value: 1, :'data-bind' => 'checked: work_value'} 1
-          %input{type: 'radio', name: 'work_value', value: 2, :'data-bind' => 'checked: work_value'} 2
-          %input{type: 'radio', name: 'work_value', value: 3, :'data-bind' => 'checked: work_value'} 3
+          %span{:'data-bind' => "text: work_value"}
+          .rating-b
+            / %select#rating{name: 'work_value', :'data-bind' => "options: $root.available_work_values"}
+            /   / %option{value:'0'} 0
+            /   / %option{value:'1'} 1
+            /   / %option{value:'2'} 2
+            /   / %option{value:'3'} 3
+          %input{type: 'radio', name: 'work_value', class: 'wow', value: 0, :'data-bind' => 'checked: work_value'}
+          %input{type: 'radio', name: 'work_value', class: 'wow', value: 1, :'data-bind' => 'checked: work_value'}
+          %input{type: 'radio', name: 'work_value', class: 'wow', value: 2, :'data-bind' => 'checked: work_value'}
+          %input{type: 'radio', name: 'work_value', class: 'wow', value: 3, :'data-bind' => 'checked: work_value'}
       .modal-footer
         / %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => true,  href: '#'} Close
         %button.btn.btn-primary Save changes
+

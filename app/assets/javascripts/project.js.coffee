@@ -28,8 +28,8 @@ class Step
 
     @step_class = ko.computed () =>
       return 'not_sortable' if !@removable
-      current_capacity = _.reduce @work_items(), ((sum, wi) => sum + wi.work_value()), 0
-      return 'exceeded' if current_capacity > @capacity
+      current_capacity = _.reduce @work_items(), ((sum, wi) => sum + parseInt(wi.work_value())), 0
+      return 'exceeded' if current_capacity >= @capacity
       ''
 
   addWorkItem: =>
@@ -43,6 +43,7 @@ class Step
 
   showWorkItemForm: =>
     $('.work-item-for-step-' + @id).show()
+
   closeForm: =>
     $('.work-item-name-for-step-' + @id).val('')
     $('.work-item-for-step-' + @id).hide()
@@ -105,6 +106,7 @@ class ProjectViewModel
   constructor: ->
     @stepNameField = $('#stepName')
     @userNameField = $('#userName')
+    @available_work_values = ko.observableArray(['0', '1', '2', '3'])
     @non_members = []
     @steps = ko.observableArray []
     @memberships = ko.observableArray []
@@ -201,6 +203,7 @@ class ProjectViewModel
   openEditWorkItemPopup: (workItem) =>
     @editingWorkItem(workItem)
     $('#editWorkItemPopup').modal()
+    # $('#rating').barrating()
 
   updateWorkItem: =>
     $('#editWorkItemPopup').modal 'hide'

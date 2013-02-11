@@ -19,6 +19,9 @@
 //= require bootbox
 //= require jquery-ui.min
 //= require underscore
+//= require jquery.barrating
 //= require initialisation
 
 ACCOUNT_ID = null
+
+
