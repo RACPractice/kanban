@@ -204,7 +204,7 @@ class ProjectViewModel
   openEditWorkItemPopup: (workItem) =>
     @editingWorkItem(workItem)
     $('#editWorkItemPopup').modal()
-    # $('#rating').barrating()
+    $('.rating').buttonset()
 
   updateWorkItem: =>
     $('#editWorkItemPopup').modal 'hide'

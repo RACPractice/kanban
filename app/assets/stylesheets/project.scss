@@ -112,7 +112,7 @@ ul.work_items {
 
 
 /******* EXAMPLE B *******/
-.rating-b .bar-rating {
+/*.rating-b .bar-rating {
     height: 25px;
 }
 
@@ -135,4 +135,9 @@ ul.work_items {
     float: left;
     padding: 0 20px 0 20px;
     color: #646464;
+}
+*/
+.rating label.ui-widget{
+  float: left;
+  padding: 5px 10px;
 }
