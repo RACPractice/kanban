@@ -2,6 +2,8 @@ class MembershipsController < ApplicationController
 
 	before_filter :authenticate_user!
 
+  include ProjectsHelper
+
   def index
     @project = current_user.projects.where('project_id = ?', params[:project_id]).first
     @memberships = @project.memberships
@@ -10,7 +12,8 @@ class MembershipsController < ApplicationController
         render :json => {memberships: @memberships.collect{|m| {id: m.id,
                                                    user_id: m.user_id,
                                                    username: m.user.username,
-                                                   role_name: m.role.name}},
+                                                   role_name: m.role.name,
+                                                   avatar_src: thumb_avatar_src(m)}},
                          non_members: User.not_members_of(@project).map(&:username) }
       end
     end
@@ -24,7 +27,7 @@ class MembershipsController < ApplicationController
       m = project.memberships.create role: role, user: user
       respond_to do |format|
         format.json do
-          render :json => {id: m.id, user_id: m.user_id, username: m.user.username, role_name: m.role.name}
+          render :json => {id: m.id, user_id: m.user_id, username: m.user.username, role_name: m.role.name, avatar_src: thumb_avatar_src(m)}
         end
       end
     else
