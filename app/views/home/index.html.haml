@@ -9,15 +9,19 @@
           %li= link_to p.name, account_project_path(p.account, p)
   .span4
     %p
-      =image_tag "http://www.javachief.com/wp-content/uploads/2012/06/ernie100912.gif"
+      -if current_user.avatar.present?
+        =image_tag current_user.avatar.url(:medium)
+      -else
+        =image_tag "default_user_icon_128.png"
     %p
-      Ernie Veritimos
+      = current_user.full_name
       %br
       = current_user.username
       %br
       = current_user.email
     %ul.nav.nav-list
-      %li.active=link_to 'Accounts', accounts_path
-      %li=link_to 'Profile', root_url
+      %li.active=link_to 'Projects', root_path
+      %li=link_to 'Accounts', accounts_path
+      %li=link_to 'My Profile', profile_path
     %hr
   .offset1

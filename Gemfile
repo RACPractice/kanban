@@ -11,6 +11,8 @@ gem 'jquery-rails'
 gem 'haml-rails'
 gem 'ejs'
 gem 'therubyracer'
+gem 'paperclip'
+gem 'aws-sdk', '~> 1.3.4'
 
 # Gems used only for assets and not required
 # in production environments by default.

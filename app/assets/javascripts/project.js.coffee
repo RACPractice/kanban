@@ -93,6 +93,7 @@ class Membership
     @id        = params['id']
     @username  = params['username']
     @role_name = params['role_name']
+    @avatar_src = params['avatar_src']
 
 class EditWorkItemDialog
   constructor: (@viewModel) ->
@@ -151,7 +152,7 @@ class ProjectViewModel
     username = @userNameField.val()
     $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", data: {membership: {username: username}})
       .done (resp) =>
-        membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name
+        membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name, avatar_src: resp.avatar_src
         @memberships.push membership
         indexOfUser = @non_members.indexOf(resp.username)
         @non_members.splice(indexOfUser, 1)
@@ -177,7 +178,7 @@ class ProjectViewModel
   loadMemberships: ()=>
     $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", (resp) =>
       $.map resp.memberships, (membership) =>
-        membership = new Membership id: membership.id, username: membership.username, role_name: membership.role_name
+        membership = new Membership id: membership.id, username: membership.username, role_name: membership.role_name, avatar_src: membership.avatar_src
         @memberships.push membership
       ko.utils.arrayPushAll(@non_members, resp.non_members)
 
