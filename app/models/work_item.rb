@@ -13,6 +13,7 @@ class WorkItem < ActiveRecord::Base
 	belongs_to :step
 	belongs_to :work_type
 	has_many :tasks, :dependent => :destroy
+  has_and_belongs_to_many :users
 
   #VALIDATORS
   validates :name, :step, :work_value, :presence => true
