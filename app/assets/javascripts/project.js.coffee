@@ -4,10 +4,11 @@ class Step
     @name = ko.observable params['name']
     @position = params['position']
     @removable = params['removable']
-    @capacity = params['capacity']
+    @capacity = ko.observable params['capacity']
     @category = params['category']
     @work_items = ko.observableArray params['work_items'] || []
     @editing = ko.observable false
+    @editingCapacity = ko.observable false
 
     @work_items.subscribe (param1) =>
       new_positions = ({id: n.id, step_id: @id, position: index} for n, index in @work_items())
@@ -29,7 +30,7 @@ class Step
     @step_class = ko.computed () =>
       return 'not_sortable' if !@removable
       current_capacity = _.reduce @work_items(), ((sum, wi) => sum + parseInt(wi.work_value())), 0
-      return 'exceeded' if current_capacity >= @capacity
+      return 'exceeded' if current_capacity >= @capacity()
       ''
 
   addWorkItem: =>
@@ -47,6 +48,7 @@ class Step
   closeForm: =>
     $('.work-item-name-for-step-' + @id).val('')
     $('.work-item-for-step-' + @id).hide()
+
   editStep: (step, event) =>
     return if !@removable
     @editing true
@@ -54,11 +56,24 @@ class Step
       $(event.target).parent().find('input').focus()
     ,100
 
+  editStepCapacity: (step, event)=>
+    return if !@removable
+    @editingCapacity true
+    setTimeout ()=>
+      $(event.target).closest('.editor').find('.editCapacity').focus()
+    ,100
+
   stopEditing: =>
     $.ajax(type: 'PUT', url: "/steps/#{@id}.json", data: {step: {name: @name}})
       .fail (error) =>
         bootbox.alert(error.responseText)
     @editing false
+
+  stopEditingCapacity: =>
+    $.ajax(type: 'PUT', url: "/steps/#{@id}.json", data: {step: {capacity: @capacity}})
+      .fail (error) =>
+        bootbox.alert(error.responseText)
+    @editingCapacity false
 
 class WorkItem
   constructor: (params) ->
@@ -200,6 +215,9 @@ class ProjectViewModel
 
   editStep: =>
     console.log 'Edit'
+
+  editStepCapacity: =>
+    console.log 'Edit capacity'
 
   openEditWorkItemPopup: (workItem) =>
     @editingWorkItem(workItem)

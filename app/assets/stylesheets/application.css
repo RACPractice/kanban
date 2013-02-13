@@ -56,14 +56,31 @@ input[type="text"].small {
 footer.footer {height: 60px; bottom: 0; padding: 0; margin-top: 0px;}
 
 ul.steps {height: 100%;}
-input[type="text"].edit {
+input[type="text"].edit, input[type="text"].editCapacity {
    display: none;
 }
 
-.editing input[type="text"].edit {
-   display: block;
+.editing input[type="text"].edit{
+  	display: block;
+}
+
+.editingCapacity input[type="text"].editCapacity{
+	display: block;
 }
 
 .editing .view {
    display: none;
+}
+
+form.compact {
+	margin: 0;
+}
+
+form.compact input {
+	margin: 0;
+}
+
+form.compact input.editCapacity {
+	float: right;
+	width: 40px;
 }
