@@ -1,6 +1,4 @@
 %br
 %form{data: {bind: "submit: addNewMember"}}
   %label New member:
-  %input#projectId{type: 'hidden', name: "id", value: "#{params['id']}"}
-  %input.small#userName{type: 'text', name: "name", placeholder: "Enter username of new member..."}
-  / %button.btn{type: "submit"} Add Member
+  %input.small#userName{type: 'text', name: "name", placeholder: "Enter username of new member...", :'data-bind' => 'value: userNameInput'}

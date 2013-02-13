@@ -1,6 +1,4 @@
 %br
-%form{data: {bind: "submit: addNewStep"}}
+%form{:'data-bind' => "submit: addNewStep"}
   %label Step name:
-  %input#projectId{type: 'hidden', name: "id", value: "#{params['id']}"}
-  %input.small#stepName{type: 'text', name: "name", placeholder: "Enter new step name..."}
-  / %button.btn{type: "submit"} Add Step
+  %input.small{type: 'text', name: "name", placeholder: "Enter new step name...", :'data-bind' => 'value: newStepInput'}

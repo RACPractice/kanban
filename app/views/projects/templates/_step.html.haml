@@ -19,10 +19,10 @@
             %a{tabindex: '-1', href: '#', :'data-bind' => 'click: showWorkItemForm'} Add Work Item
           %li{:'data-bind' => 'visible: removable'}
             %a.deleteStep{:tabindex => '-1', :href => "#", :'data-bind' => 'click: $parent.deleteStep'} Delete step
-  %div{style: 'display:none;', :'data-bind' => 'attr: {class: "card-composer work-item-for-step-" + id}'}
+  .card-composer{style: 'display:none;', :'data-bind' => 'visible:addWorkItemVisible'}
     .list-card.js-composer
       .card-labels.clearfix
-      %textarea{:'data-bind' => 'attr: {class: "js-card-title work-item-name-for-step-" + id}'}
+      %textarea.js-card-title{:'data-bind' => 'value: work_item_textarea'}
       .list-card-members
     .cc-controls.clearfixe
       %button.btn.btn-mini.btn-primary{:'data-bind' => 'click: addWorkItem'} Add

@@ -9,6 +9,8 @@ class Step
     @work_items = ko.observableArray params['work_items'] || []
     @editing = ko.observable false
     @editingCapacity = ko.observable false
+    @work_item_textarea = ko.observable ''
+    @addWorkItemVisible = ko.observable false
 
     @work_items.subscribe (param1) =>
       new_positions = ({id: n.id, step_id: @id, position: index} for n, index in @work_items())
@@ -34,7 +36,7 @@ class Step
       ''
 
   addWorkItem: =>
-    workItemName = $('.work-item-name-for-step-' + @id).val()
+    workItemName= @work_item_textarea()
     $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id, work_value: 0}})
       .done (resp) =>
         @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to, work_value: resp.work_value})
@@ -43,11 +45,11 @@ class Step
     @closeForm()
 
   showWorkItemForm: =>
-    $('.work-item-for-step-' + @id).show()
+    @addWorkItemVisible true
 
   closeForm: =>
-    $('.work-item-name-for-step-' + @id).val('')
-    $('.work-item-for-step-' + @id).hide()
+    @work_item_textarea ''
+    @addWorkItemVisible false
 
   editStep: (step, event) =>
     return if !@removable
@@ -120,7 +122,6 @@ class EditWorkItemDialog
 
 class ProjectViewModel
   constructor: ->
-    @stepNameField = $('#stepName')
     @userNameField = $('#userName')
     @available_work_values = ko.observableArray(['0', '1', '2', '3'])
     @non_members = []
@@ -131,6 +132,8 @@ class ProjectViewModel
     @backlog_step = ko.observable new Step {id: -1, name: '', position: 0, removable: false, category: 'backlog', capacity: 0}
     @archive_step = ko.observable new Step {id: -1, name: '', position: 0, removable: false, category: 'archive', capacity: 0}
     @editingWorkItem = ko.observable new WorkItem {id: -1, name: '', position: 0, assigned_to: '', step_id: 0, work_value: 0}
+    @newStepInput = ko.observable ''
+    @userNameInput = ko.observable ''
 
     @custom_steps = ko.computed ()=>
       ko.utils.arrayFilter @steps(), (item) =>
@@ -156,7 +159,7 @@ class ProjectViewModel
     @userNameField.autocomplete(source: @non_members)
 
   addNewStep: =>
-    stepName = @stepNameField.val()
+    stepName = @newStepInput()
     #save the new project step
     $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName}})
       .done (resp) =>
@@ -164,10 +167,10 @@ class ProjectViewModel
         @steps.splice(@steps().length - 1, 0, step);
       .fail (error) =>
         bootbox.alert(error.responseText)
-    @stepNameField.val('')
+    @newStepInput ''
 
   addNewMember: =>
-    username = @userNameField.val()
+    username = @userNameInput()
     $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", data: {membership: {username: username}})
       .done (resp) =>
         membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name, avatar_src: resp.avatar_src
@@ -176,12 +179,12 @@ class ProjectViewModel
         @non_members.splice(indexOfUser, 1)
       .fail (error) =>
         bootbox.alert(error.responseText)
-    @userNameField.val('')
+    @userNameInput ''
 
   selectWorkItem: (item) =>
     console.log item
 
-  showSteps: ()=>
+  showSteps: =>
     $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", (steps) =>
       $.map steps, (step) =>
           workItems = []
@@ -193,7 +196,7 @@ class ProjectViewModel
             @archive_step(step) if step.category == 'archive'
           @steps.push step
 
-  loadMemberships: ()=>
+  loadMemberships: =>
     $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", (resp) =>
       $.map resp.memberships, (membership) =>
         membership = new Membership id: membership.id, username: membership.username, role_name: membership.role_name, avatar_src: membership.avatar_src
