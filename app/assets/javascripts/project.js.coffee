@@ -14,7 +14,7 @@ class Step
 
     @work_items.subscribe (param1) =>
       new_positions = ({id: n.id, step_id: @id, position: index} for n, index in @work_items())
-      $.ajax(type: 'POST', url: "/work_items/update_positions.json", data: {work_items: new_positions})
+      $.ajax(type: 'POST', url: SETTINGS.work_items.update_position_path, data: {work_items: new_positions})
     ,@
     ,'positionsChanged'
 
@@ -37,7 +37,7 @@ class Step
 
   addWorkItem: =>
     workItemName= @work_item_textarea()
-    $.ajax(type: 'POST', url: "/work_items.json", data: {work_item: {name: workItemName, step_id: @id, work_value: 0}})
+    $.ajax(type: 'POST', url: SETTINGS.work_items.add_path, data: {work_item: {name: workItemName, step_id: @id, work_value: 0}})
       .done (resp) =>
         @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to, work_value: resp.work_value})
       .fail (error) =>
@@ -66,13 +66,13 @@ class Step
     ,100
 
   stopEditing: =>
-    $.ajax(type: 'PUT', url: "/steps/#{@id}.json", data: {step: {name: @name}})
+    $.ajax(type: 'PUT', url: SETTINGS.steps.update_path(@id), data: {step: {name: @name}})
       .fail (error) =>
         bootbox.alert(error.responseText)
     @editing false
 
   stopEditingCapacity: =>
-    $.ajax(type: 'PUT', url: "/steps/#{@id}.json", data: {step: {capacity: @capacity}})
+    $.ajax(type: 'PUT', url: SETTINGS.steps.update_path(@id), data: {step: {capacity: @capacity}})
       .fail (error) =>
         bootbox.alert(error.responseText)
     @editingCapacity false
@@ -122,13 +122,12 @@ class EditWorkItemDialog
 
 class ProjectViewModel
   constructor: ->
-    @userNameField = $('#userName')
     @available_work_values = ko.observableArray(['0', '1', '2', '3'])
     @non_members = []
     @steps = ko.observableArray []
     @memberships = ko.observableArray []
-    @account_id = ACCOUNT_ID
-    @project_id = PROJECT_ID
+    @account_id = SETTINGS.account_id
+    @project_id = SETTINGS.project_id
     @backlog_step = ko.observable new Step {id: -1, name: '', position: 0, removable: false, category: 'backlog', capacity: 0}
     @archive_step = ko.observable new Step {id: -1, name: '', position: 0, removable: false, category: 'archive', capacity: 0}
     @editingWorkItem = ko.observable new WorkItem {id: -1, name: '', position: 0, assigned_to: '', step_id: 0, work_value: 0}
@@ -156,12 +155,12 @@ class ProjectViewModel
     @showSteps()
     @loadMemberships()
 
-    @userNameField.autocomplete(source: @non_members)
+    $('#userName').autocomplete(source: @non_members)
 
   addNewStep: =>
     stepName = @newStepInput()
     #save the new project step
-    $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", data: {step: {name: stepName}})
+    $.ajax(type: 'POST', url: SETTINGS.steps.steps_path, data: {step: {name: stepName}})
       .done (resp) =>
         step = new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, category: resp.capacity, capacity: resp.capacity})
         @steps.splice(@steps().length - 1, 0, step);
@@ -171,7 +170,7 @@ class ProjectViewModel
 
   addNewMember: =>
     username = @userNameInput()
-    $.ajax(type: 'POST', url: "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", data: {membership: {username: username}})
+    $.ajax(type: 'POST', url: SETTINGS.memberships.memberships_path, data: {membership: {username: username}})
       .done (resp) =>
         membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name, avatar_src: resp.avatar_src
         @memberships.push membership
@@ -185,7 +184,7 @@ class ProjectViewModel
     console.log item
 
   showSteps: =>
-    $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/steps.json", (steps) =>
+    $.getJSON SETTINGS.steps.steps_path, (steps) =>
       $.map steps, (step) =>
           workItems = []
           $.map step.work_items, (w_i) =>
@@ -197,14 +196,14 @@ class ProjectViewModel
           @steps.push step
 
   loadMemberships: =>
-    $.getJSON "/accounts/#{@account_id}/projects/#{@project_id}/memberships.json", (resp) =>
+    $.getJSON SETTINGS.memberships.memberships_path, (resp) =>
       $.map resp.memberships, (membership) =>
         membership = new Membership id: membership.id, username: membership.username, role_name: membership.role_name, avatar_src: membership.avatar_src
         @memberships.push membership
       ko.utils.arrayPushAll(@non_members, resp.non_members)
 
   deleteStep: (currentStep)=>
-    $.ajax(type: 'DELETE', url: "/steps/#{currentStep.id}.json")
+    $.ajax(type: 'DELETE', url: SETTINGS.steps.update_path(currentStep.id))
       .done (resp) =>
         @steps.remove(currentStep)
         @updateStepsPositionsOnServer()
@@ -214,7 +213,7 @@ class ProjectViewModel
 
   updateStepsPositionsOnServer: =>
     new_positions = ({id: n.id, position: index} for n, index in @steps())
-    $.ajax(type: 'POST', url: "/steps/update_positions.json", data: {steps: new_positions})
+    $.ajax(type: 'POST', url: SETTINGS.steps.update_positions, data: {steps: new_positions})
 
   editStep: =>
     console.log 'Edit'
@@ -230,7 +229,7 @@ class ProjectViewModel
   updateWorkItem: =>
     $('#editWorkItemPopup').modal 'hide'
     wi = @editingWorkItem()
-    $.ajax(type: 'PUT', url: "/work_items/#{wi.id}.json", data: {work_item : {name: wi.name, description: wi.description, work_value: wi.work_value}})
+    $.ajax(type: 'PUT', url: SETTINGS.work_items.update_path(wi.id), data: {work_item : {name: wi.name, description: wi.description, work_value: wi.work_value}})
       .fail (error) =>
         bootbox.alert(error.responseText)
 

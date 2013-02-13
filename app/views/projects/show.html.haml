@@ -1,8 +1,27 @@
 - content_for :head do
   = javascript_include_tag 'project'
   :javascript
-    PROJECT_ID = "#{params['id']}";
-    ACCOUNT_ID = "#{params['account_id']}";
+    SETTINGS = {
+      project_id: "#{params['id']}",
+      account_id: "#{params['account_id']}",
+      work_items: {
+        add_path : "#{work_items_path(format: :json)}",
+        update_position_path: "#{update_positions_path(format: :json)}",
+        update_path: function(id) {
+          return "#{work_items_path}/" + id + ".json"
+        }
+      },
+      steps: {
+        steps_path: "#{account_project_steps_path(params['account_id'], params['id'], :format => :json)}",
+        update_positions: "#{update_steps_positions_path(format: :json)}",
+        update_path: function (id) {
+          return "#{steps_path}/" + id + ".json"
+        }
+      },
+      memberships: {
+        memberships_path: "#{account_project_memberships_path(params['account_id'], params['id'], :format => :json)}"
+      }
+    }
 
 .row-fluid.elements
   .span10
