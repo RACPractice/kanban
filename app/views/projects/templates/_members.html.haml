@@ -1,3 +1,3 @@
 %legend Members
-%div#membersArea{data: {bind: "foreach: memberships"}}
-  %img{height:"30", width: "30", data: {bind: "attr: {title: username, alt: username, src: avatar_src}"}}
+%div#membersArea{:'data-bind' => "foreach: memberships"}
+  %img{height:"30", width: "30", :'data-bind' => "drag: {value: $data}, attr: {title: username, alt: username, src: avatar_src}"}

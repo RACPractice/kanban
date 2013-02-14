@@ -87,7 +87,9 @@ class WorkItem
     @assigned_to = params['assigned_to']
     @step_id = params['step_id']
     @work_value = ko.observable params['work_value']
-    @users = ko.observableArray params['users']
+    @memberships = ko.observableArray params['memberships']
+    @memberships.subscribe (param) =>
+      $.ajax(type: 'PUT', url: SETTINGS.work_items.update_users_path(@id), data: {users: _.map(@memberships(), (e) => e.user_id)})
     @editMode = ko.observable false
     @editPoupClass = ko.computed =>
       if @editMode
@@ -109,15 +111,14 @@ class WorkItem
   toggleWorkItemPopup: =>
     @editMode true
 
-class User
-  constructor: (params) ->
-    @id        = params['id']
-    @username  = params['username']
-    #@avatar_src = params['avatar_src']
+  droped: (membership) =>
+    existing = _.find @memberships(), (m) => m.user_id == membership.user_id
+    @memberships.push membership unless existing
 
 class Membership
   constructor: (params) ->
     @id        = params['id']
+    @user_id   = params['user_id']
     @username  = params['username']
     @role_name = params['role_name']
     @avatar_src = params['avatar_src']
@@ -196,10 +197,10 @@ class ProjectViewModel
       $.map steps, (step) =>
           workItems = []
           $.map step.work_items, (w_i) =>
-            users = []
+            memberships = []
             $.map w_i.users, (m) =>
-              users.push new User id:m.id, username: m.username#, m.avatar_src
-            workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id, work_value: w_i.work_value, users: users
+              memberships.push new Membership id: m.id, user_id: m.user_id, username: m.username, role_name: m.role_name, avatar_src: m.avatar_src
+            workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id, work_value: w_i.work_value, memberships: memberships
           step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, category: step.category, work_items: workItems
           if !step.removable
             @backlog_step(step) if step.category == 'backlog'
@@ -208,9 +209,9 @@ class ProjectViewModel
 
   loadMemberships: =>
     $.getJSON SETTINGS.memberships.memberships_path, (resp) =>
-      $.map resp.memberships, (membership) =>
-        membership = new Membership id: membership.id, username: membership.username, role_name: membership.role_name, avatar_src: membership.avatar_src
-        @memberships.push membership
+      $.map resp.memberships, (m) =>
+        membership = new Membership id: m.id, user_id: m.user_id, username: m.username, role_name: m.role_name, avatar_src: m.avatar_src
+        @memberships.push m
       ko.utils.arrayPushAll(@non_members, resp.non_members)
 
   deleteStep: (currentStep)=>

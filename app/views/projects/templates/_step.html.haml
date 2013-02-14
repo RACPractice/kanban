@@ -31,9 +31,9 @@
 
   .ui-widget-content
     %ul.default.work_items.sortable{:'data-bind' => "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable'}"}
-      %li{:'data-bind' => "click: $root.openEditWorkItemPopup, sortableItem: {item: $data, parentList: $parent.work_items}"}
+      %li{:'data-bind' => "click: $root.openEditWorkItemPopup, sortableItem: {item: $data, parentList: $parent.work_items}, drop: {value: $data}"}
         %img{:'data-bind' => 'attr: {src: "/img/estimate_" + work_value() + ".gif"}'}
-        %img{:'data-bind' => 'visible: description, attr: {title: description_icon_title, src: description_icon}'}
+        %img{:'data-bind' => 'visible: description, attr: {title: description, src: description_icon}'}
         %span{:'data-bind' => 'text:name'}
-        %ul{:'data-bind' => "foreach:users"}
-          %li{:'data-bind' => "text:username"}
+        %div.users{:'data-bind' => "foreach:memberships"}
+          %img{height:"30", width: "30", :'data-bind' => "attr: {title: username, alt: username, src: avatar_src}"}

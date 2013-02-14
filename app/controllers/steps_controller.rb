@@ -1,6 +1,7 @@
 class StepsController < ApplicationController
 
 	before_filter :authenticate_user!
+  respond_to :html, :json, :xml
 
   # GET /steps
   # GET /steps.json
@@ -16,12 +17,14 @@ class StepsController < ApplicationController
       @steps = Step.all
     end
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json do
-        render json: @steps.to_json(:include => {:work_items => {:include => :users}})
-      end
-    end
+    respond_with @steps
+    # respond_to do |format|
+    #   format.html # index.html.erb
+    #   format.json do
+    #     respond_with @steps
+    #     # render json: @steps.to_json(:include => {:work_items => {:include => :users}})
+    #   end
+    # end
   end
 
   # GET /steps/1

@@ -38,4 +38,12 @@ class User < ActiveRecord::Base
     where("id NOT IN (?)", project.memberships.map(&:user_id).uniq)
   end
 
+  def avatar_src
+    avatar.url(:thumb)
+  end
+
+  def membership_id
+    nil
+  end
+
 end

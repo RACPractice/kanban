@@ -94,4 +94,16 @@ class WorkItemsController < ApplicationController
     render :text => "Success"
   end
 
+  def update_users
+    wi = WorkItem.find params['work_item_id']
+    params['users'].each do |user_id|
+      user_id_int = user_id.to_i
+      unless (wi.users.find{|u| u.id == user_id_int})
+        wi.users << User.find(user_id_int)
+      end
+    end
+    # format.json { head :no_content }
+    render :text => "Success"
+  end
+
 end

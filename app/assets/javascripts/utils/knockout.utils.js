@@ -51,3 +51,32 @@ ko.bindingHandlers.visibleAndSelect = {
         }
     }
 }
+
+ko.bindingHandlers.drag = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var dragElement = $(element);
+        var dragOptions = {
+            helper: 'clone',
+            revert: true,
+            revertDuration: 0,
+            start: function () {
+                dragElement.data('dragElement', ko.utils.unwrapObservable(valueAccessor().value));
+            },
+            cursor: 'default'
+        };
+        dragElement.draggable(dragOptions).disableSelection();
+    }
+}
+
+ko.bindingHandlers.drop = {
+    init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+        var dropElement = $(element);
+        var dropOptions = {
+            drop: function (event, ui) {
+                var member = ui.draggable.data('dragElement');
+                valueAccessor().value.droped(member);
+            }
+        };
+        dropElement.droppable(dropOptions);
+    }
+}
