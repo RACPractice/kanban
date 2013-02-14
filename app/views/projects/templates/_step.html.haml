@@ -35,3 +35,5 @@
         %img{:'data-bind' => 'attr: {src: "/img/estimate_" + work_value() + ".gif"}'}
         %img{:'data-bind' => 'visible: description, attr: {title: description_icon_title, src: description_icon}'}
         %span{:'data-bind' => 'text:name'}
+        %ul{:'data-bind' => "foreach:users"}
+          %li{:'data-bind' => "text:username"}
