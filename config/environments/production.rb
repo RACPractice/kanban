@@ -21,6 +21,7 @@ Kanban::Application.configure do
   config.assets.js_compressor = :uglifier
   # config.assets.js_compressor = Uglifier.new(:copyright => false)
   config.assets.initialize_on_precompile = false
+  config.assets.precompile += ['accounts.js', 'projects.js', 'project.js']
 
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
