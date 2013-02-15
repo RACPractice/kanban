@@ -87,7 +87,7 @@ class WorkItem
     @assigned_to = params['assigned_to']
     @step_id = params['step_id']
     @work_value = ko.observable params['work_value']
-    @memberships = ko.observableArray params['memberships']
+    @memberships = ko.observableArray params['memberships'] || []
     @memberships.subscribe (param) =>
       $.ajax(type: 'PUT', url: SETTINGS.work_items.update_users_path(@id), data: {users: _.map(@memberships(), (e) => e.user_id)})
     @editMode = ko.observable false

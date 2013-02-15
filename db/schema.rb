@@ -78,8 +78,8 @@ ActiveRecord::Schema.define(:version => 20130214102118) do
     t.boolean  "anchor"
     t.integer  "capacity",                 :default => 10,       :null => false
     t.integer  "position"
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "removable",                :default => true,     :null => false
     t.string   "category",   :limit => 25, :default => "custom", :null => false
   end

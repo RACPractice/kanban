@@ -74,7 +74,9 @@ ko.bindingHandlers.drop = {
         var dropOptions = {
             drop: function (event, ui) {
                 var member = ui.draggable.data('dragElement');
-                valueAccessor().value.droped(member);
+                if (member) {
+                    valueAccessor().value.droped(member);
+                }
             }
         };
         dropElement.droppable(dropOptions);
