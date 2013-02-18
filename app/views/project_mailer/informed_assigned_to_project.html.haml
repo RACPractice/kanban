@@ -1,9 +1,9 @@
 .article-title= "Hi, #{@user.full_name || @user.username}"
 .article-content
   %p
-    You have been registered to work on project <em>#{@project.name}</em>.
+    You have been registered to work on project <em class='highlight'>#{@project.name}</em>.
   %p
-    You can visit project page here: #{@project_url}.
+    You can visit project page #{link_to 'here', @project_url}.
   %p
     Best regards,
     %br
