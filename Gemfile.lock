@@ -122,7 +122,7 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.5.0)
     multi_xml (0.5.3)
-    newrelic_rpm (3.5.6.46)
+    newrelic_rpm (3.5.5.38)
     nokogiri (1.5.6)
     orm_adapter (0.4.0)
     paperclip (3.4.0)
@@ -232,7 +232,7 @@ DEPENDENCIES
   forgery
   haml-rails
   jquery-rails
-  newrelic_rpm
+  newrelic_rpm (~> 3.5.5.38)
   paperclip
   pg
   rabl-rails
