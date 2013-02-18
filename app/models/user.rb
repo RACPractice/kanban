@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 	has_many :accounts, :foreign_key => 'owner_id'
   has_many :projects, :through => :memberships
 
-  after_create :welcome_message
+  after_create :create_default_account, :welcome_message
 
 	#accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
 
@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
 
   def membership_id
     nil
+  end
+
+  def create_default_account
+    Account.create name: 'Default account', description: 'My first account', owner: self
   end
 
   def welcome_message

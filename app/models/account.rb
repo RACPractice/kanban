@@ -3,13 +3,13 @@ class Account < ActiveRecord::Base
 	#after_create :create_role_with_default_role
 
 	#ACCESSORS
-	attr_accessible :name, :slug, :description
+	attr_accessible :name, :slug, :description, :owner
 
 	#PERMALINK GENERATION
   slug_for_field :name
 
   #VALIDATORS
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true, :uniqueness => {:scope => :owner_id}
   validates :slug, :presence => true, :uniqueness => true, :format => {:with => /^[A-Za-z0-9\-_ ]+$/, :message => "is invalid"}
 
   #ASSOCIATIONS
