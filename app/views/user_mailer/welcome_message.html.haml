@@ -1,0 +1,10 @@
+.article-title= "Hi, #{@user.full_name || @user.username}"
+.article-content
+  %p
+    You successfully signed up in Kanban Application.
+  %p
+    Enjoy using our application. You can edit you profile and create new projects from #{link_to 'Home page', root_url}
+  %p
+    Best regards,
+    %br
+    Ness team.

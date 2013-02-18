@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
 	has_many :accounts, :foreign_key => 'owner_id'
   has_many :projects, :through => :memberships
 
+  after_create :welcome_message
+
 	#accepts_nested_attributes_for :accounts, :reject_if => proc {|a|	a['name'].blank? }, :allow_destroy => true
 
   # Overrides devise method to be able to login with username or email
@@ -46,4 +48,7 @@ class User < ActiveRecord::Base
     nil
   end
 
+  def welcome_message
+    UserMailer.welcome_message(self).deliver
+  end
 end

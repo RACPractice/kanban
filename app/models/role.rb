@@ -1,9 +1,13 @@
 class Role < ActiveRecord::Base
-  # attr_accessible :title, :body
+
 	attr_accessible :name
 
+	MEMBER = 'member'
+	OWNER = 'owner'
+
 	has_many :members
-	# has_many :users, :through => :members
-	# has_many :accounts, :through => :members
+
+	scope :member, where(:name => MEMBER)
+	scope :owner, where(:name => OWNER)
 
 end
