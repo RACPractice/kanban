@@ -99,7 +99,9 @@ class WorkItemsController < ApplicationController
     params['users'].each do |user_id|
       user_id_int = user_id.to_i
       unless (wi.users.find{|u| u.id == user_id_int})
-        wi.users << User.find(user_id_int)
+        user = User.find(user_id_int)
+        wi.users << user
+        ProjectMailer.notify_work_item_assigned(wi, user).deliver
       end
     end
     # format.json { head :no_content }

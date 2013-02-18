@@ -61,6 +61,8 @@ module Kanban
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    config.action_mailer.default_url_options = { :host => "still-woodland-8687.herokuapp.com" }
+
     config.generators do |g|
       g.test_framework :rspec
       g.integration_tool :rspec
