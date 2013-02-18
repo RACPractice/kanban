@@ -164,8 +164,6 @@ class ProjectViewModel
     @showSteps()
     @loadMemberships()
 
-    $('#userName').autocomplete(source: @non_members)
-
   addNewStep: =>
     stepName = @newStepInput()
     #save the new project step

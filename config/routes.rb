@@ -20,6 +20,7 @@ Kanban::Application.routes.draw do
   end
   match "work_items/update_positions" => 'work_items#update_positions', :via => :post, :as => :update_positions
   match "steps/update_positions" => 'steps#update_positions', :via => :post, :as => :update_steps_positions
+  # match "projects/:project_id/get_available_users" => "memberships#get_available_users", :via => :get, :as => :get_available_users
 
   resources :steps
   resources :work_types
