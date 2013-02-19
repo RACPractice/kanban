@@ -55,7 +55,7 @@ input[type="text"].small {
 
 footer.footer {height: 60px; bottom: 0; padding: 0; margin-top: 0px;}
 
-ul.steps {height: 100%;}
+ul.steps, ul.work_items {height: 100%;}
 input[type="text"].edit, input[type="text"].editCapacity {
    display: none;
 }
