@@ -1,0 +1,12 @@
+=form_for @new_project do |f|
+  .control-group
+    = f.label :account_id, "Under account", :class => 'control-label'
+    .controls
+      = f.select :account_id, current_user.accounts.map {|acc| [acc.name, acc.id] }
+  .control-group
+    = f.label :name, :class => 'control-label'
+    .controls
+      = f.text_field :name
+  .form-actions
+    = content_tag :button,  :type => :submit, :class => 'btn btn-primary' do
+      Create project
