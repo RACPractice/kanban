@@ -8,5 +8,6 @@ class HomeController < ApplicationController
     member_role = Role.member.first
     @owning_projects = Project.joins(:memberships).where('memberships.role_id = ?', owner_role.id).where('memberships.user_id = ?', current_user.id)
     @member_projects = Project.joins(:memberships).where('memberships.role_id = ?', member_role.id).where('memberships.user_id = ?', current_user.id)
+    @new_project = Project.new
   end
 end

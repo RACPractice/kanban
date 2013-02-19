@@ -15,6 +15,8 @@ Kanban::Application.routes.draw do
     end
   end
 
+  resources :projects
+
   resources :work_items do
     match "update_users" => 'work_items#update_users', :via => :put, :as => :update_users
   end

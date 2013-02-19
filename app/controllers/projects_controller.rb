@@ -47,7 +47,7 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         if @project.save
           current_user.memberships.create role: Role.find_by_name("owner"), project: @project
-          format.html { redirect_to @project, notice: 'Project was successfully created.' }
+          format.html { redirect_to account_project_path(@project.account, @project), notice: 'Project was successfully created.' }
           format.json do
             render json: @project, status: :created
          end

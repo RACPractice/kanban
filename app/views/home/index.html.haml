@@ -20,7 +20,7 @@
           %button.btn.btn-large.btn-primary{type: 'button'} See all...
     .span4
       %h3
-        Owning Projects
+        Projects I own
       -if @owning_projects.any?
         %ul.nav.nav-list.bs-docs-sidenav
           - @owning_projects.each do |p|
@@ -28,6 +28,8 @@
               = link_to account_project_path(p.account, p) do
                 =p.name
                 %i.icon-chevron-right
+      -else
+        You don't own any projects yet.
       -if @member_projects.any?
         %h3
           Member in Projects
@@ -37,6 +39,9 @@
               = link_to account_project_path(p.account, p) do
                 = p.name
                 %i.icon-chevron-right
+      %h3
+        Quick create project
+      = render 'new_project_with_account'
 
     .span4
       %p
