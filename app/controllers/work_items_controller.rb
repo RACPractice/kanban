@@ -58,18 +58,37 @@ class WorkItemsController < ApplicationController
     end
   end
 
-  # PUT /work_items/1
   # PUT /work_items/1.json
   def update
-    @work_item = WorkItem.find(params[:id])
-    respond_to do |format|
-      if @work_item.update_attributes(params[:work_item])
-        format.html { redirect_to @work_item, notice: 'Work item was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @work_item.errors, status: :unprocessable_entity }
+    wi = WorkItem.find(params[:id])
+    param_wi = params[:work_item]
+    wi.assign_attributes(param_wi)
+    if param_wi[:label_list] && param_wi[:label_list] != wi.label_list
+      wi.label_list = param_wi[:label_list]
+    end
+    if param_wi[:users]
+      param_wi[:users].each do |user_id|
+        user_id_int = user_id.to_i
+        unless (wi.users.find{|u| u.id == user_id_int})
+          user = User.find(user_id_int)
+          wi.users << user
+          ProjectMailer.notify_work_item_assigned(wi, user).deliver
+        end
       end
+    end
+    if param_wi[:tasks]
+      new_tasks = param_wi[:tasks].find{|task| task.id == nil}
+      existing_tasks_ids = param_wi[:tasks].reject{|task| task.id == nil}.collect{|x| x.id.to_i}
+      tasks_ids = wi.tasks.map(&:id)
+      puts "Existing: #{existing_tasks_ids.join(', ')}"
+      puts "Database tasks: #{tasks_ids.join(', ')}"
+      debugger
+    end
+
+    if wi.save
+      head :no_content
+    else
+      render json: @work_item.errors, status: :unprocessable_entity
     end
   end
 
@@ -94,18 +113,18 @@ class WorkItemsController < ApplicationController
     render :text => "Success"
   end
 
-  def update_users
-    wi = WorkItem.find params['work_item_id']
-    params['users'].each do |user_id|
-      user_id_int = user_id.to_i
-      unless (wi.users.find{|u| u.id == user_id_int})
-        user = User.find(user_id_int)
-        wi.users << user
-        ProjectMailer.notify_work_item_assigned(wi, user).deliver
-      end
-    end
-    # format.json { head :no_content }
-    render :text => "Success"
-  end
+  # def update_users
+  #   wi = WorkItem.find params['work_item_id']
+  #   params['users'].each do |user_id|
+  #     user_id_int = user_id.to_i
+  #     unless (wi.users.find{|u| u.id == user_id_int})
+  #       user = User.find(user_id_int)
+  #       wi.users << user
+  #       ProjectMailer.notify_work_item_assigned(wi, user).deliver
+  #     end
+  #   end
+  #   # format.json { head :no_content }
+  #   render :text => "Success"
+  # end
 
 end

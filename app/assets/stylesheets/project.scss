@@ -110,38 +110,36 @@ ul.work_items {
   float: right;
 }
 
-
-/******* EXAMPLE B *******/
-/*.rating-b .bar-rating {
-    height: 25px;
-}
-
-.rating-b .bar-rating a {
-    display: block;
-    width: 70px;
-    height: 16px;
-    float: left;
-    background-color: #e3e3e3;
-    margin: 1px;
-}
-
-.rating-b .bar-rating a.active,
-.rating-b .bar-rating a.selected {
-    background-color: #59a6d6;
-}
-
-.rating-b .bar-rating .current-rating {
-    line-height: 1.1;
-    float: left;
-    padding: 0 20px 0 20px;
-    color: #646464;
-}
-*/
 .rating label.ui-widget{
   float: left;
-  padding: 5px 10px;
+  padding: 5px;
 }
 
 .users {
   text-align: right;
+}
+
+ol.fancy {
+  li {
+    background-color: rgb(185, 208, 137);
+    border-radius: 3px;
+    padding: 5px;
+    margin: 3px 0;
+    list-style: none;
+    span.done {
+      text-decoration: line-through;
+      font-style: italic;
+    }
+    i {
+      float: right;
+      display: none;
+      margin-left: 5px;
+    }
+
+    &:hover {
+      i {
+        display: block;
+      }
+    }
+  }
 }

@@ -1,4 +1,4 @@
-#editWorkItemPopup.modal.hide.fade{:'data-bind' => 'with: $root.editingWorkItem'}
+#editWorkItemPopup.modal.hide.fade.custom-height-modal{:'data-bind' => 'with: $root.editingWorkItem'}
   .modal-header
     %button.close{type: 'button', 'aria-hidden' => 'true', data: {dismiss: 'modal'}} &times;
     %h3{:'data-bind' => "text: name"}
@@ -9,7 +9,10 @@
           %input.input-xlarge{type: 'text', placeholder: 'name', :'data-bind' => 'value: name'}
         .control-group
           %label.control-label{for: "description"} Description:
-          %textarea.input-xlarge{rows: 10, placeholder: 'description', :'data-bind' => 'value: description'}
+          %textarea.input-xlarge{rows: 10, placeholder: 'Add description...', :'data-bind' => 'value: description'}
+        .control-group
+          %label.control-label{for: "labels"} Labels:
+          %input.input-xlarge{type: 'text', placeholder: 'Labels...', :'data-bind' => 'value: label_list'}
         .control-group
           %label.control-label{for: "work_value"} Work value:
           .rating
@@ -21,6 +24,16 @@
               %label{for: 'work_value2'} 2 Points
             %input#work_value3{type: 'radio', name: 'work_value', class: 'wow', value: 3, :'data-bind' => 'checked: work_value'}
               %label{for: 'work_value3'} 3 Points
+        .control-group
+          %h4 Tasks
+          %ol.fancy{:'data-bind' => "foreach: tasks"}
+            %li.task
+              %input{:type => 'checkbox', :'data-bind' => 'checked: done'}
+              %span{:'data-bind' => "text: name, attr: {class: task_class}"}
+              %i.icon-trash{:title => "Remove task", :'data-bind' => 'click: $parent.removeTask'}
+              %i.icon-pencil{:title => "Edit task"}
+          %label.control-label{for: "tasks"} Add task:
+          %input.add_new_task.input-xlarge{type: 'text', placeholder: 'New task description...', :'data-bind' => 'value: new_task_name'}
       .modal-footer
         / %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => true,  href: '#'} Close
         %button.btn.btn-primary Save changes

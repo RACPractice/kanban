@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130214102118) do
+ActiveRecord::Schema.define(:version => 20130225094503) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name",        :null => false
@@ -87,20 +87,31 @@ ActiveRecord::Schema.define(:version => 20130214102118) do
   add_index "steps", ["name"], :name => "index_steps_on_name"
   add_index "steps", ["slug"], :name => "index_steps_on_slug", :unique => true
 
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       :limit => 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
+
   create_table "tasks", :force => true do |t|
-    t.string   "name",                            :null => false
-    t.string   "slug",                            :null => false
-    t.text     "description"
     t.integer  "work_item_id",                    :null => false
-    t.boolean  "is_completed", :default => false, :null => false
-    t.date     "completed_at"
+    t.string   "name",                            :null => false
+    t.boolean  "done",         :default => false, :null => false
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
   end
 
-  add_index "tasks", ["is_completed"], :name => "index_tasks_on_is_completed"
-  add_index "tasks", ["name"], :name => "index_tasks_on_name"
-  add_index "tasks", ["slug"], :name => "index_tasks_on_slug", :unique => true
   add_index "tasks", ["work_item_id"], :name => "index_tasks_on_work_item_id"
 
   create_table "users", :force => true do |t|

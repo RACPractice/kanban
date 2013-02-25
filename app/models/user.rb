@@ -41,7 +41,13 @@ class User < ActiveRecord::Base
   end
 
   def avatar_src
-    avatar.url(:thumb)
+    return @avatar_src if @avatar_src
+    if avatar_file_name
+      @avatar_src = avatar.url(:thumb)
+    else
+      @avatar_src = '/assets/default_user_icon_128.png'
+    end
+    @avatar_src
   end
 
   def membership_id

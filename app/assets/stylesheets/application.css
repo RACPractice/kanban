@@ -84,3 +84,7 @@ form.compact input.editCapacity {
 	float: right;
 	width: 40px;
 }
+
+.custom-height-modal {
+  max-height: 800px;
+}

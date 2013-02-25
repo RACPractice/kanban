@@ -1,3 +1,4 @@
+
 - content_for :head do
   = javascript_include_tag 'project'
   :javascript
@@ -7,12 +8,18 @@
       work_items: {
         add_path : "#{work_items_path(format: :json)}",
         update_position_path: "#{update_positions_path(format: :json)}",
-        update_users_path: function (id) {
-          return "#{work_items_path}/" + id + "/update_users.json";
-        },
         update_path: function(id) {
           return "#{work_items_path}/" + id + ".json"
         }
+      },
+      tasks: {
+        create_path: "#{tasks_path(format: :json)}",
+        update_path: function (id) {
+            return "/tasks/" + id + ".json";
+          },
+        delete_path: function (id) {
+          return SETTINGS.tasks.update_path(id);
+          }
       },
       steps: {
         steps_path: "#{account_project_steps_path(params['account_id'], params['id'], :format => :json)}",

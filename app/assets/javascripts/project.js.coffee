@@ -78,6 +78,39 @@ class Step
         bootbox.alert(error.responseText)
     @editingCapacity false
 
+class Task
+  constructor: (params) ->
+    @id = params['id']
+    @name = params['name']
+    @done = ko.observable(params['done'] || false)
+    @work_item_id = params['work_item_id']
+
+    @done.subscribe =>
+      @save()
+
+    @task_class = ko.computed =>
+      if ko.utils.unwrapObservable(@done) == true
+        'done'
+      else
+        ''
+
+  save: =>
+    if @id
+      $.ajax type: 'PUT', url: SETTINGS.tasks.update_path(@id), data:
+        task:
+          id: @id
+          ,name: @name
+          ,done: @done
+    else
+      $.ajax type: 'POST', url: SETTINGS.tasks.create_path, data:
+        task:
+          name: @name
+          ,done: @done
+          ,work_item_id: @work_item_id
+
+  delete: =>
+    $.ajax type: 'DELETE', url: SETTINGS.tasks.delete_path(@id)
+
 class WorkItem
   constructor: (params) ->
     @id = params['id']
@@ -88,8 +121,22 @@ class WorkItem
     @step_id = params['step_id']
     @work_value = ko.observable params['work_value']
     @memberships = ko.observableArray params['memberships'] || []
+    @tasks = ko.observableArray params['tasks'] || []
+    @labels = ko.observableArray params['label_list'] || []
+    @label_list = ko.observable ko.utils.unwrapObservable(@labels).join(', ')
+    @new_task_name = ko.observable ''
+
+    @new_task_name.subscribe (value) =>
+      return if value.length == 0
+      task = new Task id: null, name: value, work_item_id: @id
+      task.save()
+      @tasks.push task
+      @new_task_name ''
+
+    # @tasks.subscribe (param) =>
+    #   @save()
     @memberships.subscribe (param) =>
-      $.ajax(type: 'PUT', url: SETTINGS.work_items.update_users_path(@id), data: {users: _.map(@memberships(), (e) => e.user_id)})
+      @save()
     @editMode = ko.observable false
     @editPoupClass = ko.computed =>
       if @editMode
@@ -114,6 +161,20 @@ class WorkItem
   droped: (membership) =>
     existing = _.find @memberships(), (m) => m.user_id == membership.user_id
     @memberships.push membership unless existing
+
+  removeTask: (task) =>
+    task.delete()
+    @tasks.remove(task)
+
+  save: =>
+    $.ajax type: 'PUT', url: SETTINGS.work_items.update_path(@id), data:
+      work_item:
+        users: _.map(@memberships(), (e) => e.user_id)
+        ,id: @id
+        ,name: @name
+        ,description: @description
+        ,work_value: @work_value
+        ,label_list: @label_list
 
 class Membership
   constructor: (params) ->
@@ -198,7 +259,10 @@ class ProjectViewModel
             memberships = []
             $.map w_i.users, (m) =>
               memberships.push new Membership id: m.id, user_id: m.user_id, username: m.username, role_name: m.role_name, avatar_src: m.avatar_src
-            workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id, work_value: w_i.work_value, memberships: memberships
+            tasks = []
+            $.map w_i.tasks, (t) =>
+              tasks.push new Task id: t.id, name: t.name, done: t.done, work_item_id: t.work_item_id
+            workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id, work_value: w_i.work_value, memberships: memberships, label_list: w_i.label_list, tasks: tasks
           step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, category: step.category, work_items: workItems
           if !step.removable
             @backlog_step(step) if step.category == 'backlog'
@@ -239,9 +303,12 @@ class ProjectViewModel
   updateWorkItem: =>
     $('#editWorkItemPopup').modal 'hide'
     wi = @editingWorkItem()
-    $.ajax(type: 'PUT', url: SETTINGS.work_items.update_path(wi.id), data: {work_item : {name: wi.name, description: wi.description, work_value: wi.work_value}})
-      .fail (error) =>
-        bootbox.alert(error.responseText)
+    wi.save()
 
 $ ->
   ko.applyBindings new ProjectViewModel()
+  $('#editWorkItemPopup').on 'keydown', '.add_new_task', (event)=>
+    if event.keyCode == 13
+      $(event.target).trigger 'change'
+      event.preventDefault()
+      return false

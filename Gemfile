@@ -14,7 +14,8 @@ gem 'therubyracer'
 gem 'paperclip'
 gem 'aws-sdk', '~> 1.3.4'
 gem 'rabl-rails'
-gem 'newrelic_rpm', "~> 3.5.5.38"
+gem "newrelic_rpm", "~> 3.5.7.59"
+gem 'acts-as-taggable-on', '~> 2.3.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
