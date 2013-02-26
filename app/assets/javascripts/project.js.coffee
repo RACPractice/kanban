@@ -34,7 +34,12 @@ class Step
       return 'not_sortable' if !@removable
       current_capacity = _.reduce @work_items(), ((sum, wi) => sum + parseInt(wi.work_value())), 0
       return 'exceeded' if current_capacity >= @capacity()
-      ''
+      'is_sortable'
+    @floatPosition = ko.computed =>
+      if @category == 'archive'
+        'right'
+      else
+        'left'
 
   addWorkItem: =>
     workItemName= @work_item_textarea()

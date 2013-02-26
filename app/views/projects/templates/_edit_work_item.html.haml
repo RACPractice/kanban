@@ -17,13 +17,13 @@
           %label.control-label{for: "work_value"} Work value:
           .rating
             %input#work_value0{type: 'radio', name: 'work_value', class: 'wow', value: 0, :'data-bind' => 'checked: work_value'}
-              %label{for: 'work_value0'} Unestimated
+            %label{for: 'work_value0'} Unestimated
             %input#work_value1{type: 'radio', name: 'work_value', class: 'wow', value: 1, :'data-bind' => 'checked: work_value'}
-              %label{for: 'work_value1'} 1 Point
+            %label{for: 'work_value1'} 1 Point
             %input#work_value2{type: 'radio', name: 'work_value', class: 'wow', value: 2, :'data-bind' => 'checked: work_value'}
-              %label{for: 'work_value2'} 2 Points
+            %label{for: 'work_value2'} 2 Points
             %input#work_value3{type: 'radio', name: 'work_value', class: 'wow', value: 3, :'data-bind' => 'checked: work_value'}
-              %label{for: 'work_value3'} 3 Points
+            %label{for: 'work_value3'} 3 Points
         .control-group
           %h4 Tasks
           %ol.fancy{:'data-bind' => "foreach: tasks"}

@@ -44,7 +44,7 @@
     %div{class: "list-area-wrapper"}
       .steps-container{data:{bind: "attr: {style: 'height:100%;min-width:' + containerWidth() + 'px;'}"}}
         =render partial: "projects/templates/edit_work_item"
-        %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, connectWith: '.sortable_steps'}" }}
+        %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, axis: 'x', items: 'li.step:not(.not_sortable)'}" }}
           =render :partial => 'projects/templates/step'
   .span2.condensed
     %fieldset
