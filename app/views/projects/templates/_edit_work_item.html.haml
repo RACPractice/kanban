@@ -12,7 +12,7 @@
           %textarea.input-xlarge{rows: 10, placeholder: 'Add description...', :'data-bind' => 'value: description'}
         .control-group
           %label.control-label{for: "labels"} Labels:
-          %input.input-xlarge{type: 'text', placeholder: 'Labels...', :'data-bind' => 'value: label_list'}
+          %input.input-xlarge.taggable{type: 'text', placeholder: 'Labels...', :'data-bind' => 'value: label_list'}
         .control-group
           %label.control-label{for: "work_value"} Work value:
           .rating
@@ -30,7 +30,7 @@
             %li.task
               %input{:type => 'checkbox', :'data-bind' => 'checked: done'}
               %span{:'data-bind' => "text: name, visible: !editMode(), attr: {class: task_class}"}
-              %input.no_submit.taggable{:style => 'display:none;',:'data-bind' => "value: name, visible: editMode(), event: {change: toggleEditMode}"}
+              %input.no_submit{:style => 'display:none;',:'data-bind' => "value: name, visible: editMode(), event: {change: toggleEditMode}"}
               %i.icon-trash{:title => "Remove task", :'data-bind' => 'click: $parent.removeTask'}
               %i.icon-pencil{:title => "Edit task", :'data-bind' => 'click: toggleEditMode'}
           %label.control-label{for: "tasks"} Add task:

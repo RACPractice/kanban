@@ -305,7 +305,9 @@ class ProjectViewModel
     $('#editWorkItemPopup').modal
       keyboard: true
     $('.rating').buttonset()
-    $('.taggable').tagit();
+    $('.taggable').select2
+      tags:[]
+      ,tokenSeparators: [","]
 
   updateWorkItem: =>
     $('#editWorkItemPopup').modal 'hide'
