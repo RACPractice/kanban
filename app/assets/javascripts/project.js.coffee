@@ -81,11 +81,14 @@ class Step
 class Task
   constructor: (params) ->
     @id = params['id']
-    @name = params['name']
+    @name = ko.observable params['name']
     @done = ko.observable(params['done'] || false)
     @work_item_id = params['work_item_id']
+    @editMode = ko.observable false
 
     @done.subscribe =>
+      @save()
+    @name.subscribe =>
       @save()
 
     @task_class = ko.computed =>
@@ -93,6 +96,8 @@ class Task
         'done'
       else
         ''
+  toggleEditMode: =>
+    @editMode !@editMode()
 
   save: =>
     if @id
@@ -297,8 +302,10 @@ class ProjectViewModel
 
   openEditWorkItemPopup: (workItem) =>
     @editingWorkItem(workItem)
-    $('#editWorkItemPopup').modal()
+    $('#editWorkItemPopup').modal
+      keyboard: true
     $('.rating').buttonset()
+    $('.taggable').tagit();
 
   updateWorkItem: =>
     $('#editWorkItemPopup').modal 'hide'
@@ -307,7 +314,7 @@ class ProjectViewModel
 
 $ ->
   ko.applyBindings new ProjectViewModel()
-  $('#editWorkItemPopup').on 'keydown', '.add_new_task', (event)=>
+  $('#editWorkItemPopup').on 'keydown', '.no_submit', (event)=>
     if event.keyCode == 13
       $(event.target).trigger 'change'
       event.preventDefault()

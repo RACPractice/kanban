@@ -112,7 +112,8 @@ ul.work_items {
 
 .rating label.ui-widget{
   float: left;
-  padding: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
 }
 
 .users {
@@ -143,3 +144,9 @@ ol.fancy {
     }
   }
 }
+
+.modal-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+

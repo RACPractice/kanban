@@ -29,12 +29,12 @@
           %ol.fancy{:'data-bind' => "foreach: tasks"}
             %li.task
               %input{:type => 'checkbox', :'data-bind' => 'checked: done'}
-              %span{:'data-bind' => "text: name, attr: {class: task_class}"}
+              %span{:'data-bind' => "text: name, visible: !editMode(), attr: {class: task_class}"}
+              %input.no_submit.taggable{:style => 'display:none;',:'data-bind' => "value: name, visible: editMode(), event: {change: toggleEditMode}"}
               %i.icon-trash{:title => "Remove task", :'data-bind' => 'click: $parent.removeTask'}
-              %i.icon-pencil{:title => "Edit task"}
+              %i.icon-pencil{:title => "Edit task", :'data-bind' => 'click: toggleEditMode'}
           %label.control-label{for: "tasks"} Add task:
-          %input.add_new_task.input-xlarge{type: 'text', placeholder: 'New task description...', :'data-bind' => 'value: new_task_name'}
+          %input.no_submit.input-xlarge{type: 'text', placeholder: 'New task description...', :'data-bind' => 'value: new_task_name'}
       .modal-footer
         / %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => true,  href: '#'} Close
         %button.btn.btn-primary Save changes
-
