@@ -6,6 +6,6 @@ child(:work_items) do
 		attributes membership_id: :id, id: :user_id, username: :username, avatar_src: :avatar_src
 	end
 	child(:tasks) do
-		attributes id: :id, name: :name, done: :done, work_item_id: :work_item_id
+		attributes id: :id, name: :name, done: :done, work_item_id: :work_item_id, blocked: :blocked
 	end
 end
