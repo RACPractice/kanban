@@ -11,8 +11,9 @@
  *= require_self
  *= require bootstrap
  *= require bootstrap-responsive
- *= require jquery-ui-1.9.2.custom
+ *= require jquery-ui-1.10.1.custom
  *= require docs
+ *= require select2
  *= require project
  */
 html {height: 100%;}

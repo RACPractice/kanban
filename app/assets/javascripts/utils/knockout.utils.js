@@ -4,8 +4,9 @@ ko.bindingHandlers.sortableList = {
         var options = valueAccessor();
         var $element = $(element);
         $element.data("sortList", options.list); //attach meta-data
-        $element.sortable({
-            items: "li:not(.not_sortable)",
+        var sortable_options = {
+            // cancel: ".not_sortable",
+            scroll: true,
             update: function(event, ui) {
                 var item = ui.item.data("sortItem");
                 if (item) {
@@ -24,9 +25,18 @@ ko.bindingHandlers.sortableList = {
                         }
                     }
                 }
-            },
-            connectWith: options.connectWith || '.sortable'
-        });
+            }
+        };
+        if (options.items) {
+            sortable_options['items'] = options.items;
+        }
+        if (options.connectWith) {
+            sortable_options['connectWith'] = options.connectWith;
+        };
+        if (options.axis) {
+            sortable_options['axis'] = options.axis;
+        }
+        $element.disableSelection().sortable(sortable_options);
     }
 };
 

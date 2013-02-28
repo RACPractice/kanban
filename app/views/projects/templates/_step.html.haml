@@ -1,4 +1,4 @@
-%li{:'data-bind' => "attr: {class: 'step ' + step_class(), style: 'min-width:200px; width:' + $parent.stepWidth() + '%;'}, sortableItem: {enabled: removable, item: $data, parentList: $parent.steps}"}
+%li{:'data-bind' => "attr: {class: 'step ' + step_class(), style: 'min-width:200px; width:' + $parent.stepWidth() + '%;float: ' + floatPosition() + ';'}, sortableItem: {enabled: removable, item: $data, parentList: $parent.steps}"}
   .list-header
     .list-title
       .editor{:'data-bind' => 'css: {editing: editing, editingCapacity: editingCapacity}'}
@@ -30,8 +30,8 @@
         %i.icon-remove
 
   .ui-widget-content
-    %ul.default.work_items.sortable{:'data-bind' => "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable'}"}
-      %li{:'data-bind' => "click: $root.openEditWorkItemPopup, sortableItem: {item: $data, parentList: $parent.work_items}, drop: {value: $data}"}
+    %ul.default.work_items.sortable{:'data-bind' => "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable', items: 'li.work_item'}"}
+      %li.work_item{:'data-bind' => "click: $root.openEditWorkItemPopup, sortableItem: {item: $data, parentList: $parent.work_items}, drop: {value: $data}"}
         %img{:'data-bind' => 'attr: {src: "/img/estimate_" + work_value() + ".gif"}'}
         %img{:'data-bind' => 'visible: description, attr: {title: description, src: description_icon}'}
         %span{:'data-bind' => 'text:name'}

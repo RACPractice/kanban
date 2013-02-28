@@ -34,7 +34,12 @@ class Step
       return 'not_sortable' if !@removable
       current_capacity = _.reduce @work_items(), ((sum, wi) => sum + parseInt(wi.work_value())), 0
       return 'exceeded' if current_capacity >= @capacity()
-      ''
+      'is_sortable'
+    @floatPosition = ko.computed =>
+      if @category == 'archive'
+        'right'
+      else
+        'left'
 
   addWorkItem: =>
     workItemName= @work_item_textarea()
@@ -81,18 +86,36 @@ class Step
 class Task
   constructor: (params) ->
     @id = params['id']
-    @name = params['name']
+    @name = ko.observable params['name']
     @done = ko.observable(params['done'] || false)
+    @blocked = ko.observable(params['blocked'] || false)
     @work_item_id = params['work_item_id']
+    @editMode = ko.observable false
 
     @done.subscribe =>
       @save()
+    @name.subscribe =>
+      @save()
+    @blocked.subscribe =>
+      @save()
 
     @task_class = ko.computed =>
+      css_class = ''
       if ko.utils.unwrapObservable(@done) == true
-        'done'
-      else
-        ''
+        css_class = 'done'
+      else if ko.utils.unwrapObservable(@blocked) == true
+        css_class = 'blocked'
+      css_class
+
+  toggleEditMode: =>
+    @editMode !@editMode()
+
+  blockTask: =>
+    @blocked true
+    @done false
+
+  unblockTask: =>
+    @blocked false
 
   save: =>
     if @id
@@ -101,11 +124,13 @@ class Task
           id: @id
           ,name: @name
           ,done: @done
+          ,blocked: @blocked
     else
       $.ajax type: 'POST', url: SETTINGS.tasks.create_path, data:
         task:
           name: @name
           ,done: @done
+          ,blocked: @blocked
           ,work_item_id: @work_item_id
 
   delete: =>
@@ -225,6 +250,7 @@ class ProjectViewModel
     @showSteps()
     @loadMemberships()
 
+
   addNewStep: =>
     stepName = @newStepInput()
     #save the new project step
@@ -261,7 +287,7 @@ class ProjectViewModel
               memberships.push new Membership id: m.id, user_id: m.user_id, username: m.username, role_name: m.role_name, avatar_src: m.avatar_src
             tasks = []
             $.map w_i.tasks, (t) =>
-              tasks.push new Task id: t.id, name: t.name, done: t.done, work_item_id: t.work_item_id
+              tasks.push new Task id: t.id, name: t.name, done: t.done, work_item_id: t.work_item_id, blocked: t.blocked
             workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id, work_value: w_i.work_value, memberships: memberships, label_list: w_i.label_list, tasks: tasks
           step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, category: step.category, work_items: workItems
           if !step.removable
@@ -275,6 +301,7 @@ class ProjectViewModel
         membership = new Membership id: m.id, user_id: m.user_id, username: m.username, role_name: m.role_name, avatar_src: m.avatar_src
         @memberships.push m
       ko.utils.arrayPushAll(@non_members, resp.non_members)
+      $('#userName').autocomplete(source: @non_members)
 
   deleteStep: (currentStep)=>
     $.ajax(type: 'DELETE', url: SETTINGS.steps.update_path(currentStep.id))
@@ -297,8 +324,12 @@ class ProjectViewModel
 
   openEditWorkItemPopup: (workItem) =>
     @editingWorkItem(workItem)
-    $('#editWorkItemPopup').modal()
+    $('#editWorkItemPopup').modal
+      keyboard: true
     $('.rating').buttonset()
+    $('.taggable').select2
+      tags:[]
+      ,tokenSeparators: [","]
 
   updateWorkItem: =>
     $('#editWorkItemPopup').modal 'hide'
@@ -307,7 +338,7 @@ class ProjectViewModel
 
 $ ->
   ko.applyBindings new ProjectViewModel()
-  $('#editWorkItemPopup').on 'keydown', '.add_new_task', (event)=>
+  $('#editWorkItemPopup').on 'keydown', '.no_submit', (event)=>
     if event.keyCode == 13
       $(event.target).trigger 'change'
       event.preventDefault()

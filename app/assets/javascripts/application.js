@@ -17,8 +17,9 @@
 //= require utils/knockout.utils
 //= require bootstrap
 //= require bootbox
-//= require jquery-ui.min
 //= require underscore
+//= require select2
+//= require jquery-ui-1.10.1.custom
 //= require initialisation
 
 ACCOUNT_ID = null

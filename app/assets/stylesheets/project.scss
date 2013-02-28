@@ -112,7 +112,8 @@ ul.work_items {
 
 .rating label.ui-widget{
   float: left;
-  padding: 5px;
+  padding: 1px 0px;
+  font-size: 12px;
 }
 
 .users {
@@ -130,10 +131,15 @@ ol.fancy {
       text-decoration: line-through;
       font-style: italic;
     }
+    span.blocked {
+      font-style: bold;
+      color: red;
+    }
     i {
       float: right;
       display: none;
       margin-left: 5px;
+      cursor: pointer;
     }
 
     &:hover {
@@ -143,3 +149,9 @@ ol.fancy {
     }
   }
 }
+
+.modal-body {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
