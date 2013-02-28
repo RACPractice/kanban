@@ -14,14 +14,31 @@
 
           %ul.nav.pull-right
             .btn-group
-              =select_tag "accounts", options_from_collection_for_select(@accounts, "id", "name")
-            .btn-group
               = link_to '#', :class => 'btn btn-primary' do
                 %i.icon-user.icon-white
                 =current_user.username
               =link_to "#", :class => "btn btn-primary dropdown-toggle", 'data-toggle' => 'dropdown' do
                 %span.caret
               %ul.dropdown-menu
+                %li
+                  Logged in as
+                  = current_user.username
+                %li
+                  %hr/
+                -if @account
+                  %li
+                    Account:
+                    =link_to @account.name, account_projects_path(@account)
+                -if @accounts.size > 1
+                  %li
+                    %hr/
+                  %li
+                    Switch to account:
+                  -@accounts.each do |acc|
+                    %li
+                      =link_to acc.name, account_projects_path(acc)
+                %li
+                  %hr/
                 %li
                   = link_to profile_path do
                     %i.icon-pencil

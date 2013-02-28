@@ -2,9 +2,11 @@ class ProjectsController < ApplicationController
 
 	before_filter :authenticate_user!
 
+  before_filter :load_account, :only => [:index, :show, :new, :edit]
+
   def index
-    if params[:account_id]
-      @projects = Project.where('account_id = ?', params[:account_id])
+    if @account
+      @projects = Project.where('account_id = ?', @account.id)
     else
       @projects = Project.all
     end
@@ -16,7 +18,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find(params[:id])
+    @project = @account.projects.find(params[:id])
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @project }
@@ -82,4 +84,10 @@ class ProjectsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+    def load_account
+      @account = Account.find(params[:account_id])
+    end
 end
