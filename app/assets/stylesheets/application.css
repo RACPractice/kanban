@@ -89,3 +89,12 @@ form.compact input.editCapacity {
 .custom-height-modal {
   max-height: 800px;
 }
+
+.modal .form-horizontal .control-label {
+  width: 80px;
+  margin-right: 10px;
+}
+.input-popup-size {
+  width: 370px;
+}
+

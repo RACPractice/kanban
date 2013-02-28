@@ -6,13 +6,13 @@
       .modal-body
         .control-group
           %label.control-label{for: "name"} Name:
-          %input.input-xlarge{type: 'text', placeholder: 'name', :'data-bind' => 'value: name'}
+          %input.input-popup-size{type: 'text', placeholder: 'name', :'data-bind' => 'value: name'}
         .control-group
           %label.control-label{for: "description"} Description:
-          %textarea.input-xlarge{rows: 10, placeholder: 'Add description...', :'data-bind' => 'value: description'}
+          %textarea.input-popup-size{rows: 10, placeholder: 'Add description...', :'data-bind' => 'value: description'}
         .control-group
           %label.control-label{for: "labels"} Labels:
-          %input.input-xlarge.taggable{type: 'text', placeholder: 'Labels...', :'data-bind' => 'value: label_list'}
+          %input.input-popup-size.taggable{type: 'text', placeholder: 'Labels...', :'data-bind' => 'value: label_list'}
         .control-group
           %label.control-label{for: "work_value"} Work value:
           .rating
@@ -26,6 +26,8 @@
             %label{for: 'work_value3'} 3 Points
         .control-group
           %h4 Tasks
+          %label.control-label{for: "tasks"} Add task:
+          %input.no_submit.input-popup-size{type: 'text', placeholder: 'New task description...', :'data-bind' => 'value: new_task_name'}
           %ol.fancy{:'data-bind' => "foreach: tasks"}
             %li.task
               %input{:type => 'checkbox', :'data-bind' => 'visible: !blocked(), checked: done'}
@@ -35,8 +37,6 @@
               %i.icon-pencil{:title => "Edit task", :'data-bind' => 'click: toggleEditMode'}
               %i.icon-ban-circle{:title => "Mark task as blocked", :'data-bind' => 'visible: !done() && !blocked(), click: blockTask'}
               %i.icon-ok-circle{:title => "Unblock task", :'data-bind' => 'visible: blocked(), click: unblockTask'}
-          %label.control-label{for: "tasks"} Add task:
-          %input.no_submit.input-xlarge{type: 'text', placeholder: 'New task description...', :'data-bind' => 'value: new_task_name'}
       .modal-footer
         / %button.btn{:'data-dismiss' => 'modal', :'aria-hidden' => true,  href: '#'} Close
         %button.btn.btn-primary Save changes

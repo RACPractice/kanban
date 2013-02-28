@@ -15,6 +15,8 @@ Kanban::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.perform_deliveries = false
+  config.action_mailer.default_url_options = {:host => 'localhost:3000'}
 
 
   # Print deprecation notices to the Rails logger
@@ -29,8 +31,6 @@ Kanban::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
-
-  config.action_mailer.default_url_options = {:host => 'localhost:3000'}
 
   # Do not compress assets
   config.assets.compress = false
