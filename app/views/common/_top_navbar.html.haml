@@ -23,9 +23,9 @@
                 %li
                   Logged in as
                   = current_user.username
-                %li
-                  %hr/
                 -if @account
+                  %li
+                    %hr/
                   %li
                     Account:
                     =link_to @account.name, account_projects_path(@account)
