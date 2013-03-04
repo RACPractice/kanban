@@ -12,6 +12,7 @@ class Step
     @editingCapacity = ko.observable false
     @work_item_textarea = ko.observable ''
     @addWorkItemVisible = ko.observable false
+    @collapsed = ko.observable false
 
     @work_items.subscribe (param1) =>
       new_positions = ({id: n.id, step_id: @id, position: index} for n, index in @work_items())
@@ -31,15 +32,16 @@ class Step
       load
 
     @step_class = ko.computed () =>
-      return 'not_sortable' if !@removable
-      current_capacity = _.reduce @work_items(), ((sum, wi) => sum + parseInt(wi.work_value())), 0
-      return 'exceeded' if current_capacity >= @capacity()
-      'is_sortable'
-    @floatPosition = ko.computed =>
-      if @category == 'archive'
-        'right'
+      cls = ''
+      cls = cls + ' collapsed ' if @collapsed()
+      if @removable
+        cls = cls + ' is_sortable '
       else
-        'left'
+        cls = cls + ' not_sortable '
+
+      current_capacity = _.reduce @work_items(), ((sum, wi) => sum + parseInt(wi.work_value())), 0
+      cls = cls + 'exceeded' if current_capacity > 0 && @capacity() > 0 && current_capacity >= @capacity()
+      cls
 
   addWorkItem: =>
     workItemName= @work_item_textarea()
@@ -231,18 +233,19 @@ class ProjectViewModel
     @newStepInput = ko.observable ''
     @userNameInput = ko.observable ''
 
+    @steps.subscribe (param1) =>
+      @updateCols()
+    ,@
+    ,'positionsChanged'
+
     @custom_steps = ko.computed ()=>
       ko.utils.arrayFilter @steps(), (item) =>
         item.removable == true
 
-    @stepWidth = ko.computed () =>
-      (100 / @steps().length) - 0.5
-    ,@
-
-    @containerWidth = ko.computed () =>
-      st_length = @steps().length
-      st_length * 200 + st_length * 4
-    ,@
+    # @containerWidth = ko.computed () =>
+    #   st_length = @steps().length
+    #   st_length * 200 + st_length * 4
+    # ,@
 
     @steps.subscribe () =>
       @updateStepsPositionsOnServer()
@@ -291,11 +294,12 @@ class ProjectViewModel
             $.map w_i.tasks, (t) =>
               tasks.push new Task id: t.id, name: t.name, done: t.done, work_item_id: t.work_item_id, blocked: t.blocked
             workItems.push new WorkItem id: w_i.id, name: w_i.name, description: w_i.description, position: w_i.position, assigned_to: w_i.assigned_to, step_id: step.id, work_value: w_i.work_value, memberships: memberships, label_list: w_i.label_list, tasks: tasks
-          step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, category: step.category, work_items: workItems
+          step = new Step id: step.id, name: step.name, position: step.position, removable: step.removable, capacity: step.capacity, category: step.category, work_items: workItems, subscribers: {positionsChanged: @updateCols}
           if !step.removable
             @backlog_step(step) if step.category == 'backlog'
             @archive_step(step) if step.category == 'archive'
           @steps.push step
+          @updateCols()
 
   loadMemberships: =>
     $.getJSON SETTINGS.memberships.memberships_path, (resp) =>
@@ -338,8 +342,25 @@ class ProjectViewModel
     wi = @editingWorkItem()
     wi.save()
 
+  collapseStep: (step)=>
+    step.collapsed !step.collapsed()
+    @updateCols()
+
+  updateCols: =>
+    col_wrapper = $("ul.steps")
+    cols = $("ul.steps .col")
+    cols_c = cols.filter(".collapsed")
+
+    col_w = (col_wrapper.width() - (cols.length * 4) - (cols_c.length * 40)) / (cols.length - cols_c.length)
+    cols.width(40)
+    cols.not(".collapsed").css({width: col_w + "px"})
+    console.log 'recalculate width'
+
 $ ->
-  ko.applyBindings new ProjectViewModel()
+  model  = new ProjectViewModel()
+  ko.applyBindings model
+  $(window).resize =>
+    model.updateCols()
   $('#editWorkItemPopup').on 'keydown', '.no_submit', (event)=>
     if event.keyCode == 13
       $(event.target).trigger 'change'

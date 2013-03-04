@@ -26,7 +26,7 @@ body {height: 100%;}
 .list-title{margin:2px 26px 0 7px;overflow:hidden;text-overflow:ellipsis;}
 .list-title h2{display:inline;font-size:15px;line-height:18px;margin:0 3px 0 0;min-height:19px;min-width:30px;}
 .list-title h2::selection{background:transparent;}
-.list-title .icon-menu{background-clip:content-box;background-origin:content-box;-webkit-background-clip:content;-webkit-background-origin:content;padding:5px;position:absolute;top:-4px;right:-2px;visibility:hidden;}
+.list-title .icon-menu{background-clip:content-box;background-origin:content-box;-webkit-background-clip:content;-webkit-background-origin:content;position:absolute;top:0px;right:5px;visibility:hidden;}
 .list-title.editing{margin:0 2px 2px;}
 .list-title.editing .icon-menu{display:none;}
 .list-title.editing .num-cards{display:none !important;}
@@ -54,8 +54,14 @@ input[type="text"].small {
 #content {height: 97%;}
 .elements, .span1, .span2, .span3, .span4, .span5, .span6, .span7, .span8, .span9, .span10, .span11, .span12 {height: 100%;}
 
-footer.footer {height: 60px; bottom: 0; padding: 0; margin-top: 0px;}
-
+footer#footer {
+    bottom:0;
+    height:60px;
+    position:fixed;
+    left:0;
+    width:100%;
+    text-align: center;
+}
 ul.steps, ul.work_items {height: 100%;}
 input[type="text"].edit, input[type="text"].editCapacity {
    display: none;

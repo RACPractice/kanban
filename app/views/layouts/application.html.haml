@@ -16,12 +16,10 @@
     #content
       = yield
 
-    %footer.footer
+    %footer#footer
       %p
         Designed and built by Ness RAC team.
-      %p
-        &copy; 2013 Kanbanness
-      %ul.footer-links
-        %li
-          =link_to 'Home', root_url
-        / %li.muted
+        %br
+        &copy; #{Time.now.year} Kanbanness
+        %br
+        =link_to 'Home', root_url
