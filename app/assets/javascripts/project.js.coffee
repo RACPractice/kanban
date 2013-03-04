@@ -113,9 +113,11 @@ class Task
   blockTask: =>
     @blocked true
     @done false
+    @editMode false
 
   unblockTask: =>
     @blocked false
+    @editMode false
 
   save: =>
     if @id
