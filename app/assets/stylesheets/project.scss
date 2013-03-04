@@ -142,7 +142,6 @@ ol.fancy {
   overflow-y: auto;
 }
 
-
 body {
     height:100%;
     margin:0;
@@ -193,9 +192,6 @@ ul.steps {
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
     -webkit-padding-start: 0px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
     margin-top: 0;
     overflow-y: hidden;
     background-color: #0082cc;
@@ -210,7 +206,10 @@ ul.steps {
     margin: 0px 2px;
     border-top: 2px solid;
     border-bottom: 2px solid;
+    position: relative;
+    padding-top: 40px;
 }
+
 .collapsed {
     width:40px;
     text-indent:-9999em;
@@ -227,4 +226,13 @@ ul.steps {
 }
 #main-content, #sidebar {
     overflow-y: auto;
+}
+.list-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.ui-widget-content {
+    height: 100%;
 }

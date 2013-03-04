@@ -16,8 +16,10 @@
  *= require select2
  *= require project
  */
-html {height: 100%;}
-body {height: 100%;}
+html, body {height: 100%;}
+
+* { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+input {box-sizing: content-box;}
 
 .blue {
     color: #0088cc;

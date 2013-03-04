@@ -242,11 +242,6 @@ class ProjectViewModel
       ko.utils.arrayFilter @steps(), (item) =>
         item.removable == true
 
-    # @containerWidth = ko.computed () =>
-    #   st_length = @steps().length
-    #   st_length * 200 + st_length * 4
-    # ,@
-
     @steps.subscribe () =>
       @updateStepsPositionsOnServer()
     ,@
