@@ -30,7 +30,7 @@
       %button.btn.btn-mini.btn-primary{:'data-bind' => 'click: addWorkItem'} Add
       %a.icon-lg.dark-hover.js-cancel{href: '#', :'data-bind' => 'click: closeForm'}
         %i.icon-remove
-
+  .collapsed-title{:style => "display:none", :'data-bind' => "text:name"}
   .ui-widget-content
     %ul.default.work_items.sortable{:'data-bind' => "foreach:work_items, sortableList: {list:work_items, connectWith: '.sortable', items: 'li.work_item'}"}
       %li.work_item{:'data-bind' => "click: $root.openEditWorkItemPopup, sortableItem: {item: $data, parentList: $parent.work_items}, drop: {value: $data}"}

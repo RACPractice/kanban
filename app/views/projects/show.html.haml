@@ -37,10 +37,10 @@
   %span.badge
     = @project.visible ? "PUBLIC" : "PRIVATE"
   %span #{@project.name}
+=render partial: "projects/templates/edit_work_item"
 #page
   #main
     #main-content
-      =render partial: "projects/templates/edit_work_item"
       %ul.default.steps.sortable_steps{data: {bind: "foreach:steps, sortableList: {list:steps, axis: 'x', items: 'li.step:not(.not_sortable)'}" }}
         =render :partial => 'projects/templates/step'
   #sidebar

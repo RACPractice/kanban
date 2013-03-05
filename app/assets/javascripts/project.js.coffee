@@ -279,6 +279,7 @@ class ProjectViewModel
 
   showSteps: =>
     $.getJSON SETTINGS.steps.steps_path, (steps) =>
+      _steps = @steps()
       $.map steps, (step) =>
           workItems = []
           $.map step.work_items, (w_i) =>
@@ -293,8 +294,9 @@ class ProjectViewModel
           if !step.removable
             @backlog_step(step) if step.category == 'backlog'
             @archive_step(step) if step.category == 'archive'
-          @steps.push step
-          @updateCols()
+          _steps.push step
+      @steps.notifySubscribers()
+      @updateCols()
 
   loadMemberships: =>
     $.getJSON SETTINGS.memberships.memberships_path, (resp) =>
