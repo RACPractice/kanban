@@ -339,7 +339,7 @@ class ProjectViewModel
     wi = @editingWorkItem()
     wi.save()
 
-  collapseStep: (step)=>
+  toggleStep: (step)=>
     step.collapsed !step.collapsed()
     @updateCols()
 
