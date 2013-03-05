@@ -12,7 +12,7 @@
           %input.edit{type: 'text', :'data-bind' => 'value: name, event: {blur: stopEditing}, visible: removable'}
         %form.compact{:'data-bind' => 'submit: stopEditingCapacity'}
           %input.editCapacity{type: 'text', :'data-bind' => 'value: capacity, event: {blur: stopEditingCapacity}, visible: removable'}
-      %a.icon-sm.icon-menu.dark-hover.js-open-list-menu{href: '#', data:{toggle: 'dropdown', bind: 'visible: category !== "archive"'}}
+      %a.icon-sm.icon-menu.dark-hover.js-open-list-menu{href: '#', :'data-toggle' => 'dropdown'}
         %i.icon-th-list
       %ul.dropdown-menu.pull-right{:role => 'menu', 'aria-labelledby' => 'dropdownMenu' }
         %li
