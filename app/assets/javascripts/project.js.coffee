@@ -348,7 +348,7 @@ class ProjectViewModel
     cols = $("ul.steps .col")
     cols_c = cols.filter(".collapsed")
 
-    col_w = (col_wrapper.width() - (cols.length * 4) - (cols_c.length * 40)) / (cols.length - cols_c.length)
+    col_w = (col_wrapper.width() - 1 - (cols.length * 4) - (cols_c.length * 40)) / (cols.length - cols_c.length)
     cols.width(40)
     cols.not(".collapsed").css({width: col_w + "px"})
     console.log 'recalculate width'

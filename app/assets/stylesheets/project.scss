@@ -215,6 +215,10 @@ ul.steps {
     width:40px;
     text-indent:-9999em;
 }
+.collapsed .expanded-icon {
+  visibility: hidden;
+}
+
 .collapsed .ui-widget-content {
     visibility: hidden;
 }
