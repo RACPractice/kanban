@@ -82,7 +82,6 @@ class WorkItemsController < ApplicationController
       tasks_ids = wi.tasks.map(&:id)
       puts "Existing: #{existing_tasks_ids.join(', ')}"
       puts "Database tasks: #{tasks_ids.join(', ')}"
-      debugger
     end
 
     if wi.save
@@ -107,6 +106,12 @@ class WorkItemsController < ApplicationController
   def update_positions
     if params['work_items']
       params['work_items'].each do |k, item|
+        work_item = WorkItem.find item['id']
+        if work_item.step_id != item['step_id'].to_i
+          if work_item.users.any?
+            ProjectMailer.notify_step_changed_for_work_item(work_item, item['step_id'], current_user).deliver
+          end
+        end
         WorkItem.update_all({:position => item['position'], :step_id => item['step_id']}, ['id = ?', item['id']])
       end
     end
@@ -126,5 +131,4 @@ class WorkItemsController < ApplicationController
   #   # format.json { head :no_content }
   #   render :text => "Success"
   # end
-
 end

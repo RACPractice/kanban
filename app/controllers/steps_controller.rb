@@ -57,6 +57,7 @@ class StepsController < ApplicationController
     @step.position = position - 1
     respond_to do |format|
       if @step.save
+        ProjectMailer.notify_step_created(@step, current_user).deliver
         format.html { redirect_to @step, notice: 'Step was successfully created.' }
         format.json do
           render json: @step, status: :created
@@ -89,7 +90,11 @@ class StepsController < ApplicationController
   def destroy
     @step = Step.find(params[:id])
     if @step.removable
+      step_name = @step.name
+      project = @step.projects.first
       @step.destroy
+
+      ProjectMailer.notify_step_deleted(step_name, project, current_user).deliver
       respond_to do |format|
         format.html { redirect_to steps_url }
         format.json { head :no_content }

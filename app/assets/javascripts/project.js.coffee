@@ -234,9 +234,7 @@ class ProjectViewModel
     @userNameInput = ko.observable ''
 
     @steps.subscribe (param1) =>
-      @updateCols()
-    ,@
-    ,'positionsChanged'
+      #
 
     @custom_steps = ko.computed ()=>
       ko.utils.arrayFilter @steps(), (item) =>
@@ -258,6 +256,7 @@ class ProjectViewModel
       .done (resp) =>
         step = new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, category: resp.capacity, capacity: resp.capacity})
         @steps.splice(@steps().length - 1, 0, step);
+        @updateCols()
       .fail (error) =>
         bootbox.alert(error.responseText)
     @newStepInput ''
@@ -311,6 +310,7 @@ class ProjectViewModel
       .done (resp) =>
         @steps.remove(currentStep)
         @updateStepsPositionsOnServer()
+        @updateCols()
         bootbox.alert("Step #{currentStep.name()} successfully deleted.")
       .fail (error) =>
         bootbox.alert(error.responseText)

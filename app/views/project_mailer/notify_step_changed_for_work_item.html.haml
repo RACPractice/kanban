@@ -1,0 +1,11 @@
+.article-title Hi,
+.article-content
+  %h3="Project: #{@project.name}"
+  %p
+    Work Item <em class='highlight'>#{@work_item.name}</em> has been moved from step <em class='highlight'>#{@work_item.step.name}</em> to step <em class='highlight'>#{@new_step.name}</em> by <em class='highlight'>#{@user.username}</em>.
+  %p
+    You can visit project page #{link_to 'here', @project_url}.
+  %p
+    Best regards,
+    %br
+    Ness team.

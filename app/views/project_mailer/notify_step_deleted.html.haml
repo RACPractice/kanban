@@ -1,0 +1,11 @@
+.article-title Hi,
+.article-content
+  %h3="Project: #{@project.name}"
+  %p
+    Step named <em class='highlight'>#{@step_name}</em> has been deleted by <em class='highlight'>#{@current_user.username}</em>.
+  %p
+    You can visit project page #{link_to 'here', @project_url}.
+  %p
+    Best regards,
+    %br
+    Ness team.

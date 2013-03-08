@@ -1,0 +1,11 @@
+.article-title Hi,
+.article-content
+  %h3="Project: #{@project.name}"
+  %p
+    A new step named <em class='highlight'>#{@step.name}</em> has been created in the project by <em class='highlight'>#{@current_user.username}</em>.
+  %p
+    You can visit project page #{link_to 'here', @project_url}.
+  %p
+    Best regards,
+    %br
+    Ness team.
