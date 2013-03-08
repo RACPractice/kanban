@@ -303,7 +303,12 @@ class ProjectViewModel
         membership = new Membership id: m.id, user_id: m.user_id, username: m.username, role_name: m.role_name, avatar_src: m.avatar_src
         @memberships.push m
       ko.utils.arrayPushAll(@non_members, resp.non_members)
-      $('#userName').autocomplete(source: @non_members)
+      usernameInput = $('#userName')
+      usernameInput.autocomplete
+        source: @non_members
+        ,minLength: 2
+        ,select: (event, ui) =>
+          usernameInput.trigger('change')
 
   deleteStep: (currentStep)=>
     $.ajax(type: 'DELETE', url: SETTINGS.steps.update_path(currentStep.id))

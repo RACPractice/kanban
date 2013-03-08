@@ -1,0 +1,10 @@
+.article-title Hi #{@current_user.username},
+.article-content
+  %p
+    A new project named <em class='highlight'>#{@project.name}</em> has been created. You are the owner of this project.
+  %p
+    You can visit project page #{link_to 'here', @project_url}.
+  %p
+    Best regards,
+    %br
+    Ness team.
