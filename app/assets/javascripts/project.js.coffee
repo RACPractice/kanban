@@ -16,7 +16,7 @@ class Step
 
     @work_items.subscribe (param1) =>
       new_positions = ({id: n.id, step_id: @id, position: index} for n, index in @work_items())
-      $.ajax(type: 'POST', url: SETTINGS.work_items.update_position_path, data: {work_items: new_positions})
+      $.post(SETTINGS.work_items.update_position_path, work_items: new_positions)
     ,@
     ,'positionsChanged'
 
@@ -45,11 +45,11 @@ class Step
 
   addWorkItem: =>
     workItemName= @work_item_textarea()
-    $.ajax(type: 'POST', url: SETTINGS.work_items.add_path, data: {work_item: {name: workItemName, step_id: @id, work_value: 0}})
-      .done (resp) =>
-        @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to, work_value: resp.work_value})
-      .fail (error) =>
-        bootbox.alert(error.responseText)
+    $.post(SETTINGS.work_items.add_path, work_item: {name: workItemName, step_id: @id, work_value: 0})
+    .done (resp) =>
+      @work_items.push new WorkItem({id: resp.id, name: resp.name, description: resp.description, position: resp.position, step_id: resp.step_id, assigned_to: resp.assigned_to, work_value: resp.work_value})
+    .fail (error) =>
+      bootbox.alert(error.responseText)
     @closeForm()
 
   showWorkItemForm: =>
@@ -130,7 +130,7 @@ class Task
           ,done: @done
           ,blocked: @blocked
     else
-      $.ajax type: 'POST', url: SETTINGS.tasks.create_path, data:
+      $.post SETTINGS.tasks.create_path, data:
         task:
           name: @name
           ,done: @done
@@ -233,9 +233,6 @@ class ProjectViewModel
     @newStepInput = ko.observable ''
     @userNameInput = ko.observable ''
 
-    @steps.subscribe (param1) =>
-      #
-
     @custom_steps = ko.computed ()=>
       ko.utils.arrayFilter @steps(), (item) =>
         item.removable == true
@@ -252,25 +249,25 @@ class ProjectViewModel
   addNewStep: =>
     stepName = @newStepInput()
     #save the new project step
-    $.ajax(type: 'POST', url: SETTINGS.steps.steps_path, data: {step: {name: stepName}})
-      .done (resp) =>
-        step = new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, category: resp.capacity, capacity: resp.capacity})
-        @steps.splice(@steps().length - 1, 0, step);
-        @updateCols()
-      .fail (error) =>
-        bootbox.alert(error.responseText)
+    $.post(SETTINGS.steps.steps_path, data: {step: {name: stepName}})
+    .done (resp) =>
+      step = new Step({id: resp.id, name: resp.name, position: resp.position, removable: resp.removable, category: resp.capacity, capacity: resp.capacity})
+      @steps.splice(@steps().length - 1, 0, step);
+      @updateCols()
+    .fail (error) =>
+      bootbox.alert(error.responseText)
     @newStepInput ''
 
   addNewMember: =>
     username = @userNameInput()
-    $.ajax(type: 'POST', url: SETTINGS.memberships.memberships_path, data: {membership: {username: username}})
-      .done (resp) =>
-        membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name, avatar_src: resp.avatar_src
-        @memberships.push membership
-        indexOfUser = @non_members.indexOf(resp.username)
-        @non_members.splice(indexOfUser, 1)
-      .fail (error) =>
-        bootbox.alert(error.responseText)
+    $.post(SETTINGS.memberships.memberships_path, data: {membership: {username: username}})
+    .done (resp) =>
+      membership = new Membership id: resp.id, username: resp.username, role_name: resp.role_name, avatar_src: resp.avatar_src
+      @memberships.push membership
+      indexOfUser = @non_members.indexOf(resp.username)
+      @non_members.splice(indexOfUser, 1)
+    .fail (error) =>
+      bootbox.alert(error.responseText)
     @userNameInput ''
 
   selectWorkItem: (item) =>
@@ -311,18 +308,21 @@ class ProjectViewModel
           usernameInput.trigger('change')
 
   deleteStep: (currentStep)=>
-    $.ajax(type: 'DELETE', url: SETTINGS.steps.update_path(currentStep.id))
-      .done (resp) =>
-        @steps.remove(currentStep)
-        @updateStepsPositionsOnServer()
-        @updateCols()
-        bootbox.alert("Step #{currentStep.name()} successfully deleted.")
-      .fail (error) =>
-        bootbox.alert(error.responseText)
+    $.post(SETTINGS.steps.update_path(currentStep.id))
+    .done (resp) =>
+      @steps.remove(currentStep)
+      @updateStepsPositionsOnServer()
+      bootbox.alert "Step #{currentStep.name()} successfully deleted."
+    .fail (error) =>
+      bootbox.alert(error.responseText)
 
   updateStepsPositionsOnServer: =>
     new_positions = ({id: n.id, position: index} for n, index in @steps())
-    $.ajax(type: 'POST', url: SETTINGS.steps.update_positions, data: {steps: new_positions})
+    $.post(SETTINGS.steps.update_positions, data: {steps: new_positions})
+    .done (resp) =>
+      @updateCols()
+    .fail =>
+      bootbox.alert "Error updating positions on server"
 
   editStep: =>
     console.log 'Edit'

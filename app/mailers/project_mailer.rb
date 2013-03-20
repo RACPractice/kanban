@@ -52,6 +52,5 @@ class ProjectMailer < ActionMailer::Base
     @project = project
     @project_url = account_project_url(@project.account, @project)
     mail(to: @current_user.email, subject: "[Kanbanness] A new project named '#{@project.name}' has been successfuly created")
-
   end
 end

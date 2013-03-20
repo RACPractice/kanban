@@ -73,11 +73,10 @@ class StepsController < ApplicationController
   # PUT /steps/1.json
   def update
     @step = Step.find(params[:id])
-
     respond_to do |format|
       if @step.update_attributes(params[:step])
         format.html { redirect_to @step, notice: 'Step was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render :json => {:message => "Success"} }
       else
         format.html { render action: "edit" }
         format.json { render json: @step.errors, status: :unprocessable_entity }
@@ -97,7 +96,7 @@ class StepsController < ApplicationController
       ProjectMailer.notify_step_deleted(step_name, project, current_user).deliver
       respond_to do |format|
         format.html { redirect_to steps_url }
-        format.json { head :no_content }
+        format.json { render :json => {:message => "Success"} }
       end
     else
       respond_to do |format|
@@ -113,6 +112,6 @@ class StepsController < ApplicationController
         Step.update_all({:position => item['position']}, ['id = ?', item['id']])
       end
     end
-    render :text => "Success"
+    render :json => {:message => "Success"}
   end
 end
